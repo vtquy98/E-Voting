@@ -1,5 +1,5 @@
-require("babel-register");
-const HDWalletProvider = require("truffle-hdwallet-provider");
+require("./node_modules/babel-register/lib/node");
+const HDWalletProvider = require("./node_modules/truffle-hdwallet-provider/dist");
 
 // USING ENV LATER
 MNENOMIC =

@@ -1,0 +1,42 @@
+type User {
+  id: ID!
+  username: String!
+  password: String!
+  token: String
+  firstName: String!
+  lastName: String!
+  fullName: String!
+  gender: Gender!
+  email: String!
+  birthDate: String!
+  quote: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  status: UserStatus!
+  role: Role!
+  avatar: String!
+  profession: String!
+}
+
+type Query {
+  login_user(username: String!, password: String!): User!
+  get_three_authors_typical: [User!]!
+  get_current_user: User!
+  get_author_by_id(authorId: String!): User!
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  BANNED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Role {
+  ADMIN
+  USER
+}
