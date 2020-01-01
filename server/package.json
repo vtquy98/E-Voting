@@ -1,0 +1,51 @@
+{
+  "name": "yarn",
+  "version": "1.0.0",
+  "description": "server",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon index.js --exec babel-node",
+    "migrate-create": "migrate create --compiler=\"js:@babel/register\"",
+    "migrate-up": "migrate up --compiler=\"js:@babel/register\"",
+    "migrate-down": "migrate down --compiler=\"js:@babel/register\"",
+    "start": "babel-node index.js"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.9.3",
+    "axios": "^0.19.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-jest": "^24.9.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "brn": "^1.0.3",
+    "connect-redis": "^4.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "express-jwt": "^5.3.1",
+    "express-session": "^1.16.2",
+    "graphql": "^14.5.4",
+    "graphql-iso-date": "^3.6.1",
+    "graphql-resolvers": "^0.3.3",
+    "graphql-tools": "^4.0.5",
+    "helmet": "^3.21.0",
+    "jsonwebtoken": "^8.5.1",
+    "merge-graphql-schemas": "^1.7.0",
+    "migrate": "^1.6.2",
+    "mongoose": "^5.6.13",
+    "morgan": "^1.9.1",
+    "ms": "^2.1.2",
+    "nodemon": "^2.0.2",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/node": "^7.6.1",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/register": "^7.6.0",
+    "babel-preset-jest": "^24.9.0",
+    "migrate": "^1.6.2",
+    "nodemon": "^1.19.2"
+  }
+}
