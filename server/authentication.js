@@ -7,22 +7,20 @@
  * I create this gist just to help those who want to auto-refresh JWTs.
  */
 
-import { sign, verify } from "jsonwebtoken";
-import { pick } from "lodash/fp";
-import jwt from "jsonwebtoken";
+import { sign, verify } from 'jsonwebtoken';
+import { pick } from 'lodash/fp';
+import jwt from 'jsonwebtoken';
 
 function TokenGenerator(secretOrPrivateKey, secretOrPublicKey, options) {
-  this.secretOrPrivateKey = process.env.JWT_SECRET || "jwt-secret";
-  this.secretOrPublicKey = process.env.JWT_PUBLIC || "jwt-public";
+  this.secretOrPrivateKey = process.env.JWT_SECRET || 'jwt-secret';
+  this.secretOrPublicKey = process.env.JWT_PUBLIC || 'jwt-public';
   this.options = options || {
     expiresIn: 604800 // 1 week
   }; //algorithm + keyid + noTimestamp + expiresIn + notBefore
 }
 
 TokenGenerator.prototype.sign = function(payload, signOptions) {
-  const info = pick(["id", "username", "first_name", "last_name", "email"])(
-    payload
-  );
+  const info = pick(['id', 'googleId', 'email'])(payload);
 
   const options = { ...this.options, ...signOptions };
   // if payload is found and password is right create a token
