@@ -1,15 +1,49 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
+  "name": "with-custom-babel-config",
+  "version": "1.0.0",
+  "description": "This example features:",
+  "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
     "start": "next start"
   },
   "dependencies": {
-    "next": "9.1.6",
-    "react": "16.12.0",
-    "react-dom": "16.12.0"
+    "@zeit/next-css": "^1.0.1",
+    "axios": "^0.19.0",
+    "dotenv": "^8.1.0",
+    "dotenv-webpack": "^1.7.0",
+    "express": "^4.17.1",
+    "html-react-parser": "^0.9.1",
+    "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.24.0",
+    "next": "latest",
+    "next-redux-wrapper": "^3.0.0",
+    "prettier": "1.18.2",
+    "react": "^16.7.0",
+    "react-ckeditor-component": "^1.1.0",
+    "react-datetime": "^2.16.3",
+    "react-dom": "^16.9.0",
+    "react-google-login": "^5.0.7",
+    "react-messenger-customer-chat": "^0.7.2",
+    "react-qr-reader": "^2.2.1",
+    "react-redux": "^7.1.1",
+    "react-table": "^6.10.3",
+    "react-tagsinput": "^3.19.0",
+    "reactjs-popup": "^1.5.0",
+    "recompose": "^0.30.0",
+    "redux": "^4.0.4",
+    "redux-api-call": "^1.1.1",
+    "redux-array-middleware": "^1.0.1",
+    "redux-devtools": "^3.5.0",
+    "redux-form": "^8.2.6",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/plugin-proposal-do-expressions": "7.0.0-rc.1",
+    "prettier": "1.18.2"
   }
 }

@@ -5,7 +5,8 @@ export const getUser = payload => {
   if (!payload) {
     return null;
   }
-  return Users.findOne({ id: payload.id, status: USER_ACTIVE });
+  //status: USER_ACTIVE add later!
+  return Users.findOne({ googleId: payload.googleId });
 };
 
 module.exports = Users;
