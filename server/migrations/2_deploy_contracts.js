@@ -1,11 +1,11 @@
-var Voting = artifacts.require("./Voting.sol");
-const web3 = require("web3");
+var Voting = artifacts.require('../contracts/Voting.sol');
+const web3 = require('web3');
 
 // JUST FOR DEMO DEPLOY
 module.exports = function(deployer) {
   deployer.deploy(
     Voting,
-    ["Nick", "Rama", "Jose"].map(x => web3.utils.asciiToHex(x)),
+    ['Nick', 'Rama', 'Jose'].map(x => web3.utils.asciiToHex(x)),
     { gas: 6700000 }
   );
 };
