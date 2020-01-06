@@ -1,23 +1,23 @@
-require("./node_modules/babel-register/lib/node");
-const HDWalletProvider = require("./node_modules/truffle-hdwallet-provider/dist");
+require('../server/node_modules/babel-register/lib/node');
+const HDWalletProvider = require('../server/node_modules/truffle-hdwallet-provider/dist');
 
 // USING ENV LATER
 MNENOMIC =
-  "cross knee museum boring nose slush payment humble skull repair cannon little"; // Thay ABC bằng seed word của account bạn muốn dùng vào đây.
-INFURA_API_KEY = "030c403805a24c12ba74d0148a49b4cf"; // Thay 123 bằng API KEY của Infura vào đây
+  'cross knee museum boring nose slush payment humble skull repair cannon little'; // Thay ABC bằng seed word của account bạn muốn dùng vào đây.
+INFURA_API_KEY = '030c403805a24c12ba74d0148a49b4cf'; // Thay 123 bằng API KEY của Infura vào đây
 
 module.exports = {
   networks: {
     development: {
-      host: "localhost",
+      host: 'localhost',
       port: 8545,
-      network_id: "*"
+      network_id: '*'
     },
     ropsten: {
       provider: () =>
         new HDWalletProvider(
           MNENOMIC,
-          "https://ropsten.infura.io/v3/" + INFURA_API_KEY
+          'https://ropsten.infura.io/v3/' + INFURA_API_KEY
         ),
       network_id: 3,
       gas: 6700000,
@@ -27,7 +27,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           MNENOMIC,
-          "https://kovan.infura.io/v3/" + INFURA_API_KEY
+          'https://kovan.infura.io/v3/' + INFURA_API_KEY
         ),
       network_id: 42,
       gas: 470000,
@@ -37,7 +37,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           MNENOMIC,
-          "https://rinkeby.infura.io/v3/" + INFURA_API_KEY
+          'https://rinkeby.infura.io/v3/' + INFURA_API_KEY
         ),
       network_id: 4,
       gas: 470000,
@@ -49,7 +49,7 @@ module.exports = {
       provider: () =>
         new HDWalletProvider(
           MNENOMIC,
-          "https://mainnet.infura.io/v3/" + INFURA_API_KEY
+          'https://mainnet.infura.io/v3/' + INFURA_API_KEY
         ),
       network_id: 1,
       gas: 470000,

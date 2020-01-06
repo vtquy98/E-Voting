@@ -42,4 +42,8 @@ contract Voting {
     return false;
   }
 
+   function allCandidates() public view returns (bytes32[] memory) {
+    return candidateList;
+  }
+
 }

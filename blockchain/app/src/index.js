@@ -2,8 +2,8 @@
 // import "../styles/app.css";
 
 // Import libraries we need.
-import { default as Web3 } from "web3";
-import { default as contract } from "truffle-contract";
+import { default as Web3 } from 'web3';
+import { default as contract } from 'truffle-contract';
 
 /*
  * When you compile and deploy your Voting contract,
@@ -15,26 +15,26 @@ import { default as contract } from "truffle-contract";
  * https://gist.github.com/maheshmurthy/f6e96d6b3fff4cd4fa7f892de8a1a1b4#file-index-js
  */
 
-import voting_artifacts from "../../build/contracts/Voting.json";
+import voting_artifacts from '../../build/contracts/Voting.json';
 
 var Voting = contract(voting_artifacts);
 
 let candidates = {
-  Rama: "candidate-1",
-  Nick: "candidate-2",
-  Jose: "candidate-3"
+  Rama: 'candidate-1',
+  Nick: 'candidate-2',
+  Jose: 'candidate-3'
 };
 
 let account;
 console.log(account);
 
 window.voteForCandidate = function(candidate) {
-  let candidateName = $("#candidate").val();
+  let candidateName = $('#candidate').val();
   try {
-    $("#msg").html(
-      "Vote has been submitted. The vote count will increment as soon as the vote is recorded on the blockchain. Please wait."
+    $('#msg').html(
+      'Vote has been submitted. The vote count will increment as soon as the vote is recorded on the blockchain. Please wait.'
     );
-    $("#candidate").val("");
+    $('#candidate').val('');
 
     /* Voting.deployed() returns an instance of the contract. Every call
      * in Truffle returns a promise which is why we have used then()
@@ -48,8 +48,8 @@ window.voteForCandidate = function(candidate) {
           return contractInstance.totalVotesFor
             .call(candidateName)
             .then(function(v) {
-              $("#" + div_id).html(v.toString());
-              $("#msg").html("");
+              $('#' + div_id).html(v.toString());
+              $('#msg').html('');
             });
         });
     });
@@ -59,8 +59,8 @@ window.voteForCandidate = function(candidate) {
 };
 
 $(document).ready(function() {
-  if (typeof web3 !== "undefined") {
-    console.warn("Using web3 detected from external source like Metamask");
+  if (typeof web3 !== 'undefined') {
+    console.warn('Using web3 detected from external source like Metamask');
     // Use Mist/MetaMask's provider
     window.web3 = new Web3(web3.currentProvider);
   } else {
@@ -69,13 +69,13 @@ $(document).ready(function() {
     );
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
     window.web3 = new Web3(
-      new Web3.providers.HttpProvider("http://localhost:8545")
+      new Web3.providers.HttpProvider('http://localhost:8545')
     );
   }
 
   web3.eth.getAccounts(function(err, accs) {
     if (err != null) {
-      alert("There was an error fetching your accounts.");
+      alert('There was an error fetching your accounts.');
       return;
     }
 
@@ -96,7 +96,7 @@ $(document).ready(function() {
     let name = candidateNames[i];
     Voting.deployed().then(function(contractInstance) {
       contractInstance.totalVotesFor.call(name).then(function(v) {
-        $("#" + candidates[name]).html(v.toString());
+        $('#' + candidates[name]).html(v.toString());
       });
     });
   }

@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
-import { Users } from '../services';
-import { MALE } from '../enums/userGender';
-import { USER_ACTIVE } from '../enums/userStatus';
-import { USER, ADMIN } from '../enums/userRole';
+import { Users } from './server/services';
+import { MALE } from './server/enums/userGender';
+import { USER_ACTIVE } from './server/enums/userStatus';
+import { USER, ADMIN } from './server/enums/userRole';
 
 const systemUser = {
   username: 'admin',

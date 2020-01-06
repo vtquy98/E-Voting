@@ -16,5 +16,11 @@
   "dependencies": {
     "truffle-contract": "^4.0.31",
     "web3": "^1.2.4"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
