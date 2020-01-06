@@ -18,14 +18,13 @@ app.disable('x-powered-by');
 app.use(helmet());
 app.use(cors());
 // app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(
-  bodyParser.json({
-    type: 'application/json',
-    extended: true,
-    parameterLimit: 100000,
-    limit: '10mb'
+  bodyParser.urlencoded({
+    extended: true
   })
 );
+
 app.use(passport.initialize());
 // app.use(
 //   bodyParser.urlencoded({
