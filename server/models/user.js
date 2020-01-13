@@ -11,9 +11,10 @@ const UserSchema = Schema({
     default: uuid,
     required: true
   },
-  googleId: { type: String, required: true },
+  google_id: { type: String, required: true },
   name: { type: String, required: true },
-  email: { type: String, required: true }
+  email: { type: String, required: true },
+  wallet_address: { type: String, required: true }
 });
 
 const Users = model('Users', UserSchema);

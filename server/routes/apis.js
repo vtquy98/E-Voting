@@ -2,70 +2,27 @@ import { Router } from 'express';
 import auth from '../authentication';
 import { saveSession } from '../middlewares/session';
 import { Users } from '../services';
+import { generateWallet } from '../libs/generateWalletAddress';
+import verifier from 'google-id-token-verifier';
 
 require('dotenv').config({
   path: './.env'
 });
-const passport = require('passport');
+
 const router = Router();
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
 
-// router.use('/signout', async (req, res, next) => {
-//   try {
-//     if (req.session.key) {
-//       await req.session.destroy();
-//     }
-//     console.log('deleted session!');
-//     return res.json({ success: true, message: 'Sign out successfully.' });
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-// passport.serializeUser((user, done) => {
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser((id, done) => {
-//   Users2.findById(id).then(user => {
-//     done(null, user);
-//   });
-// });
-
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: GOOGLE_CLIENT_ID,
-//       clientSecret: GOOGLE_CLIENT_SECRET,
-//       callbackURL: '/auth/google/callback'
-//     },
-//     (token, tokenSecret, profile, done) => {
-//       // Check if google profile exist.
-//       //   console.log('profile ne: ', profile);
-// if (profile.id) {
-//   Users2.findOne({ googleId: profile.id }).then(existingUser => {
-//     if (existingUser) {
-//       // console.log(existingUser);
-//       done(null, existingUser);
-//     } else {
-//       new Users2({
-//         googleId: profile.id,
-//         email: profile.emails[0].value,
-//         name: profile.name.familyName + ' ' + profile.name.givenName
-//       })
-//         .save()
-//         .then(user => done(null, user));
-//     }
-//   });
-// }
-//     }
-//   )
-// );
-
-// MORE SECURE HERE LATER !
 router.use('/auth', async (req, res, next) => {
   try {
-    const userContent = req.body.user_content;
+    const googleIdToken = req.body.tokenId;
+    verifier.verify(googleIdToken, googleClientId, function(err) {
+      if (err) {
+        throw new Error('Invalid account');
+      }
+    });
 
+    const userContent = req.body.user_content;
+    const userWalletAdress = await generateWallet();
     const doLogin = () => {
       const jwt = auth.sign(userContent);
       saveSession(req.session, jwt);
@@ -74,14 +31,15 @@ router.use('/auth', async (req, res, next) => {
     };
 
     if (userContent.googleId) {
-      Users.findOne({ googleId: userContent.googleId }).then(existingUser => {
+      Users.findOne({ google_id: userContent.googleId }).then(existingUser => {
         if (existingUser) {
           doLogin();
         } else {
           new Users({
-            googleId: userContent.googleId,
+            google_id: userContent.googleId,
             email: userContent.email,
-            name: userContent.familyName + ' ' + userContent.givenName
+            name: userContent.familyName + ' ' + userContent.givenName,
+            wallet_address: userWalletAdress
           }).save();
           doLogin();
         }
