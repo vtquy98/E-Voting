@@ -1,61 +1,172 @@
-pragma solidity >=0.4.21 <0.7.0;
+/*
+       .__(.)< (MEOW)     .__(.)< (MEOW)
+        \___)              \___)
+*/
 
-contract Election {
+    // pragma solidity ^0.5.0;
+    pragma solidity >=0.4.22 <0.7.0;
+
+    contract Election {
+
+        struct voter {
+            string voterName;
+            bool voted;
+            uint vote;
+        }
+
+        struct candidate {
+            string candidateName;
+            string candiateDescription;
+        }
+
+        uint public totalVoter = 0;
+        uint public totalCandidate = 0;
+        uint public totalVote = 0;
+
+        address public ballotOfficialAddress;
+        string public ballotOfficialName;
+        string public proposal;
+
+        mapping(address => mapping(address => bool)) hasVoted;
+        mapping(address => uint) votesCount;
+
+        mapping(address => voter) public voterRegister;
+        mapping(address => candidate) public candidateRegister;
+
+        mapping (address => uint256) public votesReceived;
+
+        enum State { Created, Voting, Ended }
+        State public state;
+
+        //creates a new ballot contract
+        constructor(
+            string memory _ballotOfficialName,
+            string memory _proposal) public {
+            ballotOfficialAddress = msg.sender;
+            ballotOfficialName = _ballotOfficialName;
+            proposal = _proposal;
+            state = State.Created;
+        }
+
+        modifier canVote(address _voterAddress, address _candidateAddress){
+            require(!hasVoted[_candidateAddress][_voterAddress], "You already voted!");
+            _;
+        }
+
+        modifier onlyOfficial() {
+            require(msg.sender == ballotOfficialAddress, "Something went wrong!");
+            _;
+        }
+
+        modifier inState(State _state) {
+            require(state == _state, "Invalid time to vote!");
+            _;
+        }
+
+        event voterAdded(address voter);
+        event voteStarted();
+        event voteEnded(uint finalResult);
+        event voteDone(address voter);
+        event candidateAdded(address candidate);
+
+        //add voter
+        function addVoter(address _voterAddress, string memory _voterName)
+            public
+            inState(State.Created)
+            onlyOfficial
+        {
+            voter memory v;
+            v.voterName = _voterName;
+            // v.voted = false;
+            voterRegister[_voterAddress] = v;
+            totalVoter++;
+            emit voterAdded(_voterAddress);
+        }
+
+        //add Candidate
+        function addCandidate(address _candidateAddress, string memory _candidateName, string memory _candidateDescripton)
+            public
+            inState(State.Created)
+            onlyOfficial
+            {
+                candidate memory c;
+                c.candidateName = _candidateName;
+                c.candiateDescription = _candidateDescripton;
+                candidateRegister[_candidateAddress] = c;
+                totalCandidate++;
+                emit candidateAdded(_candidateAddress);
+            }
+
+        //declare voting starts now
+        function startVote()
+            public
+            inState(State.Created)
+            onlyOfficial
+        {
+            state = State.Voting;
+            emit voteStarted();
+        }
+        //check valid candidate
+        // function validCandidate(bytes32 candidate) public view returns (bool) {
+        //     for(uint i = 0; i < candidateList.length; i++) {
+        //         if (candidateList[i] == candidate) {
+        //             return true;
+        //         }
+        //     }
+        //     return false;
+        // }
+
+        //Vote for candidate
+        function voteForCandidate(address _candidateAddress)
+        public
+        inState(State.Voting)
+        canVote(msg.sender, _candidateAddress) //throw if user has already voted
+        {
+            hasVoted[_candidateAddress][msg.sender] = true; //make note of the fact he's voting now
+            votesCount[_candidateAddress]++;
+            votesReceived[_candidateAddress] += 1;
+            totalVote++;
+            emit voteDone(msg.sender);
+        }
+
+          function totalVotesFor(address _candidateAddress) public view returns (uint256) {
+            return votesReceived[_candidateAddress];
+        }
+
+        //voters vote by indicating their choice (true/false)
+        // function doVote(bool _choice)
+        //     public
+        //     inState(State.Voting)
+        //     returns (bool voted)
+        // {
+        //     bool found = false;
+        //     if (bytes(voterRegister[msg.sender].voterName).length != 0
+        //     && !voterRegister[msg.sender].voted){
+        //         voterRegister[msg.sender].voted = true;
+        //         vote memory v;
+        //         v.voterAddress = msg.sender;
+        //         v.choice = _choice;
+        //         if (_choice){
+        //             countResult++; //counting on the go
+        //         }
+        //         votes[totalVote] = v;
+        //         totalVote++;
+        //         found = true;
+        //     }
+        //     emit voteDone(msg.sender);
+        //     return found;
+        // }
 
 
-	 event emitCreateElectionSession(
-			address _id,
-			string _name,
-			string _description,
-			string _created_at,
-			string _expired_at,
-			bool _is_opened,
-			uint256 _index);
 
-  struct ElectionSession {
-      address id;
-      string name;
-      string description;
-      string created_at;
-      string expired_at;
-      bool is_opened;
-      uint256 index;
-  }
-
-  struct Voter {
-      address id;
-      string name;
-      bool voted; // if true, that person already voted
-  }
-
-  struct Proposal{
-      bytes32 name;
-      uint votedCount;
-      string description;
-  }
-
-  mapping(address => ElectionSession) ElectionStruct;
-  address[] indexElection;
-
-	function createElectionSession(
-		address _id,
-		string memory _name, 
-		string memory _description,
-		string memory _created_at,
-		string memory _expired_at,
-		bool _is_opened
-		)
-	public returns(uint256 index){
-		// ElectionStruct[_id].id = _id;
-		ElectionStruct[_id].name = _name;
-		ElectionStruct[_id].description = _description;
-		ElectionStruct[_id].created_at = _created_at;
-		ElectionStruct[_id].expired_at = _expired_at;
-		ElectionStruct[_id].is_opened = _is_opened;
-		ElectionStruct[_id].index = indexElection.push(_id)-1;
-
-		emit emitCreateElectionSession(_id, _name, _description, _created_at, _expired_at, _is_opened, ElectionStruct[_id].index);
-		return indexElection.length-1;
-	}
-
-}
+        //end votes
+        function endVote()
+            public
+            inState(State.Voting)
+            onlyOfficial
+        {
+            state = State.Ended;
+            // finalResult = countResult; //move result from private countResult to public finalResult
+            // emit voteEnded(finalResult);
+        }
+    }
