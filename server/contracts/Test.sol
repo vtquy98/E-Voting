@@ -1,5 +1,4 @@
 pragma solidity >=0.4.21 <0.7.0;
-// We have to specify what version of compiler this code will compile with
 
 contract Voting {
   /* mapping field below is equivalent to an associative array or hash.
