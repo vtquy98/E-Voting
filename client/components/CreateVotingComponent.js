@@ -61,117 +61,166 @@ class WizardForm extends Component {
     const { page } = this.state;
     const code = this.props.code.code;
     return (
-      <div className="content">
+      <React.Fragment>
         <div className="container-fluid">
-          <div className="col-sm-8 col-sm-offset-2">
-            {successMessage && successMessage.id ? (
-              <div>
-                {' '}
-                <div className="wizard-container">
-                  <div
-                    className="card wizard-card"
-                    data-color="rose"
-                    id="wizardProfile"
-                  >
-                    <div className="wizard-header">
-                      <div className="swal2-icon swal2-success animate">
-                        <span className="line tip animate-success-tip"></span>{' '}
-                        <span className="line long animate-success-long"></span>
-                        <div className="placeholder"></div>{' '}
-                        <div className="fix"></div>
-                      </div>
-                      <h3 className="wizard-title">
-                        {console.log(votingData)}
-                        {votingData && votingData.name.toUpperCase()} has been
-                        created successfully!
-                      </h3>
-                      <h3 className="wizard-title">
-                        CODE: <b>{votingData && votingData.votingCode}</b>
-                      </h3>
+          <div className="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 className="h3 mb-0 text-gray-800">Create new election</h1>
+          </div>
+
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card shadow mb-4">
+                <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 className="m-0 font-weight-bold text-primary">
+                    Create election wizzard
+                  </h6>
+                  <div className="dropdown no-arrow">
+                    <a
+                      className="dropdown-toggle"
+                      href="#"
+                      role="button"
+                      id="dropdownMenuLink"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div
+                      className="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                      aria-labelledby="dropdownMenuLink"
+                    >
+                      <div className="dropdown-header">Dropdown Header:</div>
+                      <a className="dropdown-item" href="#">
+                        Action
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        Another action
+                      </a>
+                      <div className="dropdown-divider"></div>
+                      <a className="dropdown-item" href="#">
+                        Something else here
+                      </a>
                     </div>
-                    <div className="tab-content">
-                      <div className="row">
-                        <div className="center">
-                          <div className="col-md-4">
-                            <div
-                              className="alert alert-warning alert-with-icon"
-                              data-notify="container"
-                            >
-                              <i className="material-icons" data-notify="icon">
-                                settings_applications
-                              </i>
+                  </div>
+                </div>
 
-                              <span data-notify="message">
-                                You can modify your voting
-                              </span>
+                <div className="card-body">
+                  {successMessage && successMessage.id ? (
+                    <div>
+                      {' '}
+                      <div className="wizard-container">
+                        <div
+                          className="card wizard-card"
+                          data-color="rose"
+                          id="wizardProfile"
+                        >
+                          <div className="wizard-header">
+                            <div className="swal2-icon swal2-success animate">
+                              <span className="line tip animate-success-tip"></span>{' '}
+                              <span className="line long animate-success-long"></span>
+                              <div className="placeholder"></div>{' '}
+                              <div className="fix"></div>
                             </div>
+                            <h3 className="wizard-title">
+                              {console.log(votingData)}
+                              {votingData && votingData.name.toUpperCase()} has
+                              been created successfully!
+                            </h3>
+                            <h3 className="wizard-title">
+                              CODE: <b>{votingData && votingData.votingCode}</b>
+                            </h3>
                           </div>
+                          <div className="tab-content">
+                            <div className="row">
+                              <div className="center">
+                                <div className="col-md-4">
+                                  <div
+                                    className="alert alert-warning alert-with-icon"
+                                    data-notify="container"
+                                  >
+                                    <i
+                                      className="material-icons"
+                                      data-notify="icon"
+                                    >
+                                      settings_applications
+                                    </i>
 
-                          <div className="col-md-4">
-                            <div
-                              className="alert alert-info alert-with-icon"
-                              data-notify="container"
-                            >
-                              <i className="material-icons" data-notify="icon">
-                                present_to_all
-                              </i>
+                                    <span data-notify="message">
+                                      You can modify your voting
+                                    </span>
+                                  </div>
+                                </div>
 
-                              <span data-notify="message">
-                                Present this voting now
-                              </span>
+                                <div className="col-md-4">
+                                  <div
+                                    className="alert alert-info alert-with-icon"
+                                    data-notify="container"
+                                  >
+                                    <i
+                                      className="material-icons"
+                                      data-notify="icon"
+                                    >
+                                      present_to_all
+                                    </i>
+
+                                    <span data-notify="message">
+                                      Present this voting now
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="wizard-container">
-                <div
-                  className="card wizard-card"
-                  data-color="rose"
-                  id="wizardProfile"
-                >
-                  <div className="wizard-header">
-                    <h3 className="wizard-title">
-                      {votingData && votingData.name}
-                    </h3>
-                    <h5>
-                      This information will let everyone know more about the
-                      voting
-                    </h5>
-                  </div>
-                  <div className="tab-content">
-                    <div className="row">
-                      <div className="col-lg-12">
-                        {page === 1 && (
-                          <VotingDescriptionForm onSubmit={this.nextPage} />
-                        )}
-                        {page === 2 && (
-                          <WizardFormSecondPage
-                            previousPage={this.previousPage}
-                            onSubmit={this.nextPage}
-                          />
-                        )}
-                        {page === 3 && (
-                          <WizardFormThirdPage
-                            previousPage={this.previousPage}
-                            onSubmit={values =>
-                              AddVotingInfo({
-                                votingCode: parseInt(code),
-                                ...values
-                              })
-                            }
-                          />
-                        )}
+                  ) : (
+                    <div className="">
+                      <div className="">
+                        <div className="wizard-header">
+                          <h3 className="wizard-title">
+                            {/* {votingData && votingData.name} */}
+                          </h3>
+                          <h5>
+                            This information will let everyone know more about
+                            the voting
+                          </h5>
+                        </div>
+                        <div className="tab-content">
+                          <div className="row">
+                            <div className="col-lg-12">
+                              {page === 1 && (
+                                <VotingDescriptionForm
+                                  onSubmit={this.nextPage}
+                                />
+                              )}
+                              {page === 2 && (
+                                <WizardFormSecondPage
+                                  previousPage={this.previousPage}
+                                  onSubmit={this.nextPage}
+                                />
+                              )}
+                              {page === 3 && (
+                                <WizardFormThirdPage
+                                  previousPage={this.previousPage}
+                                  onSubmit={values =>
+                                    AddVotingInfo({
+                                      votingCode: parseInt(code),
+                                      ...values
+                                    })
+                                  }
+                                />
+                              )}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
         <style jsx>{`
@@ -187,7 +236,7 @@ class WizardForm extends Component {
             justify-content: center;
           }
         `}</style>
-      </div>
+      </React.Fragment>
     );
   }
 }
