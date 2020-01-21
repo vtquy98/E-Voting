@@ -1,12 +1,12 @@
 import React from 'react';
-import NormalLayout from '../layouts/NormalLayout';
-import AuthenHOC from '../components/HOC/AuthenHOC';
+import DashboardPageLayout from '../layouts/DashboardPageLayout';
+// import AuthenHOC from '../components/HOC/AuthenHOC';
 import CreateVotingComponent from '../components/CreateVotingComponent';
 
 const CreateVotingPage = ({ code, ...rootProps }) => (
-  <NormalLayout {...rootProps} title="not config">
+  <DashboardPageLayout {...rootProps} title="not config">
     <CreateVotingComponent code={code} />
-  </NormalLayout>
+  </DashboardPageLayout>
 );
 
 CreateVotingPage.getInitialProps = ctx => {
@@ -18,4 +18,4 @@ CreateVotingPage.getInitialProps = ctx => {
   };
 };
 
-export default AuthenHOC(CreateVotingPage);
+export default CreateVotingPage;
