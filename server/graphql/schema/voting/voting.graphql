@@ -1,7 +1,0 @@
-type Voting {
-  candidate: [String]
-}
-
-type Query {
-  get_voting_data: Voting!
-}
