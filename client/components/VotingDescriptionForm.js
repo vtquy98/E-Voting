@@ -53,10 +53,10 @@ const VotingDescriptionForm = props => {
         </div>
       </div>
 
-      <div className="wizard-footer">
-        <div className="pull-right">
+      <div className="d-flex">
+        <div className="justify-content-center">
           <input
-            className="btn btn-next btn-fill btn-rose btn-wd"
+            className="btn btn-primary btn-user btn-block"
             type="submit"
             value="Next"
           />

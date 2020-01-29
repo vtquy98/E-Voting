@@ -2,24 +2,29 @@ import React from 'react';
 import Link from 'next/link';
 
 const PageNotFoundComponent = () => (
-  <div className="page-header error-page header-filter background-image">
-    <div className="container">
-      <div className="row">
-        <div className="col-md-12">
-          <h1 className="title">404</h1>
-          <h2 className="description">Page not found :(</h2>
-          <h4 className="description">
-            Ooooups! Looks like you got lost,{' '}
-            <Link href="/">
-              <a>back to home</a>
-            </Link>
-          </h4>
+  <div className="center-screen">
+    <div className="container-fluid">
+      <div className="text-center">
+        <div className="error mx-auto" data-text="404">
+          404
         </div>
+        <p className="lead text-gray-800 mb-5">Page Not Found</p>
+        <p className="text-gray-500 mb-0">
+          It looks like you found a glitch in the matrix...
+        </p>
+        <Link href="/">
+          <a>&larr; Back to homepage</a>
+        </Link>
       </div>
     </div>
     <style jsx>{`
-      .background-image {
-        background-image: url('/static/material/assets/img/clint-mckoy.jpg');
+      .center-screen {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 100vh;
       }
     `}</style>
   </div>
