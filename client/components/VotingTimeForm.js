@@ -71,7 +71,7 @@ const VotingTimeForm = props => {
       <div className="wizard-footer">
         <div className="pull-right">
           <input
-            className="btn btn-next btn-fill btn-rose btn-wd"
+            className="btn btn-primary btn-user btn-block"
             type="submit"
             disabled={pristine || submitting}
             value="Complete"
@@ -80,7 +80,7 @@ const VotingTimeForm = props => {
         <div className="pull-left">
           <input
             type="button"
-            className="btn btn-previous btn-fill btn-default btn-wd"
+            className="btn btn-primary btn-user btn-block"
             name="previous"
             value="Previous"
             onClick={previousPage}

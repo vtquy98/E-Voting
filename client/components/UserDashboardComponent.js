@@ -61,133 +61,219 @@ class UserDashboardComponent extends React.Component {
     console.log(votingList);
     return (
       <React.Fragment>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="/static/customs/react-table.css"
-        />
-        <div className="content">
-          <div className="container-fluid">
-            <div className="row">
-              <div className="col-md-12">
-                <div className="card">
-                  <div
-                    className="card-header card-header-icon"
-                    data-background-color="green"
-                  >
-                    <i className="material-icons">equalizer</i>
-                  </div>
-                  <div className="card-content">
-                    <h4 className="card-title">Your voting </h4>
-                    <div className="d-flex justify-content-between">
-                      <div className="col-lg-2">
-                        <Popup
-                          trigger={
-                            <a
-                              href="#pablo"
-                              className="btn btn-success btn-just-icon btn-fill btn-round ml-2"
-                            >
-                              <i className="material-icons">add</i>
-                            </a>
-                          }
-                          modal
-                        >
-                          {close => (
-                            <div>
-                              <div className="modal-body">
-                                <div class="form-group">
-                                  <div className="card-title">
-                                    <h3>Create new voting</h3>
-                                  </div>
-                                  <input
-                                    id="input-field"
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Name of the voting"
-                                    onChange={e =>
-                                      setVotingName(e.currentTarget.value)
-                                    }
-                                  />
-                                </div>
-                              </div>
+        <div className="container-fluid">
+          <div className="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 className="h3 mb-0 text-gray-800">Overview</h1>
+            <a
+              href="#"
+              className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"
+            >
+              <i className="fas fa-download fa-sm text-white-50"></i> Generate
+              Report
+            </a>
+          </div>
 
-                              <div className="text-center">
-                                <button
-                                  type="button"
-                                  className="btn btn-success btn-link"
-                                  onClick={e => {
-                                    e.preventDefault();
-                                    CreateVoting(votingName);
-                                  }}
-                                >
-                                  Create voting
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn btn-outline btn-link"
-                                  onClick={() => close()}
-                                >
-                                  Cancel
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </Popup>
+          <div className="row">
+            <div className="col-xl-7 col-md-12 mb-4">
+              <div className="card border-left-primary shadow h-100 py-2">
+                <div className="card-body">
+                  <div className="row no-gutters align-items-center">
+                    <div className="col mr-2">
+                      <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        Your ETH Wallet
                       </div>
-                      <div className="col-md-6 col-md-offset-4">
-                        <div className="input-group">
-                          <span className="input-group-addon">
-                            <i className="material-icons">search</i>
-                          </span>
-                          <div className="form-group label-floating is-empty">
-                            <label className="control-label">
-                              Type to search
-                            </label>
-                            <input
-                              name="email"
-                              type="email"
-                              className="form-control"
-                            />
-                            <span className="material-input"></span>
-                          </div>
-                        </div>
+                      <div className="mb-0 font-weight-bold text-gray-800">
+                        0x001526F8bF8A346abF4d2d60B7e5BA4BeC75FB28
                       </div>
                     </div>
+                    <div className="col-auto">
+                      <i class="fas fa-wallet fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                    <ReactTable
-                      data={votingList}
-                      manual // Forces table not to paginate or sort automatically, so we can handle it server-side
-                      // pages={Math.ceil(
-                      //   totalCount / (pageSize || PAGE_SIZE_DEFAULT)
-                      // )} // Display the total number of pages
-                      // onFetchData={e => this.fetchData(e, { dispatchAction })}
-                      defaultPageSize={5}
-                      // page={page || PAGE_DEFAULT}
-                      // pageSize={pageSize || PAGE_SIZE_DEFAULT}
-                      className="-striped -highlight"
-                      columns={COLUMNS}
-                      // previousText={
-                      //   <div className="custom-button-footer">
-                      //     {t('table.previous_text')}
-                      //   </div>
-                      // }
-                      // nextText={
-                      //   <div className="custom-button-footer">
-                      //     {t('table.next_text')}
-                      //   </div>
-                      // }
-                      // noDataText={t('table.no_rows_text')}
-                      // pageText={t('table.page_text')}
-                      // rowsText={t('table.rows_text')}
-                      // loadingText={t('table.loading_text')}
-                      // ofText={t('table.of_text')}
-                    />
+            <div className="col-xl-5 col-md-6 mb-4">
+              <div className="card border-left-success shadow h-100 py-2">
+                <div className="card-body">
+                  <div className="row no-gutters align-items-center">
+                    <div className="col mr-2">
+                      <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
+                        Balance
+                      </div>
+                      <div className="h5 mb-0 font-weight-bold text-gray-800">
+                        100.00 ETH
+                      </div>
+                    </div>
+                    <div className="col-auto">
+                      <i class="fab fa-ethereum fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card shadow mb-4">
+                <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 className="m-0 font-weight-bold text-primary">
+                    All elections
+                  </h6>
+                  <div className="dropdown no-arrow">
+                    <a
+                      className="dropdown-toggle"
+                      href="#"
+                      role="button"
+                      id="dropdownMenuLink"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div
+                      className="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                      aria-labelledby="dropdownMenuLink"
+                    >
+                      <div className="dropdown-header">Dropdown Header:</div>
+                      <a className="dropdown-item" href="#">
+                        Action
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        Another action
+                      </a>
+                      <div className="dropdown-divider"></div>
+                      <a className="dropdown-item" href="#">
+                        Something else here
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card-body">
+                  <div className="table-responsive">
+                    <table
+                      className="table table-bordered"
+                      id="dataTable"
+                      width="100%"
+                      cellspacing="0"
+                    >
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Position</th>
+                          <th>Office</th>
+                          <th>Age</th>
+                          <th>Start date</th>
+                          <th>Salary</th>
+                        </tr>
+                      </thead>
+                      <tfoot>
+                        <tr>
+                          <th>Name</th>
+                          <th>Position</th>
+                          <th>Office</th>
+                          <th>Age</th>
+                          <th>Start date</th>
+                          <th>Salary</th>
+                        </tr>
+                      </tfoot>
+                      <tbody>
+                        <tr>
+                          <td>Tiger Nixon</td>
+                          <td>System Architect</td>
+                          <td>Edinburgh</td>
+                          <td>61</td>
+                          <td>2011/04/25</td>
+                          <td>$320,800</td>
+                        </tr>
+                        <tr>
+                          <td>Garrett Winters</td>
+                          <td>Accountant</td>
+                          <td>Tokyo</td>
+                          <td>63</td>
+                          <td>2011/07/25</td>
+                          <td>$170,750</td>
+                        </tr>
+                        <tr>
+                          <td>Ashton Cox</td>
+                          <td>Junior Technical Author</td>
+                          <td>San Francisco</td>
+                          <td>66</td>
+                          <td>2009/01/12</td>
+                          <td>$86,000</td>
+                        </tr>
+                        <tr>
+                          <td>Cedric Kelly</td>
+                          <td>Senior Javascript Developer</td>
+                          <td>Edinburgh</td>
+                          <td>22</td>
+                          <td>2012/03/29</td>
+                          <td>$433,060</td>
+                        </tr>
+                        <tr>
+                          <td>Airi Satou</td>
+                          <td>Accountant</td>
+                          <td>Tokyo</td>
+                          <td>33</td>
+                          <td>2008/11/28</td>
+                          <td>$162,700</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+
+        {/* <div
+          className="modal fade"
+          id="logoutModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Ready to Leave?
+                </h5>
+                <button
+                  className="close"
+                  type="button"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                Select "Logout" below if you are ready to end your current
+                session.
+              </div>
+              <div className="modal-footer">
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                  data-dismiss="modal"
+                >
+                  Cancel
+                </button>
+                <a className="btn btn-primary" href="login.html">
+                  Logout
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+       */}
       </React.Fragment>
     );
   }

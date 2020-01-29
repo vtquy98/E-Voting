@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { Children } from 'react';
 import VerticalBarComponent from '../components/VerticalBarComponent';
 import FooterComponent from '../components/FooterComponent';
 import Link from 'next/link';
-
+import NavBarComponent from '../components/NavBarComponent';
 class DashboardPageLayout extends React.Component {
   render() {
     const { children } = this.props;
     return (
       <React.Fragment>
-        <VerticalBarComponent />
+        <div id="wrapper">
+          <VerticalBarComponent />
+          <div id="content-wrapper" className="d-flex flex-column">
+            <div id="content">
+              <NavBarComponent />
+              {children}
+              <FooterComponent />
+            </div>
+          </div>
+        </div>
+
+        {/* <VerticalBarComponent />
         <div className="wrapper">
           <div className="main-panel">
             <nav className="navbar navbar-transparent navbar-absolute">
@@ -46,7 +57,7 @@ class DashboardPageLayout extends React.Component {
             {children}
             <FooterComponent />
           </div>
-        </div>
+        </div> */}
       </React.Fragment>
     );
   }
