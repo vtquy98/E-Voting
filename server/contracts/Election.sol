@@ -171,4 +171,9 @@ contract Election {
     return candidateList;
   }
 
+  //get all voter
+  function allVoters() public view returns (address[] memory) {
+    return voterList;
+  }
+
 }

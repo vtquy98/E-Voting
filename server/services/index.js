@@ -1,5 +1,7 @@
-import Users from "./user";
+import Users from './user';
+import Elections from './election';
 
 module.exports = {
-  Users
+  Users,
+  Elections
 };

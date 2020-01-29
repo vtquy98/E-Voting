@@ -1,0 +1,33 @@
+type Election {
+  id: ID!
+  name: String!
+  description: String!
+  thumbnail: String!
+  contractAddress: String!
+  createdAt: Date!
+  updatedAt: Date!
+  # startedAt: Date!
+}
+
+type Query {
+  get_all_election: Election!
+  get_election(id: String!): Election!
+  get_all_candidate(ElectionAddress: String!): [User!]!
+  get_all_voter(ElectionAddress: String!): [User!]!
+}
+
+type Mutation {
+  create_election(
+    name: String
+    description: String!
+    thumbnail: String!
+  ): Election!
+
+  add_candidate(
+    userId: String!
+    description: String!
+    ElectionAddress: String!
+  ): User!
+
+  add_voter(userId: String!, ElectionAddress: String!): User!
+}
