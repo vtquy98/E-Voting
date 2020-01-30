@@ -6,7 +6,6 @@ import { flow, join, map, path, get, has } from 'lodash/fp';
 import { gql } from '../libs/graphql';
 import { saveToken, removeToken } from '../libs/token-libs';
 import nfetch from '../libs/nfetch';
-import axios from 'axios';
 
 export const USER_LOGIN_API = 'UserLoginAPI';
 export const GET_CURRENT_USER_API = 'GetCurrentUserAPI';
@@ -149,7 +148,7 @@ const GetCurrentUserAPI = makeFetchAction(
     query {
       get_current_user {
         id
-        name
+        fullName
         email
         googleId
       }

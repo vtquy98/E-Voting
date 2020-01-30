@@ -1,6 +1,7 @@
 import { Users } from '../../../services';
-// import { combineResolvers } from 'graphql-resolvers';
-// import { checkAuthentication } from '../../libs';
+import { combineResolvers } from 'graphql-resolvers';
+import { isAdmin } from '../../libs';
+
 var Web3 = require('web3');
 var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
 const compiledContract = require('../../../contract-build/Election.json');
@@ -30,8 +31,7 @@ module.exports = {
       return candidateInfo;
     },
 
-    // check authen later
-    get_all_voter: async (_, { ElectionAddress }) => {
+    get_all_voter: combineResolvers(isAdmin, async (_, { ElectionAddress }) => {
       const voterList = await new web3.eth.Contract(
         compiledContract.abi,
         ElectionAddress
@@ -51,6 +51,6 @@ module.exports = {
       );
 
       return voterInfo;
-    }
+    })
   }
 };

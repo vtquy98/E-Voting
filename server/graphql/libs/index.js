@@ -8,17 +8,17 @@ import brn from 'brn';
 export const checkAuthentication = (parent, args, { currentUser }) =>
   currentUser ? skip : new ForbiddenError('Not authenticated as user.');
 
-// export const isAdmin = combineResolvers(
-//   checkAuthentication,
-//   (_, __, { currentUser: { role } }) =>
-//     role === ADMIN ? skip : new Error('Not authorized as Admin')
-// );
+export const isAdmin = combineResolvers(
+  checkAuthentication,
+  (_, __, { currentUser: { role } }) =>
+    role === ADMIN ? skip : new Error('Not authorized as Admin')
+);
 
-// export const isUser = combineResolvers(
-//   checkAuthentication,
-//   (_, __, { currentUser: { role } }) =>
-//     role === USER ? skip : new Error('Not authorized as User')
-// );
+export const isUser = combineResolvers(
+  checkAuthentication,
+  (_, __, { currentUser: { role } }) =>
+    role === USER ? skip : new Error('Not authorized as User')
+);
 
 const trimString = brn(isString, trim);
 
