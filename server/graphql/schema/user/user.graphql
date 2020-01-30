@@ -1,11 +1,21 @@
 type User {
   id: ID!
   googleId: String!
-  name: String!
+  fullName: String!
   email: String!
   walletAddress: String!
+  role: Role!
+  username: String
+  password: String
+  token: String!
+}
+
+enum Role {
+  ADMIN
+  USER
 }
 
 type Query {
+  login_user(username: String!, password: String!): User!
   get_current_user: User!
 }
