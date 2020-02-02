@@ -45,7 +45,11 @@ module.exports = {
           compiledContract.abi,
           ElectionAddress
         ).methods
-          .addCandidate(userData.wallet_address, userData.name, description)
+          .addCandidate(
+            userData.wallet_address,
+            userData.full_name,
+            description
+          )
           .send({ from: ADMIN_WALLET, gas: '6721975' });
 
         if (!addCandidate.events) {
@@ -63,7 +67,7 @@ module.exports = {
           compiledContract.abi,
           ElectionAddress
         ).methods
-          .addVoter(userData.wallet_address, userData.name)
+          .addVoter(userData.wallet_address, userData.full_name)
           .send({ from: ADMIN_WALLET, gas: '6721975' });
 
         if (!addVoter.events) {

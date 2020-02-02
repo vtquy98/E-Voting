@@ -38,7 +38,7 @@ router.use('/auth', async (req, res, next) => {
           new Users({
             google_id: userContent.googleId,
             email: userContent.email,
-            name: userContent.familyName + ' ' + userContent.givenName,
+            full_name: userContent.familyName + ' ' + userContent.givenName,
             wallet_address: userWalletAdress
           }).save();
           doLogin();
