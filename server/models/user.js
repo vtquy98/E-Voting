@@ -30,9 +30,6 @@ const UserSchema = Schema({
 UserSchema.methods.updateDoc = updateDocBuilder();
 
 UserSchema.pre('save', function(next) {
-  if (this.google_id) {
-    return next();
-  }
   var user = this;
   if (this.isModified('password') || this.isNew) {
     bcrypt.genSalt(10, function(err, salt) {
