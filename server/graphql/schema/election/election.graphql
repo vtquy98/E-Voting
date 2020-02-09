@@ -3,10 +3,17 @@ type Election {
   name: String!
   description: String!
   thumbnail: String!
-  contractAddress: String!
+  electionAddress: String!
   createdAt: Date!
   updatedAt: Date!
   # startedAt: Date!
+  state: ElectionState!
+}
+
+enum ElectionState {
+  CREATED
+  STARTED
+  ENDED
 }
 
 type Query {
@@ -30,4 +37,6 @@ type Mutation {
   ): User!
 
   add_voter(userId: String!, ElectionAddress: String!): User!
+  start_voting(ElectionAddress: String!): Election!
+  end_voting(ElectionAddress: String!): Election!
 }

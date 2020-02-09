@@ -40,7 +40,7 @@ module.exports = {
         .call();
 
       if (!voterList) {
-        throw new Error('Faild to get call voter!');
+        throw new Error('Faild to get all voter!');
       }
 
       const voterInfo = await Promise.all(

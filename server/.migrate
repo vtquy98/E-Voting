@@ -1,13 +1,13 @@
 {
-  "lastRun": "1579514051957-complie-contract.js",
+  "lastRun": "1581226177990-complie-and-deploy-contract.js",
   "migrations": [
     {
       "title": "1577871275635-init-project.js",
-      "timestamp": 1580539620360
+      "timestamp": 1581254745075
     },
     {
-      "title": "1579514051957-complie-contract.js",
-      "timestamp": 1580539621491
+      "title": "1581226177990-complie-and-deploy-contract.js",
+      "timestamp": 1581254747022
     }
   ]
 }
