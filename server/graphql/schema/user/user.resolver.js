@@ -2,6 +2,7 @@ import { path } from 'lodash/fp';
 import { USER, ADMIN } from '../../../enums/userRole';
 import { saveSession } from '../../../middlewares/session';
 import auth from '../../../authentication';
+import web3 from '../../libs/web3';
 
 module.exports = {
   User: {
@@ -12,6 +13,10 @@ module.exports = {
       const jwt = auth.sign(user);
       saveSession(req.session, jwt);
       return 'bearer ' + jwt;
+    },
+    balance: async user => {
+      const balance = await web3.eth.getBalance(user.wallet_address);
+      return web3.utils.fromWei(balance, 'ether');
     }
   },
   Role: {
