@@ -13,34 +13,6 @@ export const USER_LOGOUT = 'UserLogout';
 export const USER_LOGOUT_API = 'UserLogoutAPI';
 export const GET_TYPYCAL_USERS_API = 'GetTypycalUsersAPI';
 export const GET_AUTHOR_BY_ID_API = 'GetAuthorByIdAPI';
-export const USER_GOOGLE_LOGIN_API = 'UserGoogleLoginAPI';
-
-// IM TRYING
-export const doLogin = () => [
-  {
-    type: USER_GOOGLE_LOGIN_API
-  },
-  userGoogleLogin()
-];
-
-const UserGoogleLoginAPI = makeFetchAction(
-  USER_LOGOUT_API,
-  nfetch({ endpoint: '/auth/google', method: 'GET' })
-);
-
-export const userGoogleLogin = () =>
-  respondToSuccess(UserGoogleLoginAPI.actionCreator(), resp => {
-    if (resp.errors) {
-      console.error('Err:', resp.errors);
-      return;
-    }
-    // saveToken(resp.data.login_user.token);
-    // Router.push('/user-dashboard');
-    console.log(resp);
-    return;
-  });
-
-// END TRYING
 
 const GetAuthorByIdAPI = makeFetchAction(
   GET_AUTHOR_BY_ID_API,
@@ -151,6 +123,8 @@ const GetCurrentUserAPI = makeFetchAction(
         fullName
         email
         googleId
+        balance
+        walletAddress
       }
     }
   `
