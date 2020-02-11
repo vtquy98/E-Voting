@@ -1,169 +1,157 @@
-/*
-       .__(.)< (MEOW)     .__(.)< (MEOW)
-        \___)              \___)
-*/
+pragma solidity >=0.4.0 <0.7.0;
 
-// pragma solidity ^0.5.0;
-pragma solidity >=0.4.22 <0.7.0;
+contract ElectionCreation {
+  Election[] public deployedElections;
+  event ElectionCreated(Election electionAddress);
+
+  function createElection(
+    string memory electionName,
+    string memory electionDescription
+  ) public {
+    Election newElection = new Election(
+      electionName,
+      electionDescription,
+      msg.sender
+    );
+
+    emit ElectionCreated(newElection);
+    deployedElections.push(newElection);
+  }
+
+  function getLastedDeployedElection() public view returns (Election) {
+    return deployedElections[deployedElections.length - 1];
+  }
+
+  function getDeployedElections() public view returns (Election[] memory) {
+    return deployedElections;
+  }
+}
 
 contract Election {
-  struct voter {
-    string voterName;
-    bool voted;
-    uint256 vote;
+  struct Voter {
+    string fullName;
+    bool exists;
   }
 
-  struct candidate {
-    string candidateName;
-    string candiateDescription;
+  struct Candidate {
+    string fullName;
+    string candidateDescription;
+    uint256 votes;
   }
 
-  uint256 public totalVoter = 0;
-  uint256 public totalCandidate = 0;
-  uint256 public totalVote = 0;
+  address public manager;
+  string public electionName;
+  string public electionDescription;
 
-  address public ballotOfficialAddress;
-  string public ballotOfficialName;
-  string public proposal;
+  Voter[] public voters;
+  Candidate[] public candidates;
 
   address[] public candidateList;
   address[] public voterList;
 
-  mapping(address => mapping(address => bool)) hasVoted;
-  mapping(address => uint256) votesCount;
-  mapping(address => voter) public voterRegister;
-  mapping(address => candidate) public candidateRegister;
-  mapping(address => uint256) public votesReceived;
+  uint256 public totalVotes;
+  //   bool public complete;
+  //   uint256 public winner;
 
-  enum State {Created, Voting, Ended}
-  State public state;
+  mapping(address => Candidate) public candidateData;
+  mapping(address => Voter) public voterData;
 
-  //creates a new ballot contract
-  constructor(string memory _ballotOfficialName, string memory _proposal)
-    public
-  {
-    ballotOfficialAddress = msg.sender;
-    ballotOfficialName = _ballotOfficialName;
-    proposal = _proposal;
+  constructor(
+    string memory _electionName,
+    string memory _electionDescription,
+    address _sender
+  ) public {
+    manager = _sender;
+    electionName = _electionName;
+    electionDescription = _electionDescription;
     state = State.Created;
   }
 
-  modifier canVote(address _voterAddress, address _candidateAddress) {
-    require(!hasVoted[_candidateAddress][_voterAddress], 'You already voted!');
-    _;
-  }
-
-  modifier onlyOfficial() {
-    require(msg.sender == ballotOfficialAddress, 'Something went wrong!');
-    _;
-  }
+  enum State {Created, Voting, Ended}
+  State public state;
 
   modifier inState(State _state) {
     require(state == _state, 'Invalid time to vote!');
     _;
   }
 
-  event voterAdded(address voter);
-  event voteStarted();
-  event voteEnded(uint256 finalResult);
-  event voteDone(address voter);
-  event candidateAdded(address candidate);
+  mapping(address => mapping(address => bool)) hasVoted;
 
-  //add voter
-  function addVoter(address _voterAddress, string memory _voterName)
+  modifier canVote(address _voterAddress, address _candidateAddress) {
+    require(!hasVoted[_candidateAddress][_voterAddress], 'You already voted!');
+    _;
+  }
+
+  function registerVoter(address voterAddress, string memory fullName)
     public
     inState(State.Created)
-    onlyOfficial
+    restricted
   {
-    voter memory v;
-    v.voterName = _voterName;
-    // v.voted = false;
-    voterRegister[_voterAddress] = v;
-    voterList.push(_voterAddress);
-    totalVoter++;
-    emit voterAdded(_voterAddress);
+    Voter memory newVoter = Voter({fullName: fullName, exists: true});
+
+    voterList.push(voterAddress);
+    voters.push(newVoter);
+    voterData[voterAddress] = newVoter;
   }
 
-  //add Candidate
-  function addCandidate(
-    address _candidateAddress,
-    string memory _candidateName,
-    string memory _candidateDescripton
-  ) public inState(State.Created) onlyOfficial {
-    candidate memory c;
-    c.candidateName = _candidateName;
-    c.candiateDescription = _candidateDescripton;
-    candidateRegister[_candidateAddress] = c;
-    totalCandidate++;
-    candidateList.push(_candidateAddress);
-    emit candidateAdded(_candidateAddress);
+  function registerCandidate(
+    address candidateAddress,
+    string memory fullName,
+    string memory candidateDescription
+  ) public inState(State.Created) restricted {
+    Candidate memory newCandidate = Candidate({
+      fullName: fullName,
+      candidateDescription: candidateDescription,
+      votes: 0
+    });
+
+    candidateData[candidateAddress] = newCandidate;
+    candidateList.push(candidateAddress);
+    candidates.push(newCandidate);
+
   }
 
-  //declare voting starts now
-  function startVote() public inState(State.Created) onlyOfficial {
+  function startVote() public inState(State.Created) restricted {
     state = State.Voting;
-    emit voteStarted();
   }
-  //check valid candidate
-  // function validCandidate(bytes32 candidate) public view returns (bool) {
-  //     for(uint i = 0; i < candidateList.length; i++) {
-  //         if (candidateList[i] == candidate) {
-  //             return true;
-  //         }
-  //     }
-  //     return false;
-  // }
 
-  //Vote for candidate
-  function voteForCandidate(address _candidateAddress)
+  function pollVote(address _candidateAddress)
     public
     inState(State.Voting)
     canVote(msg.sender, _candidateAddress) //throw if user has already voted
   {
+    require(voterData[msg.sender].exists, 'You are not authorized to vote!');
     hasVoted[_candidateAddress][msg.sender] = true; //make note of the fact he's voting now
-    votesCount[_candidateAddress]++;
-    votesReceived[_candidateAddress] += 1;
-    totalVote++;
-    emit voteDone(msg.sender);
+    candidateData[_candidateAddress].votes += 1;
+    totalVotes++;
   }
 
-  function totalVotesFor(address _candidateAddress)
-    public
-    view
-    returns (uint256)
-  {
-    return votesReceived[_candidateAddress];
-  }
-
-  //voters vote by indicating their choice (true/false)
-  // function doVote(bool _choice)
-  //     public
-  //     inState(State.Voting)
-  //     returns (bool voted)
-  // {
-  //     bool found = false;
-  //     if (bytes(voterRegister[msg.sender].voterName).length != 0
-  //     && !voterRegister[msg.sender].voted){
-  //         voterRegister[msg.sender].voted = true;
-  //         vote memory v;
-  //         v.voterAddress = msg.sender;
-  //         v.choice = _choice;
-  //         if (_choice){
-  //             countResult++; //counting on the go
-  //         }
-  //         votes[totalVote] = v;
-  //         totalVote++;
-  //         found = true;
-  //     }
-  //     emit voteDone(msg.sender);
-  //     return found;
-  // }
-
-  //end votes
-  function endVote() public inState(State.Voting) onlyOfficial {
+  function endVote() public inState(State.Voting) restricted {
+    // close the poll
     state = State.Ended;
-    // finalResult = countResult; //move result from private countResult to public finalResult
-    // emit voteEnded(finalResult);
+
+    //caculation:
+    // uint256 max = 0;
+    // for (uint256 i = 0; i < candidates.length; i++) {
+    //   if (candidates[i].votes > max) {
+    //     max = candidates[i].votes;
+    //     winner = candidates[i].candidateId;
+
+    //   }
+    // }
+
+  }
+
+  //   function getResult() public view returns (uint256, uint256, uint256) {
+  //     return (totalVotes, candidates[winner].votes, winner);
+  //   }
+
+  function getVotersCount() public view returns (uint256) {
+    return voters.length;
+  }
+
+  function getCandidatesCount() public view returns (uint256) {
+    return candidates.length;
   }
 
   //get all candidate
@@ -176,4 +164,16 @@ contract Election {
     return voterList;
   }
 
+  function totalVotesFor(address candidateAddress)
+    public
+    view
+    returns (uint256)
+  {
+    return candidateData[candidateAddress].votes;
+  }
+
+  modifier restricted {
+    require(msg.sender == manager, 'Something went wrong!');
+    _;
+  }
 }
