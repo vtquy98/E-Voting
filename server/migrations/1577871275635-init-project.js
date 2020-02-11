@@ -11,10 +11,10 @@ const {
 } = process.env;
 
 const adminWalletAddress =
-  ADMIN_WALLET_ADDRESS || '0x001526F8bF8A346abF4d2d60B7e5BA4BeC75FB28';
+  ADMIN_WALLET_ADDRESS || '0x86FA91238DdB108831766eC58c365bD0f291b101';
 
 const mockUserWalletAddress =
-  USER_WALLET_ADDRES || '0x8a0Aa7Fd4fC557dBF8d97291c520Fa7a6E64F696';
+  USER_WALLET_ADDRES || '0xA195956136328E5aFAA1eDD7185101BAf4e9166a';
 
 const systemUser = {
   username: 'admin',
