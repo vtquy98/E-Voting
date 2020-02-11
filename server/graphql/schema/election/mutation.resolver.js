@@ -1,6 +1,6 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { Elections, Users } from '../../../services';
-import { isAdmin } from '../../libs';
+import { isAdmin, checkAuthentication } from '../../libs';
 import { STARTED, CREATED, ENDED } from '../../../enums/electionState';
 
 import ElectionCreation from '../../libs/electionCreation';
@@ -117,6 +117,20 @@ module.exports = {
       await updateElection.save();
 
       return updateElection;
-    })
+    }),
+
+    poll_vote: combineResolvers(
+      checkAuthentication,
+      async (_, { userId, ElectionAddress }, { currentUser }) => {
+        const userData = await Users.findOne({ id: userId });
+        const election = Election(ElectionAddress);
+
+        await election.methods
+          .pollVote(userData.wallet_address)
+          .send({ from: currentUser.wallet_address, gas: '6721975' });
+
+        return userData;
+      }
+    )
   }
 };
