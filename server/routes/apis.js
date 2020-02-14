@@ -21,22 +21,35 @@ router.use('/auth', async (req, res, next) => {
       }
     });
 
-    const userContent = req.body.user_content;
-    const userWalletAdress = await generateWallet();
-    const username = userContent.email.substring(
-      0,
-      userContent.email.lastIndexOf('@')
-    );
-
-    const generateDefaultPassword = Math.random()
-      .toString(36)
-      .slice(-8);
-
     const doLogin = () => {
       const jwt = auth.sign(userContent);
       saveSession(req.session, jwt);
       const token = 'bearer ' + jwt;
       return res.json({ success: true, token });
+    };
+    const userContent = req.body.user_content;
+
+    const createNewUser = async () => {
+      const userWalletAdress = await generateWallet();
+      const username = userContent.email.substring(
+        0,
+        userContent.email.lastIndexOf('@')
+      );
+      const generateDefaultPassword = Math.random()
+        .toString(36)
+        .slice(-8);
+
+      const user = new Users({
+        username,
+        password: generateDefaultPassword,
+        google_id: userContent.googleId,
+        email: userContent.email,
+        full_name: userContent.familyName + ' ' + userContent.givenName,
+        wallet_address: userWalletAdress,
+        avatar: userContent.imageUrl
+      });
+
+      await user.save();
     };
 
     if (userContent.googleId) {
@@ -44,15 +57,7 @@ router.use('/auth', async (req, res, next) => {
         if (existingUser) {
           doLogin();
         } else {
-          new Users({
-            username,
-            password: generateDefaultPassword,
-            google_id: userContent.googleId,
-            email: userContent.email,
-            full_name: userContent.familyName + ' ' + userContent.givenName,
-            wallet_address: userWalletAdress
-          }).save();
-
+          createNewUser();
           //pubsub - emit - email for user their password later!
           doLogin();
         }

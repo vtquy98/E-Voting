@@ -11,6 +11,9 @@ type Election {
   totalVoteCount: Int!
   totalCandidateCount: Int!
   tocalVoterCount: Int!
+  shortenCode: Int!
+  electionOwner: String!
+  votingTime: Int!
 }
 
 type ElectionResult {
@@ -28,10 +31,10 @@ enum ElectionState {
 type Query {
   get_all_election: [Election!]!
   get_election(id: String!): Election!
-  get_all_candidate(ElectionAddress: String!): [User!]!
-  get_all_voter(ElectionAddress: String!): [User!]!
+  get_all_candidates(electionId: String!): [User!]!
+  get_all_voters(electionId: String!): [User!]! #review later, maybe i'm wrong
   get_candidate_votes(userId: String!, ElectionAddress: String!): User!
-  get_total_votes_count(ElectionAddress: String!): Election!
+  get_total_votes_count(electionId: String!): Election!
   get_total_candidates_count(ElectionAddress: String!): Election!
   get_total_voters_count(ElectionAddress: String!): Election!
   get_election_result(ElectionAddress: String!): [ElectionResult!]!
@@ -41,7 +44,9 @@ type Mutation {
   create_election(
     name: String
     description: String!
+    electionOwner: String!
     thumbnail: String!
+    votingTime: Int!
   ): Election!
 
   add_candidate(

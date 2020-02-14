@@ -19,7 +19,7 @@ module.exports = {
   Mutation: {
     create_election: combineResolvers(
       isAdmin,
-      async (_, { name, description, thumbnail }) => {
+      async (_, { name, description, thumbnail, votingTime }) => {
         const electionCreation = await ElectionCreation.methods
           .createElection(name, description)
           .send({
@@ -27,14 +27,20 @@ module.exports = {
             gas: '6721975'
           });
 
+        const generateShortenCode = () => {
+          return Math.floor(100000 + Math.random() * 900000);
+        };
+
         const election = new Elections({
+          shorten_code: generateShortenCode(),
           name,
           description,
           thumbnail,
           election_address:
             electionCreation.events.ElectionCreated.returnValues
               .electionAddress,
-          state: CREATED
+          state: CREATED,
+          voting_time: votingTime
         });
 
         await election.save();
