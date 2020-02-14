@@ -99,14 +99,19 @@ export default class MyDocument extends Document {
             href="static/assets/css/pages/users.css"
           />
 
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/pages/project.css"
+          />
+
           {/* custom css */}
           <link
             rel="stylesheet"
             type="text/css"
             href="static/assets/css/custom.css"
           />
-
-          {/* end test */}
+          {/* end custom */}
         </Head>
         <body
           className="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"

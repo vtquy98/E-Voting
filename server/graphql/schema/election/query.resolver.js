@@ -11,48 +11,49 @@ module.exports = {
     }),
 
     get_election: combineResolvers(isAdmin, async (_, { id }) => {
-      const elections = await Elections.find({ id });
+      const elections = await Elections.findOne({ id });
       return elections;
     }),
 
-    get_all_candidate: combineResolvers(
-      isAdmin,
-      async (_, { ElectionAddress }) => {
-        const election = Election(ElectionAddress);
-        const candidateList = await election.methods.allCandidates().call();
+    get_all_candidates: combineResolvers(isAdmin, async (_, { electionId }) => {
+      const electionStored = await Elections.findOne({ id: electionId });
+      const election = Election(electionStored.election_address);
+      const candidateList = await election.methods.allCandidates().call();
 
-        // if (!candidateList) {
-        //   throw new Error('Faild to get call candidate!');
-        // }
-
-        const candidateInfo = await Promise.all(
-          candidateList.map(async candidate => {
-            const user = await Users.findOne({ wallet_address: candidate });
-            return user;
-          })
-        );
-
-        return candidateInfo;
-      }
-    ),
-
-    get_all_voter: combineResolvers(isAdmin, async (_, { ElectionAddress }) => {
-      const election = Election(ElectionAddress);
-      const voterList = await election.methods.allVoters().call();
-
-      // if (!voterList) {
-      //   throw new Error('Faild to get all voter!');
+      // if (!candidateList) {
+      //   throw new Error('Faild to get call candidate!');
       // }
 
-      const voterInfo = await Promise.all(
-        voterList.map(async voter => {
-          const user = await Users.findOne({ wallet_address: voter });
+      const candidateInfo = await Promise.all(
+        candidateList.map(async candidate => {
+          const user = await Users.findOne({ wallet_address: candidate });
           return user;
         })
       );
 
-      return voterInfo;
+      return candidateInfo;
     }),
+
+    get_all_voters: combineResolvers(
+      isAdmin,
+      async (_, { ElectionAddress }) => {
+        const election = Election(ElectionAddress);
+        const voterList = await election.methods.allVoters().call();
+
+        // if (!voterList) {
+        //   throw new Error('Faild to get all voter!');
+        // }
+
+        const voterInfo = await Promise.all(
+          voterList.map(async voter => {
+            const user = await Users.findOne({ wallet_address: voter });
+            return user;
+          })
+        );
+
+        return voterInfo;
+      }
+    ),
 
     get_candidate_votes: combineResolvers(
       isAdmin,
@@ -70,15 +71,15 @@ module.exports = {
 
     get_total_votes_count: combineResolvers(
       isAdmin,
-      async (_, { ElectionAddress }) => {
-        const electionData = await Elections.findOne({
-          election_address: ElectionAddress
+      async (_, { electionId }) => {
+        const electionStored = await Elections.findOne({
+          id: electionId
         });
 
-        const election = Election(ElectionAddress);
+        const election = Election(electionStored.election_address);
         const totalVoteCount = await election.methods.totalVotes().call();
 
-        return { ...electionData._doc, totalVoteCount };
+        return { ...electionStored._doc, totalVoteCount };
       }
     ),
 
