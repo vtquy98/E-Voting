@@ -15,6 +15,52 @@ export const GET_ELECTION = 'GetElectionAPI';
 export const GET_ALL_CANDIDATES_API = 'GetAllCandidatesAPI';
 export const GET_ALL_VOTERS_API = 'GetAllVotersAPI';
 export const GET_TOTAL_VOTES_COUNT_API = 'GetTotalVotesCountAPI';
+export const GET_ELECTION_RESULT_API = 'GetElectionResultAPI';
+
+const GetElectionResultAPI = makeFetchAction(
+  GET_ELECTION_RESULT_API,
+  gql`
+    query($electionId: String!) {
+      get_election_result(electionId: $electionId) {
+        userData {
+          fullName
+        }
+        voteCount
+        percentage
+      }
+    }
+  `
+);
+
+export const getElectionResult = electionId => {
+  return respondToSuccess(
+    GetElectionResultAPI.actionCreator({ electionId }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      return;
+    }
+  );
+};
+
+export const getElectionResultDataSelector = flow(
+  GetElectionResultAPI.dataSelector,
+  path('data.get_election_result')
+);
+
+export const resetDataGetElectionResult = dispatch => {
+  dispatch(GetElectionResultAPI.resetter(['data', 'error']));
+};
+
+export const getElectionResultErrorSelector = flow(
+  GetElectionResultAPI.errorSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
 
 const GetTotalVotesCountAPI = makeFetchAction(
   GET_TOTAL_VOTES_COUNT_API,
@@ -54,7 +100,7 @@ const GetAllVotersAPI = makeFetchAction(
   GET_ALL_VOTERS_API,
   gql`
     query($electionId: String!) {
-      get_all_candidates(electionId: $electionId) {
+      get_all_voters(electionId: $electionId) {
         id
         fullName
         avatar

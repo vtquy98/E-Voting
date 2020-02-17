@@ -19,7 +19,7 @@ type Election {
 type ElectionResult {
   userData: User!
   voteCount: Int!
-  percentage: Int!
+  percentage: Float!
 }
 
 enum ElectionState {
@@ -37,7 +37,7 @@ type Query {
   get_total_votes_count(electionId: String!): Election!
   get_total_candidates_count(ElectionAddress: String!): Election!
   get_total_voters_count(ElectionAddress: String!): Election!
-  get_election_result(ElectionAddress: String!): [ElectionResult!]!
+  get_election_result(electionId: String!): [ElectionResult!]!
 }
 
 type Mutation {
@@ -56,7 +56,7 @@ type Mutation {
   ): User!
 
   add_voter(userId: String!, ElectionAddress: String!): User!
-  start_voting(ElectionAddress: String!): Election!
+  start_voting(electionId: String!): Election!
   end_voting(ElectionAddress: String!): Election!
   poll_vote(userId: String!, ElectionAddress: String!): User!
 }

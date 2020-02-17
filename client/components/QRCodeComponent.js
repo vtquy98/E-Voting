@@ -21,7 +21,7 @@ class QrCodeComponent extends React.Component {
         <div className="qrcode">
           <img className="img-container" alt="" src={qrcode} />
         </div>
-        <h3 className="text">{text}</h3>
+        <h4 className="text">{text}</h4>
         <style jsx>{`
           .qrcode {
             display: flex;

@@ -87,8 +87,12 @@ module.exports = {
       }
     ),
 
-    start_voting: combineResolvers(isAdmin, async (_, { ElectionAddress }) => {
-      const election = Election(ElectionAddress);
+    start_voting: combineResolvers(isAdmin, async (_, { electionId }) => {
+      const electionStored = await Elections.findOne({
+        id: electionId
+      });
+      const election = Election(electionStored.election_address);
+
       await election.methods
         .startVote()
         .send({ from: ADMIN_WALLET, gas: '6721975' });
@@ -97,13 +101,10 @@ module.exports = {
       //   throw new Error('Faild to start the election!');
       // }
 
-      const updateElection = await Elections.findOne({
-        election_address: ElectionAddress
-      });
-      election.state = STARTED;
-      await updateElection.save();
+      electionStored.state = STARTED;
+      await electionStored.save();
 
-      return updateElection;
+      return electionStored;
     }),
 
     end_voting: combineResolvers(isAdmin, async (_, { ElectionAddress }) => {
