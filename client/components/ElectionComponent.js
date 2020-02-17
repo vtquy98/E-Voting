@@ -126,7 +126,7 @@ class ElectionComponent extends React.Component {
                   </ul>
 
                   <div className="card-body">
-                    <div className="card-text">
+                    <div className="card-text text-center">
                       <p>{election.description}</p>
                     </div>
                     <div id="project-info" className="card-body row">
@@ -326,6 +326,7 @@ class ElectionComponent extends React.Component {
                         sticky sidebar layout page requirements.
                       </p>
                       <p>scroll to view all of voters:</p>
+                      {console.log(voters)}
                       {!voters.length ? (
                         <div
                           className="alert alert-icon-right alert-info alert-dismissible mb-2"
@@ -366,47 +367,6 @@ class ElectionComponent extends React.Component {
                           ))}
                         </div>
                       )}
-                    </div>
-                  </div>
-                </div>
-              </section>
-
-              <section id="jade-code" className="card">
-                <div className="card-header">
-                  <h4 className="card-title">JADE Configuration</h4>
-                  <a className="heading-elements-toggle">
-                    <i className="fa fa-ellipsis-v font-medium-3"></i>
-                  </a>
-                  <div className="heading-elements">
-                    <ul className="list-inline mb-0">
-                      <li>
-                        <a data-action="collapse">
-                          <i className="ft-minus"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a data-action="reload">
-                          <i className="ft-rotate-cw"></i>
-                        </a>
-                      </li>
-                      <li>
-                        <a data-action="close">
-                          <i className="ft-x"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="card-content">
-                  <div className="card-body">
-                    <div className="card-text">
-                      <p>
-                        Stack Admin use JADE as template engine to generate
-                        pages and whole template quickly using node js, for
-                        getting start with JADE usage & template generating
-                        process please refer template documentation.
-                      </p>
-                      <h5 className="card-title mt-2">JADE Variables</h5>
                     </div>
                   </div>
                 </div>

@@ -34,26 +34,27 @@ module.exports = {
       return candidateInfo;
     }),
 
-    get_all_voters: combineResolvers(
-      isAdmin,
-      async (_, { ElectionAddress }) => {
-        const election = Election(ElectionAddress);
-        const voterList = await election.methods.allVoters().call();
+    get_all_voters: combineResolvers(isAdmin, async (_, { electionId }) => {
+      const electionStored = await Elections.findOne({
+        id: electionId
+      });
 
-        // if (!voterList) {
-        //   throw new Error('Faild to get all voter!');
-        // }
+      const election = Election(electionStored.election_address);
+      const voterList = await election.methods.allVoters().call();
 
-        const voterInfo = await Promise.all(
-          voterList.map(async voter => {
-            const user = await Users.findOne({ wallet_address: voter });
-            return user;
-          })
-        );
+      // if (!voterList) {
+      //   throw new Error('Faild to get all voter!');
+      // }
 
-        return voterInfo;
-      }
-    ),
+      const voterInfo = await Promise.all(
+        voterList.map(async voter => {
+          const user = await Users.findOne({ wallet_address: voter });
+          return user;
+        })
+      );
+
+      return voterInfo;
+    }),
 
     get_candidate_votes: combineResolvers(
       isAdmin,
@@ -116,8 +117,12 @@ module.exports = {
 
     get_election_result: combineResolvers(
       isAdmin,
-      async (_, { ElectionAddress }) => {
-        const election = Election(ElectionAddress);
+      async (_, { electionId }) => {
+        const electionStored = await Elections.findOne({
+          id: electionId
+        });
+
+        const election = Election(electionStored.election_address);
 
         const totalVoteCount = await election.methods.totalVotes().call();
         const candidateAddress = await election.methods.allCandidates().call();
@@ -128,7 +133,13 @@ module.exports = {
             const voteCount = parseInt(
               await election.methods.totalVotesFor(candidate).call()
             );
-            const percentage = (parseInt(voteCount) * 100) / totalVoteCount;
+            const percentage =
+              voteCount > 0
+                ? (
+                    (parseInt(voteCount) * 100) /
+                    parseInt(totalVoteCount)
+                  ).toFixed(2)
+                : 0;
             return { userData, voteCount, percentage };
           })
         );

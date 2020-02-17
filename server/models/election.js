@@ -41,7 +41,7 @@ const ElectionSchema = Schema({
   },
   shorten_code: { type: Number, required: true, default: 1234 },
   election_owner: { type: String, required: true, default: 'AGU' },
-  voting_time: { type: Number, requiered: true, default: 30 }
+  voting_time: { type: Number, requiered: true, default: 10 }
 });
 
 const Elections = model('Elections', ElectionSchema);
