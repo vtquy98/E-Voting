@@ -14,14 +14,14 @@ class QrCodeComponent extends React.Component {
     setQrcode(qrcode);
   }
   render() {
-    const { qrcode, text } = this.props;
+    const { qrcode } = this.props;
 
     return qrcode ? (
       <React.Fragment>
         <div className="qrcode">
           <img className="img-container" alt="" src={qrcode} />
         </div>
-        <h4 className="text">{text}</h4>
+        {/* <h5 className="text text-center">{text}</h5> */}
         <style jsx>{`
           .qrcode {
             display: flex;
