@@ -211,7 +211,7 @@ class ShowElectionComponent extends React.Component {
                           <div className="card-body">
                             <QRCodeComponent
                               text={createVotingUrl({
-                                electionId: election.shortenCode
+                                electionId: election.id
                               })}
                             />
                           </div>

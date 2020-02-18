@@ -52,7 +52,7 @@ const createQRCode = async ({ text, width, height }) => {
 
 export const generateQrcode = async (
   text,
-  { width = 200, height = 200 } = {}
+  { width = 230, height = 230 } = {}
 ) => {
   try {
     let qrImg;
