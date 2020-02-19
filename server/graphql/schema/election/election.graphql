@@ -59,4 +59,5 @@ type Mutation {
   start_voting(electionId: String!): Election!
   end_voting(ElectionAddress: String!): Election!
   poll_vote(userId: String!, ElectionAddress: String!): User!
+  poll_vote2(listUserId: [String!]!, electionId: String!): Election!
 }
