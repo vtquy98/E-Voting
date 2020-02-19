@@ -138,6 +138,30 @@ module.exports = {
 
         return userData;
       }
+    ),
+
+    poll_vote2: combineResolvers(
+      checkAuthentication,
+      async (_, { listUserId, electionId }, { currentUser }) => {
+        // const userData = await Users.findOne({ id: userId });
+        const electionStored = await Elections.findOne({
+          id: electionId
+        });
+        const election = Election(electionStored.election_address);
+
+        // listUserId.map(user => console.log(user));
+
+        await Promise.all(
+          listUserId.map(async user => {
+            const userData = await Users.findOne({ id: user }); //got user
+            await election.methods
+              .pollVote(userData.wallet_address)
+              .send({ from: currentUser.wallet_address, gas: '6721975' });
+          })
+        );
+
+        return electionStored;
+      }
     )
   }
 };

@@ -7,9 +7,12 @@ import { SELECT_TO_VOTE } from '../enums/votingType';
 import {
   getAllCandidates,
   getAllCandidatesDataSelector,
-  // resetDataGetAllCandidates,
+  resetDataPollVote,
   getElection,
-  getElectionDataSelector
+  getElectionDataSelector,
+  pollVote,
+  pollVoteDataSelector,
+  pollVoteErrorSelector
 } from '../stores/ElectionState';
 import { getCurrentUserDataSelector } from '../stores/UserState';
 import RenderVoteCheckFieldComponent from './FormField/RenderVoteCheckFieldComponent';
@@ -17,25 +20,17 @@ import RenderVoteCheckFieldComponent from './FormField/RenderVoteCheckFieldCompo
 const connectToRedux = connect(
   createStructuredSelector({
     election: getElectionDataSelector,
-    // errorMessage: getElectionErrorSelector,
+    errorMessage: pollVoteErrorSelector,
+    successMessage: pollVoteDataSelector,
     candidates: getAllCandidatesDataSelector,
     currentUser: getCurrentUserDataSelector
   }),
   dispatch => ({
+    resetData: () => {
+      resetDataPollVote(dispatch);
+    },
     getElection: id => dispatch(getElection(id)),
-    getAllCandidates: electionId => dispatch(getAllCandidates(electionId)),
-    onSubmit: ({ candidates }) =>
-      // dispatch(
-      //   createArticle({
-      //     title,
-      //     categoryId,
-      //     description,
-      //     imageDescription,
-      //     content,
-      //     hastags
-      //   })
-      // )
-      console.log(candidates)
+    getAllCandidates: electionId => dispatch(getAllCandidates(electionId))
   })
 );
 
@@ -56,26 +51,33 @@ class ShowElectionComponent extends React.Component {
   }
 
   componentWillUnmount() {
-    // this.props.resetData();
+    this.props.resetData();
   }
 
   render() {
     const {
       candidates = [],
-      // election = [],
       handleSubmit,
       pristine,
       reset,
-      submitting
+      submitting,
+      successMessage,
+      errorMessage
     } = this.props;
+
+    const submit = (values, dispatch, props) => {
+      const articleId = props.electionId.id;
+      console.log(values);
+      dispatch(
+        pollVote({
+          ...values,
+          electionId: articleId
+        })
+      );
+    };
 
     return (
       <React.Fragment>
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="static/assets/css/pages/owl.carousel.min.css"
-        />
         <div className="app-content content">
           <div className="content-wrapper">
             <div className="content-body">
@@ -114,42 +116,70 @@ class ShowElectionComponent extends React.Component {
                 </div>
                 <div className="col-md-8">
                   <div className="card">
-                    <div className="card-header border-0-bottom">
-                      <h1 className="title text-center mt-2">
-                        Who will you vote for?
-                      </h1>
-                    </div>
                     <div className="card-content">
                       <div className="card-body">
-                        <div className="col-lg-12 col-md-6 col-sm-12">
-                          <form onSubmit={handleSubmit}>
-                            <Field
-                              name="candidates"
-                              options={candidates}
-                              component={RenderVoteCheckFieldComponent}
-                              votingType={SELECT_TO_VOTE}
-                            />
-                            <div className="text-center mt-2">
-                              <div className="form-group">
-                                <button
-                                  type="submit"
-                                  className="btn mr-1 mb-1 btn-success btn-lg"
-                                  disabled={pristine || submitting}
-                                >
-                                  <i className="fa fa-check-circle"></i> Submit
-                                </button>
-                                <button
-                                  type="button"
-                                  disabled={pristine || submitting}
-                                  onClick={reset}
-                                  className="btn mr-1 mb-1 btn-danger btn-lg"
-                                >
-                                  <i className="fa fa-times"></i> Reset
-                                </button>
-                              </div>
+                        {successMessage ? (
+                          <div>
+                            <h1 className="title text-center mt-2 mb-2">
+                              Thank you for your participation!
+                            </h1>
+                            <div className="d-flex justify-content-center">
+                              <img
+                                src="/static/assets/images/vote-success.svg"
+                                alt="success"
+                                className="height-200"
+                              />
                             </div>
-                          </form>
-                        </div>
+                            <h4 className="text-bold-400 text-center mt-2">
+                              Keep calm and waiting for election result
+                            </h4>
+                          </div>
+                        ) : (
+                          <div>
+                            <h1 className="title text-center mt-2 mb-2">
+                              Who will you vote for?
+                            </h1>
+                            <div className="col-lg-12 col-md-6 col-sm-12">
+                              <form onSubmit={handleSubmit(submit)}>
+                                <Field
+                                  name="listUserId"
+                                  options={candidates}
+                                  component={RenderVoteCheckFieldComponent}
+                                  votingType={SELECT_TO_VOTE}
+                                />
+                                <div className="text-center mt-2">
+                                  <div className="form-group">
+                                    <button
+                                      type="submit"
+                                      className="btn mr-1 mb-1 btn-success btn-lg"
+                                      disabled={pristine || submitting}
+                                    >
+                                      <i className="fa fa-check-circle"></i>{' '}
+                                      Submit
+                                    </button>
+                                    <button
+                                      type="button"
+                                      disabled={pristine || submitting}
+                                      onClick={reset}
+                                      className="btn mr-1 mb-1 btn-danger btn-lg"
+                                    >
+                                      <i className="fa fa-times"></i> Reset
+                                    </button>
+                                  </div>
+                                  {errorMessage ? (
+                                    <div
+                                      className="mt-2 alert alert-danger border-0 mb-2"
+                                      role="alert"
+                                    >
+                                      <strong>Error: </strong>
+                                      {errorMessage}
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>

@@ -16,6 +16,48 @@ export const GET_ALL_CANDIDATES_API = 'GetAllCandidatesAPI';
 export const GET_ALL_VOTERS_API = 'GetAllVotersAPI';
 export const GET_TOTAL_VOTES_COUNT_API = 'GetTotalVotesCountAPI';
 export const GET_ELECTION_RESULT_API = 'GetElectionResultAPI';
+export const POLL_VOTE_API = 'PollVoteAPI';
+
+const PollVoteAPI = makeFetchAction(
+  POLL_VOTE_API,
+  gql`
+    mutation($listUserId: [String!]!, $electionId: String!) {
+      poll_vote2(listUserId: $listUserId, electionId: $electionId) {
+        name
+      }
+    }
+  `
+);
+
+export const pollVote = ({ listUserId, electionId }) => {
+  return respondToSuccess(
+    PollVoteAPI.actionCreator({ listUserId, electionId }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      return;
+    }
+  );
+};
+
+export const pollVoteDataSelector = flow(
+  PollVoteAPI.dataSelector,
+  path('data.poll_vote2')
+);
+
+export const pollVoteErrorSelector = flow(
+  PollVoteAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataPollVote = dispatch => {
+  dispatch(PollVoteAPI.resetter(['data', 'error']));
+};
 
 const GetElectionResultAPI = makeFetchAction(
   GET_ELECTION_RESULT_API,
