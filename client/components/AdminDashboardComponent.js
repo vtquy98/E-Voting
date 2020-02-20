@@ -3,6 +3,7 @@ import React from 'react';
 // import Popup from 'reactjs-popup';
 
 import SmallCardComponent from './SmallCardComponent';
+import CreateElectionModalComponent from './CreateElectionModalComponent';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, withState } from 'recompose';
@@ -40,7 +41,6 @@ const enhance = compose(
 
 class UserDashboardComponent extends React.Component {
   componentDidMount() {
-    console.log(this.props.currentUser);
     // this.props.GetAllVoting();
   }
 
@@ -48,13 +48,13 @@ class UserDashboardComponent extends React.Component {
     const {
       currentUser,
       sidebarState,
-      setSidebarState,
+      setSidebarState
       // setVotingName,
       // CreateVoting,
       // votingName,
-      votingList
+      // votingList
     } = this.props;
-    console.log(votingList);
+
     return (
       <React.Fragment>
         <div className="app-content content">
@@ -213,6 +213,7 @@ class UserDashboardComponent extends React.Component {
             </div>
           </div>
         </div>
+        <CreateElectionModalComponent />
       </React.Fragment>
     );
   }

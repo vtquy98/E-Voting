@@ -64,8 +64,7 @@ class ElectionComponent extends React.Component {
       voters = []
       // getTotalVotesCount
     } = this.props;
-    console.log(election);
-    console.log(candidates);
+
     return (
       <div className="app-content content">
         <div className="content-wrapper">

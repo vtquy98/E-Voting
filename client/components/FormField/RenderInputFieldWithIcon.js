@@ -1,25 +1,26 @@
 import React from 'react';
 
-const RenderTextAreaFieldComponent = ({
+const RenderInputFieldWithIcon = ({
   input,
   placeholder,
-  rows,
-  meta: { touched, error }
+  label,
+  icon,
+  meta: { touched, error },
+  ...others
 }) => (
-  <React.Fragment>
+  <div>
     <div className="position-relative has-icon-left">
-      <textarea
+      <input
         {...input}
-        rows={rows}
+        type="number"
         className="form-control"
-        name="notes"
         placeholder={placeholder}
-      ></textarea>
+        {...others}
+      />
       <div className="form-control-position">
-        <i className="ft-file"></i>
+        <i className={icon}></i>
       </div>
     </div>
-
     <div className="text-danger text-center mt-1">
       {touched &&
         (error && (
@@ -29,7 +30,7 @@ const RenderTextAreaFieldComponent = ({
           </div>
         ))}
     </div>
-  </React.Fragment>
+  </div>
 );
 
-export default RenderTextAreaFieldComponent;
+export default RenderInputFieldWithIcon;

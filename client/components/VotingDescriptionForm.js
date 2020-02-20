@@ -1,75 +1,97 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-// import validate from './validate';
-import { compose } from 'recompose';
-
-import RenderSelectedImageFieldComponent from './FormField/RenderSelectedImageFieldComponent';
+import { required, isNumber } from '../utils/validation';
 import RenderTextAreaFieldComponent from './FormField/RenderTextAreaFieldComponent';
 import RenderVotingTypeFieldComponent from './FormField/RenderVotingTypeFieldComponent';
+import RenderInputFieldWithIcon from './FormField/RenderInputFieldWithIcon';
 
 const withForm = reduxForm({
   form: 'create_voting',
-  destroyOnUnmount: false, // <------ preserve form data
-  forceUnregisterOnUnmount: true // <------ unregister fields on unmount
-  //   validate });
+  destroyOnUnmount: false // <------ preserve form data
 });
-
-const enhance = compose(
-  // connectToRedux,
-  withForm
-);
 
 const VotingDescriptionForm = props => {
   const { handleSubmit } = props;
   return (
     <form onSubmit={handleSubmit}>
-      <link
-        rel="stylesheet"
-        type="text/css"
-        href="/static/customs/custom.css"
-      />
       <div className="row">
-        <div className="col-sm-5 col-sm-offset-1">
-          <h6>Image desciption</h6>
-          <Field
-            name="imageDescription"
-            component={RenderSelectedImageFieldComponent}
-            type="file"
-          />
-        </div>
+        <div className="col-md-6 mt-2">
+          <h4 className="card-title">
+            Election's <code>description</code>
+          </h4>
 
-        <div className="col-sm-6">
-          <h6>Voting's description</h6>
           <Field
             name="description"
             type="text"
             component={RenderTextAreaFieldComponent}
-            rows="9"
+            rows="11"
+            placeholder="type something..."
+            validate={[required]}
           />
         </div>
 
-        <div className="col-lg-12">
-          <Field name="votingType" component={RenderVotingTypeFieldComponent} />
+        <div className="col-md-6 mt-2">
+          <Field
+            name="votingType"
+            component={RenderVotingTypeFieldComponent}
+            validate={[required]}
+          />
         </div>
       </div>
 
-      <div className="d-flex">
-        <div className="justify-content-center">
-          <input
-            className="btn btn-primary btn-user btn-block"
-            type="submit"
-            value="Next"
+      <div className="row">
+        <div className="col-md-6 mt-2">
+          <h4 className="card-title">
+            Election <code>Owner</code>
+          </h4>
+
+          <Field
+            icon="ft-user"
+            name="electionOwner"
+            type="text"
+            component={RenderInputFieldWithIcon}
+            placeholder="Who's a owner of the election?"
+            validate={[required]}
           />
         </div>
-        <div className="clearfix"></div>
+        <div className="col-md-6 mt-2">
+          <h4 className="card-title">
+            Voting's <code>time</code>
+          </h4>
+
+          <Field
+            icon="ft-clock"
+            name="votingTime"
+            type="text"
+            component={RenderInputFieldWithIcon}
+            placeholder="Number of voting time (minute)"
+            validate={[required, isNumber]}
+          />
+        </div>
       </div>
+
+      <div className="form-actions right">
+        <button type="button" className="btn btn-warning mr-1" disabled>
+          <i class="ft-x"></i> Previous
+        </button>
+        <button type="submit" className="btn btn-success" value="Next">
+          <i className="fa fa-check-square-o"></i> Next
+        </button>
+      </div>
+
       <style jsx>{`
         .material-icons {
           font-size: 50px;
+        }
+
+        .form-actions {
+          border-top: none !important;
+          padding: 0px 0;
+          margin-top: 20px;
         }
       `}</style>
     </form>
   );
 };
 
-export default enhance(VotingDescriptionForm);
+export default withForm(VotingDescriptionForm);

@@ -35,6 +35,7 @@
     "react-owl-carousel": "^2.3.1",
     "react-qr-reader": "^2.2.1",
     "react-redux": "^7.1.1",
+    "react-select": "^3.0.8",
     "react-sidebar": "^3.0.2",
     "react-table": "^6.10.3",
     "react-tagsinput": "^3.19.0",

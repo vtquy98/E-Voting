@@ -35,7 +35,6 @@ class ElectionStatsComponent extends React.Component {
 
   render() {
     const { elections = [], users = [] } = this.props;
-    console.log(users);
     return (
       <div className="col-md-12">
         <div className="card">
