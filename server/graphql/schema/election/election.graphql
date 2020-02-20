@@ -11,15 +11,20 @@ type Election {
   totalVoteCount: Int!
   totalCandidateCount: Int!
   tocalVoterCount: Int!
-  shortenCode: Int!
   electionOwner: String!
   votingTime: Int!
+  votingType: VotingType!
 }
 
 type ElectionResult {
   userData: User!
   voteCount: Int!
   percentage: Float!
+}
+
+enum VotingType {
+  SELECT_TO_VOTE
+  SELECT_TO_REMOVE
 }
 
 enum ElectionState {
@@ -41,12 +46,16 @@ type Query {
 }
 
 type Mutation {
-  create_election(
-    name: String
+  create_election(name: String): Election!
+
+  finish_election_creation(
+    electionId: String!
     description: String!
-    electionOwner: String!
-    thumbnail: String!
+    votingType: Int!
     votingTime: Int!
+    candidates: [String!]!
+    voters: [String!]!
+    electionOwner: String!
   ): Election!
 
   add_candidate(

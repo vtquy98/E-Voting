@@ -1,3 +1,4 @@
+//todo: fix all errorSelector -> dataSelector !!!!!!!!!
 import { flow, path, map, join } from 'lodash/fp';
 import Router from 'next/router';
 import { makeFetchAction } from 'redux-api-call';
@@ -17,6 +18,165 @@ export const GET_ALL_VOTERS_API = 'GetAllVotersAPI';
 export const GET_TOTAL_VOTES_COUNT_API = 'GetTotalVotesCountAPI';
 export const GET_ELECTION_RESULT_API = 'GetElectionResultAPI';
 export const POLL_VOTE_API = 'PollVoteAPI';
+export const CREATE_NEW_ELECTION_API = 'CreateNewElectionAPI';
+export const GET_ELECTION_TEMP_API = 'GetElectionTempAPI';
+export const FINISH_ELECTION_CREATION_API = 'FinishElectionCreationAPI';
+
+const FinishElectionCreationAPI = makeFetchAction(
+  FINISH_ELECTION_CREATION_API,
+  gql`
+    mutation(
+      $description: String!
+      $votingType: Int!
+      $votingTime: Int!
+      $candidates: [String!]!
+      $voters: [String!]!
+      $electionId: String!
+      $electionOwner: String!
+    ) {
+      finish_election_creation(
+        description: $description
+        votingType: $votingType
+        votingTime: $votingTime
+        candidates: $candidates
+        voters: $voters
+        electionId: $electionId
+        electionOwner: $electionOwner
+      ) {
+        id
+        electionAddress
+      }
+    }
+  `
+);
+
+export const finishElectionCreation = ({
+  description,
+  votingType,
+  votingTime,
+  candidates,
+  electionId,
+  voters,
+  electionOwner
+}) => {
+  return respondToSuccess(
+    FinishElectionCreationAPI.actionCreator({
+      description,
+      votingType: parseInt(votingType),
+      votingTime: parseInt(votingTime),
+      candidates,
+      electionId,
+      voters,
+      electionOwner
+    }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      return;
+    }
+  );
+};
+
+export const finishElectionCreationDataSelector = flow(
+  FinishElectionCreationAPI.dataSelector,
+  path('data.finish_election_creation')
+);
+
+export const finishElectionCreationErrorSelector = flow(
+  FinishElectionCreationAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataGetFinishElectionCreation = dispatch => {
+  dispatch(FinishElectionCreationAPI.resetter(['data', 'error']));
+};
+
+const GetElectionTempAPI = makeFetchAction(
+  GET_ELECTION_TEMP_API,
+  gql`
+    query($id: String!) {
+      get_election(id: $id) {
+        name
+        id
+      }
+    }
+  `
+);
+
+export const getElectionTemp = id => {
+  return respondToSuccess(GetElectionTempAPI.actionCreator({ id }), resp => {
+    if (resp.errors) {
+      console.error('Err:', resp.errors);
+      return;
+    }
+
+    return;
+  });
+};
+
+export const getElectionTempDataSelector = flow(
+  GetElectionTempAPI.dataSelector,
+  path('data.get_election')
+);
+
+export const getElectionTempErrorSelector = flow(
+  GetElectionTempAPI.errorSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataGetElectionTemp = dispatch => {
+  dispatch(GetElectionTempAPI.resetter(['data', 'error']));
+};
+
+const CreateNewElectionAPI = makeFetchAction(
+  CREATE_NEW_ELECTION_API,
+  gql`
+    mutation($name: String!) {
+      create_election(name: $name) {
+        id
+      }
+    }
+  `
+);
+
+export const createNewElection = name => {
+  return respondToSuccess(
+    CreateNewElectionAPI.actionCreator({ name }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+      const electionId = resp.data.create_election.id;
+      Router.push('/finish-create?id=' + electionId);
+
+      return;
+    }
+  );
+};
+
+export const createNewElectionDataSelector = flow(
+  CreateNewElectionAPI.dataSelector,
+  path('data.create_election')
+);
+
+export const createNewElectionErrorSelector = flow(
+  CreateNewElectionAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataCreateNewElection = dispatch => {
+  dispatch(CreateNewElectionAPI.resetter(['data', 'error']));
+};
 
 const PollVoteAPI = makeFetchAction(
   POLL_VOTE_API,
@@ -218,12 +378,10 @@ const GetElectionAPI = makeFetchAction(
         name
         id
         description
-        thumbnail
         electionAddress
         createdAt
         updatedAt
         state
-        shortenCode
         electionOwner
         votingTime
       }

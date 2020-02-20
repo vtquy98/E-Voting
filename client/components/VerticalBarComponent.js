@@ -30,105 +30,14 @@ const VerticalBarComponent = () => (
               3
             </span>
           </a>
-          <ul className="menu-content">
-            <li>
-              <a className="menu-item" href="dashboard-ecommerce.html">
-                eCommerce
-              </a>
-            </li>
-            <li>
-              <a className="menu-item" href="dashboard-analytics.html">
-                Analytics
-              </a>
-            </li>
-            <li>
-              <a className="menu-item" href="dashboard-fitness.html">
-                Fitness
-              </a>
-            </li>
-          </ul>
         </li>
         <li className=" nav-item">
-          <a href="#">
-            <i className="ft-monitor"></i>
+          <a href="#" data-toggle="modal" data-target="#createNewElectionModal">
+            <i className="ft-plus-square"></i>
             <span className="menu-title" data-i18n="">
-              Templates
+              Create Election
             </span>
           </a>
-          <ul className="menu-content">
-            <li>
-              <a className="menu-item" href="#">
-                Vertical
-              </a>
-              <ul className="menu-content">
-                <li>
-                  <a
-                    className="menu-item"
-                    href="../vertical-modern-menu-template"
-                  >
-                    Modern Menu
-                  </a>
-                </li>
-                <li>
-                  <a className="menu-item" href="../vertical-menu-template">
-                    Semi Light
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="menu-item"
-                    href="../vertical-menu-template-semi-dark"
-                  >
-                    Semi Dark
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="menu-item"
-                    href="../vertical-menu-template-nav-dark"
-                  >
-                    Nav Dark
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="menu-item"
-                    href="../vertical-menu-template-light"
-                  >
-                    Light
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="menu-item"
-                    href="../vertical-overlay-menu-template"
-                  >
-                    Overlay Menu
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a className="menu-item" href="#">
-                Horizontal
-              </a>
-              <ul className="menu-content">
-                <li>
-                  <a className="menu-item" href="../horizontal-menu-template">
-                    classNameic
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="menu-item"
-                    href="../horizontal-menu-template-nav"
-                  >
-                    Nav Dark
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
         </li>
         <li className=" nav-item">
           <a href="#">

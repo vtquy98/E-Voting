@@ -1,7 +1,7 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { Elections, Users } from '../../../services';
-import { isAdmin, checkAuthentication } from '../../libs';
-import { STARTED, CREATED, ENDED } from '../../../enums/electionState';
+import { isAdmin, checkAuthentication, formatObject } from '../../libs';
+import { STARTED, ENDED } from '../../../enums/electionState';
 
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
@@ -17,34 +17,109 @@ const ADMIN_WALLET = '0x86FA91238DdB108831766eC58c365bD0f291b101'; //local accou
 
 module.exports = {
   Mutation: {
-    create_election: combineResolvers(
-      isAdmin,
-      async (_, { name, description, thumbnail, votingTime }) => {
-        const electionCreation = await ElectionCreation.methods
-          .createElection(name, description)
-          .send({
-            from: ADMIN_WALLET,
-            gas: '6721975'
-          });
+    // create_election: combineResolvers(
+    //   isAdmin,
+    //   async (_, { name, description, thumbnail, votingTime }) => {
+    //     const electionCreation = await ElectionCreation.methods
+    //       .createElection(name, description)
+    //       .send({
+    //         from: ADMIN_WALLET,
+    //         gas: '6721975'
+    //       });
 
-        const generateShortenCode = () => {
-          return Math.floor(100000 + Math.random() * 900000);
-        };
+    //     const generateShortenCode = () => {
+    //       return Math.floor(100000 + Math.random() * 900000);
+    //     };
 
-        const election = new Elections({
-          shorten_code: generateShortenCode(),
-          name,
-          description,
-          thumbnail,
-          election_address:
-            electionCreation.events.ElectionCreated.returnValues
-              .electionAddress,
-          state: CREATED,
-          voting_time: votingTime
+    //     const election = new Elections({
+    //       shorten_code: generateShortenCode(),
+    //       name,
+    //       description,
+    //       thumbnail,
+    //       election_address:
+    //         electionCreation.events.ElectionCreated.returnValues
+    //           .electionAddress,
+    //       state: CREATED,
+    //       voting_time: votingTime
+    //     });
+
+    //     await election.save();
+    //     return election;
+    //   }
+    // ),
+
+    create_election: combineResolvers(isAdmin, async (_, { name }) => {
+      const description = 'do later!';
+      const electionCreation = await ElectionCreation.methods
+        .createElection(name, description)
+        .send({
+          from: ADMIN_WALLET,
+          gas: '6721975'
         });
 
-        await election.save();
-        return election;
+      const election = new Elections({
+        name,
+        election_address:
+          electionCreation.events.ElectionCreated.returnValues.electionAddress
+      });
+
+      await election.save();
+      return election;
+    }),
+
+    finish_election_creation: combineResolvers(
+      isAdmin,
+      async (
+        _,
+        {
+          electionId,
+          description,
+          votingTime,
+          votingType,
+          candidates,
+          voters,
+          electionOwner
+        },
+        { currentUser }
+      ) => {
+        const electionStored = await Elections.findOne({ id: electionId });
+
+        const electionData = formatObject({
+          description,
+          voting_time: votingTime,
+          voting_type: votingType,
+          election_owner: electionOwner
+        });
+
+        const election = Election(electionStored.election_address);
+
+        //add candidate process
+        await Promise.all(
+          candidates.map(async candidate => {
+            const userData = await Users.findOne({ id: candidate }); //got user
+            await election.methods
+              .registerCandidate(
+                userData.wallet_address,
+                userData.full_name,
+                'this is a candidate description' //refactor later!
+              )
+              .send({ from: currentUser.wallet_address, gas: '6721975' });
+          })
+        );
+
+        //add voter process
+        await Promise.all(
+          voters.map(async voter => {
+            const userData = await Users.findOne({ id: voter }); //got user
+            await election.methods
+              .registerVoter(userData.wallet_address, userData.full_name)
+              .send({ from: currentUser.wallet_address, gas: '6721975' });
+          })
+        );
+
+        electionStored.updateDoc(electionData);
+        await electionStored.save();
+        return electionStored;
       }
     ),
 

@@ -1,6 +1,6 @@
 import { Users } from '../../../services';
 import { combineResolvers } from 'graphql-resolvers';
-import { checkAuthentication, isAdmin } from '../../libs';
+import { checkAuthentication } from '../../libs';
 
 module.exports = {
   Query: {
@@ -19,7 +19,7 @@ module.exports = {
         return Users.findOne({ id: currentUser.id });
       }
     ),
-    get_all_users: combineResolvers(isAdmin, async () => {
+    get_all_users: combineResolvers(checkAuthentication, async () => {
       return Users.find({});
     })
   }
