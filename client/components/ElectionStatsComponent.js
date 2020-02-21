@@ -114,10 +114,17 @@ class ElectionStatsComponent extends React.Component {
                           <tr key="index">
                             <td>{index + 1}</td>
                             <td>
-                              <Link href={`/election?id=${election.id}`}>
+                              <Link
+                                href={
+                                  election.state === 'DRAFT'
+                                    ? `/finish-create?id=${election.id}`
+                                    : `/election?id=${election.id}`
+                                }
+                              >
                                 {election.name}
                               </Link>
                             </td>
+                            {/* finish-create */}
                             <td>{election.totalCandidateCount}</td>
                             <td>{election.tocalVoterCount}</td>
                             <td class="text-center font-small-2">
@@ -127,6 +134,10 @@ class ElectionStatsComponent extends React.Component {
                                 </span>
                               ) : election.state === 'STARTED' ? (
                                 <span className="badge badge-default badge-success">
+                                  {election.state}
+                                </span>
+                              ) : election.state === 'DRAFT' ? (
+                                <span className="badge badge-default badge-secondary">
                                   {election.state}
                                 </span>
                               ) : (
