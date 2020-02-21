@@ -1,12 +1,6 @@
 import Document, { Head, Main, NextScript } from 'next/document';
 import React from 'react';
 
-//theme by user info or server config
-// const THEME = 'royal-blue';
-
-// const getThemeUrl = (themeUI = 'bermuda-gray') =>
-//   `/static/kosmo/assets/styles/themes/${themeUI}.min.css`;
-
 export default class MyDocument extends Document {
   // static async getInitialProps(ctx) {
   //   const initialProps = await Document.getInitialProps(ctx);
@@ -32,35 +26,161 @@ export default class MyDocument extends Document {
           <meta name="apple-mobile-web-app-capable" content="yes" />
           <meta name="application-name" content="QR Scanner" />
           <meta name="msapplication-TileColor" />
-          {/* <meta
-            name="msapplication-TileImage"
-            content="/static/kosmo/assets/img/icon-150.png"
-          />
-          <meta name="theme-color" content="#fff" /> */}
+
+          {/* test */}
 
           <link
-            href="static/assets/vendor/fontawesome-free/css/all.min.css"
+            href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
             rel="stylesheet"
-            type="text/css"
           />
           <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/vendors.css"
           />
-          <link href="static/assets/css/sb-admin-2.min.css" rel="stylesheet" />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/vendors/css/forms/icheck/icheck.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/vendors/css/forms/icheck/custom.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/vendors/css/charts/morris.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/vendors/css/extensions/unslider.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/vendors/css/weather-icons/climacons.min.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/app.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/core/menu/menu-types/vertical-menu.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/core/colors/palette-climacon.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/core/colors/palette-gradient.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/fonts/simple-line-icons/style.min.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/fonts/meteocons/style.min.css"
+          />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/pages/users.css"
+          />
+
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/pages/project.css"
+          />
+
+          {/* custom css */}
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/custom.css"
+          />
+          {/* end custom */}
         </Head>
-        <body className="">
-          <div id="mobile-overlay" className="ks-mobile-overlay" />
+        <body
+          className="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
+          data-open="click"
+          data-menu="vertical-menu"
+          data-col="2-columns"
+        >
           <Main {...rootProps} />
           <NextScript />
 
-          <script src="static/assets/vendor/jquery/jquery.min.js"></script>
-          <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-          <script src="static/assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-          <script src="static/assets/js/sb-admin-2.min.js"></script>
-          <script src="static/assets/vendor/chart.js/Chart.min.js"></script>
-          <script src="static/assets/js/demo/chart-area-demo.js"></script>
-          <script src="static/assets/js/demo/chart-pie-demo.js"></script>
+          <script
+            src="static/assets/vendors/js/vendors.min.js"
+            type="text/javascript"
+          ></script>
+
+          <script
+            src="//maps.googleapis.com/maps/api/js?key=AIzaSyBDkKetQwosod2SZ7ZGCpxuJdxY3kxo5Po"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/vendors/js/charts/gmaps.min.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/vendors/js/forms/icheck/icheck.min.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/vendors/js/extensions/jquery.knob.min.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/vendors/js/charts/raphael-min.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/vendors/js/charts/morris.min.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/vendors/js/charts/jquery.sparkline.min.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/vendors/js/extensions/unslider-min.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/vendors/js/charts/echarts/echarts.js"
+            type="text/javascript"
+          ></script>
+
+          <script
+            src="static/assets/js/core/app-menu.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/js/core/app.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="static/assets/js/scripts/customizer.js"
+            type="text/javascript"
+          ></script>
+
+          <script
+            src="static/assets/js/scripts/pages/dashboard-fitness.js"
+            type="text/javascript"
+          ></script>
         </body>
       </html>
     );

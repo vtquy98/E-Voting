@@ -11,15 +11,24 @@ type Election {
   totalVoteCount: Int!
   totalCandidateCount: Int!
   tocalVoterCount: Int!
+  electionOwner: String!
+  votingTime: Int!
+  votingType: VotingType!
 }
 
 type ElectionResult {
   userData: User!
   voteCount: Int!
-  percentage: Int!
+  percentage: Float!
+}
+
+enum VotingType {
+  SELECT_TO_VOTE
+  SELECT_TO_REMOVE
 }
 
 enum ElectionState {
+  DRAFT
   CREATED
   STARTED
   ENDED
@@ -28,20 +37,26 @@ enum ElectionState {
 type Query {
   get_all_election: [Election!]!
   get_election(id: String!): Election!
-  get_all_candidate(ElectionAddress: String!): [User!]!
-  get_all_voter(ElectionAddress: String!): [User!]!
+  get_all_candidates(electionId: String!): [User!]!
+  get_all_voters(electionId: String!): [User!]! #review later, maybe i'm wrong
   get_candidate_votes(userId: String!, ElectionAddress: String!): User!
-  get_total_votes_count(ElectionAddress: String!): Election!
+  get_total_votes_count(electionId: String!): Election!
   get_total_candidates_count(ElectionAddress: String!): Election!
   get_total_voters_count(ElectionAddress: String!): Election!
-  get_election_result(ElectionAddress: String!): [ElectionResult!]!
+  get_election_result(electionId: String!): [ElectionResult!]!
 }
 
 type Mutation {
-  create_election(
-    name: String
+  create_election(name: String): Election!
+
+  finish_election_creation(
+    electionId: String!
     description: String!
-    thumbnail: String!
+    votingType: Int!
+    votingTime: Int!
+    candidates: [String!]!
+    voters: [String!]!
+    electionOwner: String!
   ): Election!
 
   add_candidate(
@@ -51,7 +66,8 @@ type Mutation {
   ): User!
 
   add_voter(userId: String!, ElectionAddress: String!): User!
-  start_voting(ElectionAddress: String!): Election!
-  end_voting(ElectionAddress: String!): Election!
+  start_voting(electionId: String!): Election!
+  end_voting(electionId: String!): Election!
   poll_vote(userId: String!, ElectionAddress: String!): User!
+  poll_vote2(listUserId: [String!]!, electionId: String!): Election!
 }

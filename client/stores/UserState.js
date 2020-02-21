@@ -13,34 +13,38 @@ export const USER_LOGOUT = 'UserLogout';
 export const USER_LOGOUT_API = 'UserLogoutAPI';
 export const GET_TYPYCAL_USERS_API = 'GetTypycalUsersAPI';
 export const GET_AUTHOR_BY_ID_API = 'GetAuthorByIdAPI';
-export const USER_GOOGLE_LOGIN_API = 'UserGoogleLoginAPI';
+export const GET_ALL_USERS_API = 'GetAllUsersAPI';
 
-// IM TRYING
-export const doLogin = () => [
-  {
-    type: USER_GOOGLE_LOGIN_API
-  },
-  userGoogleLogin()
-];
-
-const UserGoogleLoginAPI = makeFetchAction(
-  USER_LOGOUT_API,
-  nfetch({ endpoint: '/auth/google', method: 'GET' })
+const GetAllUsersAPI = makeFetchAction(
+  GET_ALL_USERS_API,
+  gql`
+    query {
+      get_all_users {
+        id
+        fullName
+      }
+    }
+  `
 );
 
-export const userGoogleLogin = () =>
-  respondToSuccess(UserGoogleLoginAPI.actionCreator(), resp => {
+export const getAllUsers = () => {
+  return respondToSuccess(GetAllUsersAPI.actionCreator(), resp => {
     if (resp.errors) {
       console.error('Err:', resp.errors);
       return;
     }
-    // saveToken(resp.data.login_user.token);
-    // Router.push('/user-dashboard');
-    console.log(resp);
     return;
   });
+};
 
-// END TRYING
+export const getAllUsersDataSelector = flow(
+  GetAllUsersAPI.dataSelector,
+  get('data.get_all_users')
+);
+
+export const resetDataGetAllUsers = dispatch => {
+  dispatch(GetAllUsersAPI.resetter(['data', 'error']));
+};
 
 const GetAuthorByIdAPI = makeFetchAction(
   GET_AUTHOR_BY_ID_API,
@@ -129,7 +133,7 @@ export const userLogin = (username, password) => {
         return;
       }
       saveToken(resp.data.login_user.token);
-      Router.push('/user-dashboard');
+      Router.push('/admin-dashboard');
       return;
     }
   );
@@ -151,6 +155,8 @@ const GetCurrentUserAPI = makeFetchAction(
         fullName
         email
         googleId
+        balance
+        walletAddress
       }
     }
   `

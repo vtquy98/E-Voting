@@ -1,194 +1,251 @@
 import React from 'react';
-// const withInputState = withState('stateInput', 'setStateInput', true);
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { createStructuredSelector } from 'reselect';
 import { Field, reduxForm } from 'redux-form';
+import { createStructuredSelector } from 'reselect';
+import { SELECT_TO_VOTE } from '../enums/votingType';
+import Link from 'next/link';
+
 import {
-  getVoting,
-  getVotingDataSelector,
-  resetDataGetVoting,
-  getVotingData,
-  getVotingDataDataSelector,
-  resetDataGetVotingData
-} from '../stores/VotingState';
-import TestComponent from './TestComponent';
-import RenderCheckboxCandidateFieldComponent from './FormField/RenderCheckboxCandidateFieldComponent';
+  getAllCandidates,
+  getAllCandidatesDataSelector,
+  resetDataPollVote,
+  getElection,
+  getElectionDataSelector,
+  pollVote,
+  pollVoteDataSelector,
+  pollVoteErrorSelector
+} from '../stores/ElectionState';
+import { getCurrentUserDataSelector } from '../stores/UserState';
+import RenderVoteCheckFieldComponent from './FormField/RenderVoteCheckFieldComponent';
+
 const connectToRedux = connect(
   createStructuredSelector({
-    voting: getVotingDataSelector,
-    votingData: getVotingDataDataSelector
+    election: getElectionDataSelector,
+    errorMessage: pollVoteErrorSelector,
+    successMessage: pollVoteDataSelector,
+    candidates: getAllCandidatesDataSelector,
+    currentUser: getCurrentUserDataSelector
   }),
   dispatch => ({
-    GetVoting: votingCode => dispatch(getVoting(votingCode)),
-    GetVotingData: votingCode => dispatch(getVotingData(votingCode)),
     resetData: () => {
-      resetDataGetVotingData(dispatch);
-      resetDataGetVoting(dispatch);
-    }
+      resetDataPollVote(dispatch);
+    },
+    getElection: id => dispatch(getElection(id)),
+    getAllCandidates: electionId => dispatch(getAllCandidates(electionId))
   })
 );
-const withForm = reduxForm({ form: 'test' });
+
+const withForm = reduxForm({
+  form: 'voting'
+});
 
 const enhance = compose(
   connectToRedux,
   withForm
 );
 
-class VotingComponent extends React.Component {
+class ShowElectionComponent extends React.Component {
   componentDidMount() {
-    const { code } = this.props;
-    this.props.GetVoting(parseInt(code.code));
-    this.props.GetVotingData(parseInt(code.code));
+    const { electionId } = this.props;
+    this.props.getElection(electionId.id);
+    this.props.getAllCandidates(electionId.id);
   }
 
   componentWillUnmount() {
     this.props.resetData();
   }
+
   render() {
     const {
-      voting,
-      votingData,
+      candidates = [],
       handleSubmit,
       pristine,
       reset,
-      submitting
+      submitting,
+      successMessage,
+      errorMessage,
+      election = []
     } = this.props;
+
+    const submit = (values, dispatch, props) => {
+      const articleId = props.electionId.id;
+      console.log(values);
+      dispatch(
+        pollVote({
+          ...values,
+          electionId: articleId
+        })
+      );
+    };
+
     return (
-      <div className="main-panel-custom">
-        <link
-          rel="stylesheet"
-          type="text/css"
-          href="/static/customs/custom.css"
-        />
-        <div className="content">
-          <div className="container-fluid">
+      <div className="app-content content">
+        <div className="content-wrapper">
+          <div className="content-body">
             <div className="row">
-              <div className="col-md-12">
-                <div className="card card-profile">
-                  <div className="card-avatar">
-                    <img
-                      className="img"
-                      src={
-                        votingData
-                          ? votingData.imageDescription
-                          : 'static/assets/img/voting.jpg'
-                      }
-                      alt=""
-                    />
+              {election.state === 'ENDED' ? (
+                <div className="col-lg-12 card">
+                  <div className="card-header">
+                    <h4 className="card-title">{election.name}</h4>
                   </div>
                   <div className="card-content">
-                    <h2 className="card-title">{voting && voting.name}</h2>
-                    <div className="row">
-                      {/* <TestComponent /> */}
-                      <form onSubmit={handleSubmit(e => console.log(e))}>
-                        <div>
-                          <div className="col-md-6 col-md-offset-3">
-                            <ul className="list-custom">
-                              {votingData &&
-                                votingData.candidates.map(
-                                  (candidate, index) => (
-                                    <li className="list-item-custom">
-                                      <Field
-                                        name={candidate.candidateName}
-                                        component={
-                                          RenderCheckboxCandidateFieldComponent
-                                        }
-                                        candidate={candidate.candidateName}
-                                        label={candidate.candidateName}
-                                      />
-                                    </li>
-                                  )
-                                )}
-                            </ul>
-                          </div>
-                        </div>
-                        <div>
-                          <div className="col-md-6 col-md-offset-3">
-                            <button
-                              className="btn btn-success"
-                              type="submit"
-                              disabled={pristine || submitting}
+                    <div className="card-body">
+                      <div className="card-text">
+                        <h1 className="text-center">
+                          Sorry, this election was ended!
+                        </h1>
+
+                        <div className="text-center">
+                          <Link href={`/election-result?id=${election.id}`}>
+                            <a
+                              type="button"
+                              className="btn btn-outline-info btn-min-width mr-1 mb-1"
                             >
-                              <span className="btn-label">
-                                <i className="material-icons">check</i>
-                              </span>
-                              Submit
-                              <div className="ripple-container"></div>
-                            </button>
-                          </div>
+                              <i className="fa fa-heart"></i> View result
+                            </a>
+                          </Link>
+                          <Link href="/">
+                            <a
+                              type="button"
+                              className="btn btn-outline-secondary btn-min-width mr-1 mb-1"
+                            >
+                              <i className="fa fa-home"></i> Go to home
+                            </a>
+                          </Link>
                         </div>
-                      </form>
+                        <div className="d-flex justify-content-center">
+                          <img
+                            src="/static/assets/images/party.svg"
+                            alt="success"
+                            className="height-300 mt-2"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <React.Fragment>
+                  <div className="col-md-4">
+                    <div className="card text-white box-shadow-0 bg-warning">
+                      <div className="card-header">
+                        <h4 className="card-title">Caution!</h4>
+                        <a className="heading-elements-toggle">
+                          <i className="fa fa-ellipsis-v font-medium-3"></i>
+                        </a>
+                        <div className="heading-elements">
+                          <ul className="list-inline mb-0">
+                            <li>
+                              <a data-action="collapse">
+                                <i className="ft-minus"></i>
+                              </a>
+                            </li>
+                            <li>
+                              <a data-action="close">
+                                <i className="ft-x"></i>
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="card-content collapse show">
+                        <div className="card-body">
+                          <p className="card-text">
+                            Use <code>bg-warning</code> class for warning
+                            background color.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-8">
+                    <div className="card">
+                      <div className="card-content">
+                        <div className="card-body">
+                          {successMessage ? (
+                            <div>
+                              <h1 className="title text-center mt-2 mb-2">
+                                Thank you for your participation!
+                              </h1>
+                              <div className="d-flex justify-content-center">
+                                <img
+                                  src="/static/assets/images/vote-success.svg"
+                                  alt="success"
+                                  className="height-200"
+                                />
+                              </div>
+                              <h4 className="text-bold-400 text-center mt-2">
+                                Keep calm and waiting for election result
+                              </h4>
+                            </div>
+                          ) : (
+                            <div>
+                              <h1 className="title text-center mt-2 mb-2">
+                                Who will you vote for?
+                              </h1>
+                              <div className="col-lg-12 col-md-6 col-sm-12">
+                                <form onSubmit={handleSubmit(submit)}>
+                                  <Field
+                                    name="listUserId"
+                                    options={candidates}
+                                    component={RenderVoteCheckFieldComponent}
+                                    votingType={SELECT_TO_VOTE}
+                                  />
+                                  <div className="text-center mt-2">
+                                    <div className="form-group">
+                                      <button
+                                        type="submit"
+                                        className="btn mr-1 mb-1 btn-success btn-lg"
+                                        disabled={pristine || submitting}
+                                      >
+                                        <i className="fa fa-check-circle"></i>{' '}
+                                        Submit
+                                      </button>
+                                      <button
+                                        type="button"
+                                        disabled={pristine || submitting}
+                                        onClick={reset}
+                                        className="btn mr-1 mb-1 btn-danger btn-lg"
+                                      >
+                                        <i className="fa fa-times"></i> Reset
+                                      </button>
+                                    </div>
+                                    {errorMessage ? (
+                                      <div
+                                        className="mt-2 alert alert-danger border-0 mb-2"
+                                        role="alert"
+                                      >
+                                        <strong>Error: </strong>
+                                        {errorMessage}
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </React.Fragment>
+              )}
             </div>
           </div>
         </div>
         <style jsx>{`
-          .main-panel-custom {
-            padding-top: 32px;
-            position: relative;
-            overflow: auto;
-            min-height: 100%;
-            -webkit-transform: translate3d(0px, 0, 0);
-            -moz-transform: translate3d(0px, 0, 0);
-            -o-transform: translate3d(0px, 0, 0);
-            -ms-transform: translate3d(0px, 0, 0);
-            transform: translate3d(0px, 0, 0);
-            -webkit-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
-            -moz-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
-            -o-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
-            -ms-transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
-            transition: all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1);
+          .content {
+            margin-left: 10px !important;
           }
-          .card-profile .card-avatar,
-          .card-testimonial .card-avatar {
-            max-width: 130px;
-            max-height: 130px;
-            margin: -50px auto 0;
-            border-radius: 8%;
-            overflow: hidden;
-            box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.42),
-              0 4px 25px 0px rgba(0, 0, 0, 0.12),
-              0 8px 10px -5px rgba(0, 0, 0, 0.2);
-          }
-          .center {
-            display: flex;
-            justify-content: center;
+
+          .title {
+            font-size: 36px;
+            font-weight: 300;
           }
         `}</style>
       </div>
     );
   }
 }
-
-export default enhance(VotingComponent);
-
-// ul {
-//   margin: 0;
-//   padding: 0;
-// }
-// ul li {
-//   cursor: pointer;
-//   position: relative;
-//   padding: 12px 8px 12px 40px;
-//   background: #eee;
-//   font-size: 18px;
-//   transition: 0.2s;
-
-//   /* make the list items unselectable */
-//   -webkit-user-select: none;
-//   -moz-user-select: none;
-//   -ms-user-select: none;
-//   user-select: none;
-//   list-style-type: none;
-//   text-align: left;
-// }
-// ul li:nth-child(odd) {
-//   background: #f9f9f9;
-// }
-// ul li:hover {
-//   background: #ddd;
-// }
+export default enhance(ShowElectionComponent);

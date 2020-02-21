@@ -3,18 +3,18 @@ import EmptyPageLayout from '../layouts/EmptyPageLayout';
 import AuthenHOC from '../components/HOC/AuthenHOC';
 import VotingComponent from '../components/VotingComponent';
 
-const VotingPage = ({ code, ...rootProps }) => (
+const VotingPage = ({ electionId, ...rootProps }) => (
   <EmptyPageLayout {...rootProps} title="not config">
-    <VotingComponent code={code} />
+    <VotingComponent electionId={electionId} />
   </EmptyPageLayout>
 );
 
 VotingPage.getInitialProps = ctx => {
   const {
-    query: { code }
+    query: { id }
   } = ctx;
   return {
-    code: { code }
+    electionId: { id }
   };
 };
 

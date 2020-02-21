@@ -1,9 +1,9 @@
 import React from 'react';
-import IndexComponent from '../components/IndexComponent';
+import HomepageComponent from '../components/HomepageComponent';
 import EmptyPageLayout from '../layouts/EmptyPageLayout';
 const BlogsPage = rootProps => (
   <EmptyPageLayout {...rootProps} title="not config">
-    <IndexComponent />
+    <HomepageComponent />
   </EmptyPageLayout>
 );
 
