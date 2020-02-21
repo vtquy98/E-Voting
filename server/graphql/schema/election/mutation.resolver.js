@@ -1,7 +1,7 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { Elections, Users } from '../../../services';
 import { isAdmin, checkAuthentication, formatObject } from '../../libs';
-import { STARTED, ENDED } from '../../../enums/electionState';
+import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
 
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
@@ -17,37 +17,6 @@ const ADMIN_WALLET = '0x86FA91238DdB108831766eC58c365bD0f291b101'; //local accou
 
 module.exports = {
   Mutation: {
-    // create_election: combineResolvers(
-    //   isAdmin,
-    //   async (_, { name, description, thumbnail, votingTime }) => {
-    //     const electionCreation = await ElectionCreation.methods
-    //       .createElection(name, description)
-    //       .send({
-    //         from: ADMIN_WALLET,
-    //         gas: '6721975'
-    //       });
-
-    //     const generateShortenCode = () => {
-    //       return Math.floor(100000 + Math.random() * 900000);
-    //     };
-
-    //     const election = new Elections({
-    //       shorten_code: generateShortenCode(),
-    //       name,
-    //       description,
-    //       thumbnail,
-    //       election_address:
-    //         electionCreation.events.ElectionCreated.returnValues
-    //           .electionAddress,
-    //       state: CREATED,
-    //       voting_time: votingTime
-    //     });
-
-    //     await election.save();
-    //     return election;
-    //   }
-    // ),
-
     create_election: combineResolvers(isAdmin, async (_, { name }) => {
       const description = 'do later!';
       const electionCreation = await ElectionCreation.methods
@@ -84,11 +53,16 @@ module.exports = {
       ) => {
         const electionStored = await Elections.findOne({ id: electionId });
 
+        if (electionStored.state !== DRAFT) {
+          throw new Error('The election has been finish created yet!');
+        }
+
         const electionData = formatObject({
           description,
           voting_time: votingTime,
           voting_type: votingType,
-          election_owner: electionOwner
+          election_owner: electionOwner,
+          state: CREATED
         });
 
         const election = Election(electionStored.election_address);
@@ -182,8 +156,12 @@ module.exports = {
       return electionStored;
     }),
 
-    end_voting: combineResolvers(isAdmin, async (_, { ElectionAddress }) => {
-      const election = Election(ElectionAddress);
+    end_voting: combineResolvers(isAdmin, async (_, { electionId }) => {
+      const electionStored = await Elections.findOne({
+        id: electionId
+      });
+      const election = Election(electionStored.election_address);
+
       await election.methods
         .endVote()
         .send({ from: ADMIN_WALLET, gas: '6721975' });
@@ -192,13 +170,10 @@ module.exports = {
       //   throw new Error('Faild to end the election!');
       // }
 
-      const updateElection = await Elections.findOne({
-        election_address: ElectionAddress
-      });
-      election.state = ENDED;
-      await updateElection.save();
+      electionStored.state = ENDED;
 
-      return updateElection;
+      await electionStored.save();
+      return electionStored;
     }),
 
     poll_vote: combineResolvers(

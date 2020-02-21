@@ -15,13 +15,21 @@ import {
   getElectionErrorSelector,
   // resetDataGetAllVoters,
   getTotalVotesCount,
-  getTotalVotesCountDataSelector
+  getTotalVotesCountDataSelector,
   // resetDatagetTotalVotesCount
+  startVoting,
+  startVotingErrorSelector,
+  stopVoting,
+  stopVotingErrorSelector,
+  startVotingDataSelector,
+  stopVotingDataSelector
 } from '../stores/ElectionState';
 import {
   getAllUsersDataSelector,
   getCurrentUserDataSelector
 } from '../stores/UserState';
+
+const ENV_DEPLOY = process.env.ENV_DEPLOY || 'ropsten';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -31,13 +39,19 @@ const connectToRedux = connect(
     voters: getAllVotersDataSelector,
     totalVoteCount: getTotalVotesCountDataSelector,
     currentUser: getCurrentUserDataSelector,
-    users: getAllUsersDataSelector
+    users: getAllUsersDataSelector,
+    startVotingErrorMessage: startVotingErrorSelector,
+    stopVotingErrorMessage: stopVotingErrorSelector,
+    startVotingSuccessMessage: startVotingDataSelector,
+    stopVotingSuccessMessage: stopVotingDataSelector
   }),
   dispatch => ({
     getElection: id => dispatch(getElection(id)),
     getAllCandidates: electionId => dispatch(getAllCandidates(electionId)),
     getAllVoters: electionId => dispatch(getAllVoters(electionId)),
-    getTotalVotesCount: electionId => dispatch(getTotalVotesCount(electionId))
+    getTotalVotesCount: electionId => dispatch(getTotalVotesCount(electionId)),
+    startVoting: electionId => dispatch(startVoting(electionId)),
+    stopVoting: electionId => dispatch(stopVoting(electionId))
   })
 );
 
@@ -59,10 +73,11 @@ class ElectionComponent extends React.Component {
   render() {
     const {
       election = [],
-      // users = [],
       candidates = [],
-      voters = []
-      // getTotalVotesCount
+      voters = [],
+      // getTotalVotesCount,
+      startVoting,
+      stopVoting
     } = this.props;
 
     return (
@@ -73,7 +88,7 @@ class ElectionComponent extends React.Component {
               <h3 className="content-header-title">{election.name}</h3>
             </div>
           </div>
-          <div className="content-detached content-left">
+          <div className="">
             <div className="content-body">
               <section id="descriptioin" className="card">
                 <div className="card-header">
@@ -106,10 +121,12 @@ class ElectionComponent extends React.Component {
                       Created at:{' '}
                       <span className="text-muted">{election.createdAt}</span>
                     </li>
-                    {/* <li>
-                      Due on:
-                      <span className="text-muted">01/Oct/2016</span>
-                    </li> */}
+                    <li>
+                      Voting time:{' '}
+                      <span className="text-muted">
+                        {election.votingTime} min
+                      </span>
+                    </li>
                     <li>
                       <a
                         href="#"
@@ -166,71 +183,62 @@ class ElectionComponent extends React.Component {
                     <div className="d-flex justify-content-center">
                       {election.state === 'CREATED' ? (
                         <div>
-                          <Link
-                            href={{
-                              pathname: '/show-election',
-                              query: { id: election.id }
-                            }}
-                            prefetch
-                          >
-                            <a
-                              type="button"
-                              className="btn mr-1 mb-1 btn-success"
-                            >
-                              <i className="fa fa-hourglass-start"></i> Start
-                              voting now
-                            </a>
-                          </Link>
                           <button
-                            type="button"
-                            className="btn mr-1 mb-1 btn-warning"
+                            className="btn mr-1 mb-1 btn-success"
+                            onClick={e => {
+                              e.preventDefault();
+                              startVoting(election.id);
+                            }}
                           >
-                            <i className="fa fa-hand-paper-o"></i> Abort the
-                            election
+                            <i className="fa fa-hourglass-start"></i> Start
+                            voting now
                           </button>
+
+                          <a
+                            className="btn mr-1 mb-1 btn-info"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            href={`${
+                              ENV_DEPLOY === 'ropsten'
+                                ? 'https://ropsten.etherscan.io/address/' +
+                                  election.electionAddress
+                                : 'https://etherscan.io/address/' +
+                                  election.electionAddress
+                            }`}
+                            role="button"
+                          >
+                            <i className="fa fa-btc"></i> Explore on blockchain
+                            network
+                          </a>
                         </div>
                       ) : election.state === 'STARTED' ? (
                         <button
                           type="button"
                           className="btn mr-1 mb-1 btn-info"
+                          onClick={e => {
+                            e.preventDefault();
+                            stopVoting(election.id);
+                          }}
                         >
                           <i className="fa fa-hand-paper-o"></i> Stop voting and
                           caculate result
                         </button>
                       ) : (
-                        <button
-                          type="button"
-                          className="btn mr-1 mb-1 btn-success"
-                        >
-                          <i className="fa fa-check-square-o"></i> View election
-                          result
-                        </button>
+                        <Link href={`/election-result?id=${election.id}`}>
+                          <a
+                            type="button"
+                            className="btn mr-1 mb-1 btn-success"
+                          >
+                            View election result
+                          </a>
+                        </Link>
                       )}
                     </div>
-                    <hr />
-
-                    <blockquote className="blockquote pl-1 border-left-primary border-left-3">
-                      <div className="media">
-                        <div className="media-left pr-1">
-                          <img
-                            className="media-object img-xl"
-                            src="/static/assets/images/eth.png"
-                            alt="icon"
-                          />
-                        </div>
-                        <h5 className="text-truncate">
-                          {election.name} has been stored at blockchain address:{' '}
-                          <p>{election.electionAddress}</p>
-                        </h5>
-                      </div>
-                    </blockquote>
-
-                    <div className="category-title pb-1"></div>
                   </div>
                 </div>
               </section>
 
-              <section id="css-classNamees" className="card">
+              <section className="card">
                 <div className="card-header">
                   <h4 className="card-title">Candidates</h4>
                 </div>
@@ -259,7 +267,7 @@ class ElectionComponent extends React.Component {
                         <div className="row">
                           {candidates.map((candidate, index) => (
                             <div
-                              className="col-xl-6 col-md-6 col-sm-12"
+                              className="col-xl-4 col-md-4 col-sm-12"
                               key={index}
                             >
                               <div className="card">
@@ -341,7 +349,7 @@ class ElectionComponent extends React.Component {
                         <div className="row">
                           {voters.map((voter, index) => (
                             <div
-                              className="col-xl-6 col-md-6 col-sm-12"
+                              className="col-xl-4 col-md-4 col-sm-12"
                               key={index}
                             >
                               <div className="card">
@@ -370,24 +378,6 @@ class ElectionComponent extends React.Component {
                   </div>
                 </div>
               </section>
-            </div>
-          </div>
-          <div className="sidebar-detached sidebar-left sidebar-sticky">
-            <div className="sidebar">
-              <div className="sidebar-content card d-none d-lg-block">
-                <div className="card-body">
-                  <div className="category-title pb-1">
-                    <h6>Thumbnail</h6>
-                  </div>
-                  <div className="text-center">
-                    <img
-                      className="card-img-top mb-1 img-fluid"
-                      src={election.thumbnail}
-                      alt={election.name}
-                    />
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

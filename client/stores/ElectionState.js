@@ -21,6 +21,92 @@ export const POLL_VOTE_API = 'PollVoteAPI';
 export const CREATE_NEW_ELECTION_API = 'CreateNewElectionAPI';
 export const GET_ELECTION_TEMP_API = 'GetElectionTempAPI';
 export const FINISH_ELECTION_CREATION_API = 'FinishElectionCreationAPI';
+export const START_VOTING_API = 'StartVotingAPI';
+export const STOP_VOTING_API = 'StopVotingAPI';
+
+const StopVotingAPI = makeFetchAction(
+  STOP_VOTING_API,
+  gql`
+    mutation($electionId: String!) {
+      end_voting(electionId: $electionId) {
+        id
+      }
+    }
+  `
+);
+
+export const stopVoting = electionId => {
+  return respondToSuccess(StopVotingAPI.actionCreator({ electionId }), resp => {
+    if (resp.errors) {
+      console.error('Err:', resp.errors);
+      return;
+    }
+
+    const electionId = resp.data.end_voting.id;
+    Router.push('/election-result?id=' + electionId);
+
+    return;
+  });
+};
+
+export const stopVotingDataSelector = flow(
+  StopVotingAPI.dataSelector,
+  path('data.end_voting')
+);
+
+export const stopVotingErrorSelector = flow(
+  StopVotingAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataGetStopVoting = dispatch => {
+  dispatch(StopVotingAPI.resetter(['data', 'error']));
+};
+
+const StartVotingAPI = makeFetchAction(
+  START_VOTING_API,
+  gql`
+    mutation($electionId: String!) {
+      start_voting(electionId: $electionId) {
+        id
+      }
+    }
+  `
+);
+
+export const startVoting = electionId => {
+  return respondToSuccess(
+    StartVotingAPI.actionCreator({ electionId }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      const electionId = resp.data.start_voting.id;
+      Router.push('/show-election?id=' + electionId);
+
+      return;
+    }
+  );
+};
+
+export const startVotingDataSelector = flow(
+  StartVotingAPI.dataSelector,
+  path('data.start_voting')
+);
+export const startVotingErrorSelector = flow(
+  StartVotingAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataGetStartVoting = dispatch => {
+  dispatch(StartVotingAPI.resetter(['data', 'error']));
+};
 
 const FinishElectionCreationAPI = makeFetchAction(
   FINISH_ELECTION_CREATION_API,
@@ -103,6 +189,7 @@ const GetElectionTempAPI = makeFetchAction(
       get_election(id: $id) {
         name
         id
+        state
       }
     }
   `

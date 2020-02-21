@@ -1,6 +1,6 @@
 import { model, Types, Schema } from 'mongoose';
 import uuid from 'uuid';
-import { CREATED } from '../enums/electionState';
+import { DRAFT } from '../enums/electionState';
 import { SELECT_TO_VOTE } from '../enums/votingType';
 import { updateDocBuilder } from './utils';
 
@@ -37,7 +37,7 @@ const ElectionSchema = Schema({
   },
   state: {
     type: Number,
-    default: CREATED,
+    default: DRAFT,
     required: true
   },
   voting_type: {

@@ -1,5 +1,5 @@
 import { path } from 'lodash/fp';
-import { CREATED, STARTED, ENDED } from '../../../enums/electionState';
+import { DRAFT, CREATED, STARTED, ENDED } from '../../../enums/electionState';
 import Election from '../../libs/election';
 import { SELECT_TO_REMOVE, SELECT_TO_VOTE } from '../../../enums/votingType';
 
@@ -29,6 +29,7 @@ module.exports = {
     SELECT_TO_VOTE
   },
   ElectionState: {
+    DRAFT,
     CREATED,
     STARTED,
     ENDED
