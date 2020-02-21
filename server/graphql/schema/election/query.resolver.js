@@ -11,33 +11,35 @@ module.exports = {
     }),
 
     get_election: combineResolvers(isAdmin, async (_, { id }) => {
-      const elections = await Elections.find({ id });
+      const elections = await Elections.findOne({ id });
       return elections;
     }),
 
-    get_all_candidate: combineResolvers(
-      isAdmin,
-      async (_, { ElectionAddress }) => {
-        const election = Election(ElectionAddress);
-        const candidateList = await election.methods.allCandidates().call();
+    get_all_candidates: combineResolvers(isAdmin, async (_, { electionId }) => {
+      const electionStored = await Elections.findOne({ id: electionId });
+      const election = Election(electionStored.election_address);
+      const candidateList = await election.methods.allCandidates().call();
 
-        // if (!candidateList) {
-        //   throw new Error('Faild to get call candidate!');
-        // }
+      // if (!candidateList) {
+      //   throw new Error('Faild to get call candidate!');
+      // }
 
-        const candidateInfo = await Promise.all(
-          candidateList.map(async candidate => {
-            const user = await Users.findOne({ wallet_address: candidate });
-            return user;
-          })
-        );
+      const candidateInfo = await Promise.all(
+        candidateList.map(async candidate => {
+          const user = await Users.findOne({ wallet_address: candidate });
+          return user;
+        })
+      );
 
-        return candidateInfo;
-      }
-    ),
+      return candidateInfo;
+    }),
 
-    get_all_voter: combineResolvers(isAdmin, async (_, { ElectionAddress }) => {
-      const election = Election(ElectionAddress);
+    get_all_voters: combineResolvers(isAdmin, async (_, { electionId }) => {
+      const electionStored = await Elections.findOne({
+        id: electionId
+      });
+
+      const election = Election(electionStored.election_address);
       const voterList = await election.methods.allVoters().call();
 
       // if (!voterList) {
@@ -70,15 +72,15 @@ module.exports = {
 
     get_total_votes_count: combineResolvers(
       isAdmin,
-      async (_, { ElectionAddress }) => {
-        const electionData = await Elections.findOne({
-          election_address: ElectionAddress
+      async (_, { electionId }) => {
+        const electionStored = await Elections.findOne({
+          id: electionId
         });
 
-        const election = Election(ElectionAddress);
+        const election = Election(electionStored.election_address);
         const totalVoteCount = await election.methods.totalVotes().call();
 
-        return { ...electionData._doc, totalVoteCount };
+        return { ...electionStored._doc, totalVoteCount };
       }
     ),
 
@@ -115,8 +117,12 @@ module.exports = {
 
     get_election_result: combineResolvers(
       isAdmin,
-      async (_, { ElectionAddress }) => {
-        const election = Election(ElectionAddress);
+      async (_, { electionId }) => {
+        const electionStored = await Elections.findOne({
+          id: electionId
+        });
+
+        const election = Election(electionStored.election_address);
 
         const totalVoteCount = await election.methods.totalVotes().call();
         const candidateAddress = await election.methods.allCandidates().call();
@@ -127,7 +133,13 @@ module.exports = {
             const voteCount = parseInt(
               await election.methods.totalVotesFor(candidate).call()
             );
-            const percentage = (parseInt(voteCount) * 100) / totalVoteCount;
+            const percentage =
+              voteCount > 0
+                ? (
+                    (parseInt(voteCount) * 100) /
+                    parseInt(totalVoteCount)
+                  ).toFixed(2)
+                : 0;
             return { userData, voteCount, percentage };
           })
         );

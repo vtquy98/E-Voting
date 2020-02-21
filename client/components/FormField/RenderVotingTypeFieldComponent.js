@@ -1,68 +1,132 @@
 import React from 'react';
-import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../enums/votingOption';
+import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../enums/votingType';
 const RenderVotingTypeFieldComponent = ({
   input,
-  type = 'radio',
-  placeholder,
   label,
-  icon,
-  meta: { touched, error },
-  candidate,
-  ...others
+  meta: { touched, error }
 }) => (
-  //   <div>
-  //     <input
-  //       type="checkbox"
-  //       className="hidden-box"
-  //       value={input.value}
-  //       onChange={input.onChange}
-  //       candidate={candidate}
-  //       id={candidate}
-  //     />
-  //     <label for={candidate} className="check--label">
-  //       <span className="check--label-box"></span>
-  //       <span className="check--label-text">{label}</span>
-  //     </label>
-  //   </div>
-
-  <div className="tab-pane" id="account">
-    <h4 className="info-text"> What is the voting type? </h4>
-    <div className="row">
-      <div className="option-group">
-        <div className="option-container">
-          <input
-            className="option-input"
-            id="option-1"
-            type="radio"
-            name="options"
-            value={SELECT_TO_REMOVE}
-            onChange={input.onChange}
-          />
-          <input
-            className="option-input"
-            id="option-2"
-            type="radio"
-            name="options"
-            value={SELECT_TO_VOTE}
-            onChange={input.onChange}
-          />
-
-          <label className="option" for="option-1">
-            <span className="option__indicator"></span>
-            <span className="option__label">
-              <i className="material-icons">cancel</i>Cross to vote
-            </span>
-          </label>
-
-          <label className="option" for="option-2">
-            <span className="option__indicator"></span>
-            <span className="option__label">
-              <i className="material-icons">done</i>Check to vote
-            </span>
-          </label>
+  <div>
+    <h4 className="card-title">
+      {' '}
+      What is the voting <code>type</code>?{' '}
+    </h4>
+    <div className="middle">
+      <label>
+        <input
+          type="radio"
+          name="radio"
+          id="option-1"
+          value={SELECT_TO_VOTE}
+          onChange={input.onChange}
+        />
+        <div className="front-end box">
+          <span>Choose to vote</span>
         </div>
-        {touched && (error && <span style={{ color: 'red' }}>{error}</span>)}
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          name="radio"
+          id="option-2"
+          value={SELECT_TO_REMOVE}
+          onChange={input.onChange}
+        />
+        <div className="back-end box">
+          <span>Choose to remove</span>
+        </div>
+      </label>
+
+      <div className="text-danger text-center mt-1">
+        {touched &&
+          (error && (
+            <div className="alert bg-danger  mb-2">
+              <button type="button" className="close"></button>
+              <strong>Oh snap!</strong> {error}
+            </div>
+          ))}
       </div>
+
+      <style jsx>{`
+        .middle {
+          width: 100%;
+          text-align: center;
+        }
+        .middle h1 {
+          font-family: 'Dax', sans-serif;
+          color: #fff;
+        }
+        .middle input[type='radio'] {
+          display: none;
+        }
+        .middle input[type='radio']:checked + .box {
+          background-color: #00b5b8;
+        }
+        .middle input[type='radio']:checked + .box span {
+          color: white;
+          transform: translateY(70px);
+        }
+        .middle input[type='radio']:checked + .box span:before {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+        .middle .box {
+          width: 200px;
+          height: 200px;
+          background-color: #fff;
+          transition: all 250ms ease;
+          will-change: transition;
+          display: inline-block;
+          text-align: center;
+          cursor: pointer;
+          position: relative;
+          font-weight: 400;
+        }
+        .middle .box:active {
+          transform: translateY(10px);
+        }
+        .middle .box span {
+          position: absolute;
+          transform: translate(0, 60px);
+          left: 0;
+          right: 0;
+          transition: all 300ms ease;
+          font-size: 1.5em;
+          user-select: none;
+          color: #007e90;
+        }
+        .middle .box span:before {
+          font-size: 1.2em;
+          font-family: FontAwesome;
+          display: block;
+          transform: translateY(-80px);
+          opacity: 0;
+          transition: all 300ms ease-in-out;
+          font-weight: normal;
+          color: white;
+        }
+        .middle .front-end span:before {
+          content: '\f00c';
+        }
+        .middle .back-end span:before {
+          content: '\f00d';
+        }
+        .middle p {
+          color: #fff;
+          font-family: 'Dax', sans-serif;
+          font-weight: 400;
+        }
+        .middle p a {
+          text-decoration: underline;
+          font-weight: bold;
+          color: #fff;
+        }
+        .middle p span:after {
+          content: '\f0e7';
+          font-family: FontAwesome;
+          color: yellow;
+        }
+      `}</style>
     </div>
   </div>
 );

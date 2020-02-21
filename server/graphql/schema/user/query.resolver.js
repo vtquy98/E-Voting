@@ -18,6 +18,9 @@ module.exports = {
       (_, __, { currentUser }) => {
         return Users.findOne({ id: currentUser.id });
       }
-    )
+    ),
+    get_all_users: combineResolvers(checkAuthentication, async () => {
+      return Users.find({});
+    })
   }
 };

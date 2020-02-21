@@ -24,7 +24,6 @@ const trimString = brn(isString, trim);
 
 const trimObjectValues = mapValues(val => trimString(val));
 
-// Note: allow '' and 0, if want to omit: do it later
 export const formatObject = flow(
   trimObjectValues,
   pickBy(item => item !== null && item !== undefined)

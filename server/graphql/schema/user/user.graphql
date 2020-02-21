@@ -9,6 +9,8 @@ type User {
   password: String
   token: String!
   totalVote: Int! #add more value in get_candidate_votes from election schema
+  balance: Float! #for check admin balance
+  avatar: String!
 }
 
 enum Role {
@@ -19,4 +21,5 @@ enum Role {
 type Query {
   login_user(username: String!, password: String!): User!
   get_current_user: User!
+  get_all_users: [User!]!
 }

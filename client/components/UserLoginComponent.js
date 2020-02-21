@@ -64,104 +64,136 @@ const UserLoginComponent = ({
   setPassword,
   errorMessage
 }) => (
-  <div className="bg-gradient-primary">
-    <div className="container">
-      <div className="row justify-content-center">
-        <div className="col-xl-10 col-lg-12 col-md-9">
-          <div className="card o-hidden border-0 shadow-lg my-5">
-            <div className="card-body p-0">
-              <div className="row">
-                <div className="col-lg-6 d-none d-lg-block bg-login-image"></div>
-                <div className="col-lg-6">
-                  <div className="p-5">
-                    <div className="text-center">
-                      <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
+  <div className="app-content">
+    <div className="content-wrapper">
+      <div className="content-header row"></div>
+      <div className="content-body">
+        <section className="flexbox-container">
+          <div className="col-12 d-flex align-items-center justify-content-center">
+            <div className="col-md-4 col-10 box-shadow-2 p-0">
+              <div className="card border-grey border-lighten-3 m-0">
+                <div className="card-header border-0">
+                  <div className="card-title text-center">
+                    <div className="p-1">
+                      <img
+                        src="/static/assets/images/e-voting-logo.png"
+                        alt="branding logo"
+                        width="100"
+                      />
                     </div>
-                    <form className="user">
-                      <div className="form-group">
+                  </div>
+                  <h6 className="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
+                    <span>Easily Using</span>
+                  </h6>
+                </div>
+                <div className="card-content">
+                  <div className="card-body pt-0 text-center">
+                    <a
+                      href="#"
+                      className="btn btn-social mb-1 mr-1 btn-outline-facebook"
+                    >
+                      <span className="fa fa-facebook"></span>
+                      <span className="px-1">facebook</span>
+                    </a>
+
+                    <GoogleLogin
+                      clientId={GOOGLE_CLIENT_ID}
+                      buttonText="Login with Google"
+                      onSuccess={responseGoogle}
+                      onFailure={responseGoogle}
+                      cookiePolicy={'single_host_origin'}
+                      render={renderProps => (
+                        <a
+                          href="#"
+                          onClick={renderProps.onClick}
+                          className="btn btn-social mb-1 mr-1 btn-outline-google"
+                        >
+                          <span className="fa fa-google-plus font-medium-4"></span>
+                          <span className="px-1">google</span>
+                        </a>
+                      )}
+                    />
+                  </div>
+                  <p className="card-subtitle line-on-side text-muted text-center font-small-3 mx-2">
+                    <span>OR Using Account Details</span>
+                  </p>
+                  <div className="card-body pt-0">
+                    <form className="form-horizontal" action="index.html">
+                      <fieldset className="form-group floating-label-form-group">
+                        <label for="user-name">Your Username</label>
                         <input
-                          className="form-control form-control-user"
-                          placeholder="Enter Username..."
+                          type="text"
+                          className="form-control"
+                          id="user-name"
+                          placeholder="Your Username"
                           onChange={e => setUsername(e.currentTarget.value)}
                         />
-                      </div>
-                      <div className="form-group">
+                      </fieldset>
+                      <fieldset className="form-group floating-label-form-group mb-1">
+                        <label for="user-password">Enter Password</label>
                         <input
                           type="password"
-                          className="form-control form-control-user"
-                          id="exampleInputPassword"
-                          placeholder="Password"
+                          className="form-control"
+                          id="user-password"
+                          placeholder="Enter Password"
                           onChange={e => setPassword(e.currentTarget.value)}
                         />
+                      </fieldset>
+                      <div className="form-group row">
+                        <div className="col-md-6 col-12 text-center text-sm-left">
+                          <fieldset>
+                            <input
+                              type="checkbox"
+                              id="remember-me"
+                              className="chk-remember"
+                            />
+                            <label for="remember-me"> Remember Me</label>
+                          </fieldset>
+                        </div>
+                        <div className="col-md-6 col-12 float-sm-left text-center text-sm-right">
+                          <a href="recover-password.html" className="card-link">
+                            Forgot Password?
+                          </a>
+                        </div>
                       </div>
-
-                      <a
-                        href="index.html"
-                        className="btn btn-primary btn-user btn-block"
+                      <button
+                        type="submit"
+                        className="btn btn-outline-primary btn-block"
                         onClick={e => {
                           e.preventDefault();
                           doLogin(username, password);
                         }}
                       >
-                        Login
-                      </a>
-
-                      <hr />
-                      {errorMessage ? (
-                        <div className="alert alert-danger">
-                          <b>Error :</b> {errorMessage}
-                        </div>
-                      ) : null}
-                      <GoogleLogin
-                        clientId={GOOGLE_CLIENT_ID}
-                        buttonText="Login with Google"
-                        onSuccess={responseGoogle}
-                        onFailure={responseGoogle}
-                        cookiePolicy={'single_host_origin'}
-                        render={renderProps => (
-                          <a
-                            onClick={renderProps.onClick}
-                            className="btn btn-google btn-user btn-block"
-                          >
-                            <div className="btn-google2">
-                              <i className="fab fa-google fa-fw"></i> Login with
-                              Google
-                            </div>
-                          </a>
-                        )}
-                      />
-                      <a
-                        href="index.html"
-                        className="btn btn-facebook btn-user btn-block"
-                      >
-                        <i className="fab fa-facebook-f fa-fw"></i> Login with
-                        Facebook
-                      </a>
+                        <i className="ft-unlock"></i> Login
+                      </button>
                     </form>
-                    <hr />
-                    <div className="text-center">
-                      <a className="small" href="forgot-password.html">
-                        Forgot Password?
-                      </a>
-                    </div>
-                    <div className="text-center">
-                      <a className="small" href="register.html">
-                        Create an Account!
-                      </a>
-                    </div>
+
+                    {errorMessage ? (
+                      <div
+                        className="mt-2 alert alert-danger border-0 mb-2"
+                        role="alert"
+                      >
+                        <strong>Error: </strong>
+                        {errorMessage}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
-    <style jsx>{`
-      .btn-google2 {
-        color: #fff;
-      }
-    `}</style>
+    <style jsx>
+      {`
+        .bg-full-screen-image {
+          background: url('static/assets/images/bg.jpeg') no-repeat center
+            center fixed;
+          background-size: cover;
+        }
+      `}
+    </style>
   </div>
 );
 

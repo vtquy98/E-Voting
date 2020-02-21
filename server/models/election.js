@@ -1,6 +1,8 @@
 import { model, Types, Schema } from 'mongoose';
 import uuid from 'uuid';
-import { CREATED } from '../enums/electionState';
+import { DRAFT } from '../enums/electionState';
+import { SELECT_TO_VOTE } from '../enums/votingType';
+import { updateDocBuilder } from './utils';
 
 const ElectionSchema = Schema({
   _id: {
@@ -25,8 +27,7 @@ const ElectionSchema = Schema({
     required: true
   },
   description: {
-    type: String,
-    required: true
+    type: String
   },
   thumbnail: {
     type: String,
@@ -36,10 +37,19 @@ const ElectionSchema = Schema({
   },
   state: {
     type: Number,
-    default: CREATED,
+    default: DRAFT,
     required: true
-  }
+  },
+  voting_type: {
+    type: Number,
+    default: SELECT_TO_VOTE,
+    required: true
+  },
+  election_owner: { type: String, required: true, default: 'AGU' },
+  voting_time: { type: Number, requiered: true, default: 10 }
 });
+
+ElectionSchema.methods.updateDoc = updateDocBuilder();
 
 const Elections = model('Elections', ElectionSchema);
 
