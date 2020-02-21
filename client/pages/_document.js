@@ -111,6 +111,12 @@ export default class MyDocument extends Document {
             type="text/css"
             href="static/assets/css/custom.css"
           />
+          <link
+            rel="stylesheet"
+            type="text/css"
+            href="static/assets/css/nprogress.css"
+          />
+
           {/* end custom */}
         </Head>
         <body
