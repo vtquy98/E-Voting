@@ -10,7 +10,12 @@ import web3 from '../graphql/libs/web3';
 
 import mongoose from 'mongoose';
 import { Contracts } from '../services';
-const { MONGODB_URI, MONGO_DB, MONGO_OPTIONS } = process.env;
+const {
+  MONGODB_URI,
+  MONGO_DB,
+  MONGO_OPTIONS,
+  ADMIN_WALLET_ADDRES
+} = process.env;
 
 const builPath = resolve('contract-build');
 
@@ -72,10 +77,8 @@ const option = MONGO_OPTIONS
     };
 
 //this is deploy on ropsten network
-// const adminWalletAddress =
-//   ADMIN_WALLET_ADDRESS || '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
-
-const adminWalletAddress = '0x86FA91238DdB108831766eC58c365bD0f291b101';
+const adminWalletAddress =
+  ADMIN_WALLET_ADDRES || '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
 
 const deployContract = async () => {
   const ElectionCreation = require('../contract-build/ElectionCreation.json');
