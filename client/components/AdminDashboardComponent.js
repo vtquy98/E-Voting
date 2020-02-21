@@ -1,24 +1,13 @@
 import React from 'react';
-// import ReactTable from 'react-table';
-// import Popup from 'reactjs-popup';
-
 import SmallCardComponent from './SmallCardComponent';
 import CreateElectionModalComponent from './CreateElectionModalComponent';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, withState } from 'recompose';
 import ElectionStatsComponent from './ElectionStatsComponent';
-// import {
-//   createVoting,
-//   createVotingDataSelector,
-//   getAllVoting,
-//   getAllVotingDataDataSelector
-// } from '../stores/VotingState';
 import { getCurrentUserDataSelector } from '../stores/UserState';
-import Sidebar from 'react-sidebar';
 
 const withVotingName = withState('votingName', 'setVotingName', '');
-const withSidebarState = withState('sidebarState', 'setSidebarState', false);
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -35,8 +24,7 @@ const connectToRedux = connect(
 
 const enhance = compose(
   withVotingName,
-  connectToRedux,
-  withSidebarState
+  connectToRedux
 );
 
 class UserDashboardComponent extends React.Component {
@@ -45,53 +33,11 @@ class UserDashboardComponent extends React.Component {
   }
 
   render() {
-    const {
-      currentUser,
-      sidebarState,
-      setSidebarState
-      // setVotingName,
-      // CreateVoting,
-      // votingName,
-      // votingList
-    } = this.props;
+    const { currentUser } = this.props;
 
     return (
       <React.Fragment>
         <div className="app-content content">
-          <Sidebar
-            sidebar={
-              <b>
-                Sidebar content Sidebar content Sidebar content Sidebar content
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-min-width mr-1 mb-1"
-                  onClick={() => setSidebarState(false)}
-                >
-                  Open side bar
-                </button>
-              </b>
-            }
-            open={sidebarState}
-            //   onSetOpen={this.onSetSidebarOpen}
-            styles={{
-              sidebar: { background: 'white' },
-              dragHandle: {
-                zIndex: 1,
-                position: 'fixed',
-                top: 0
-              },
-              overlay: {
-                zIndex: 1,
-                position: 'fixed',
-                opacity: 0,
-                visibility: 'hidden',
-                transition: 'opacity .3s ease-out, visibility .3s ease-out',
-                backgroundColor: 'rgba(0,0,0,.3)'
-              }
-            }}
-            pullRight={true}
-            transitions
-          ></Sidebar>
           <div className="content-wrapper">
             <div className="content-header row">
               <div className="content-header-left col-md-12 col-12 mb-1">
@@ -176,13 +122,6 @@ class UserDashboardComponent extends React.Component {
                     <div className="card-content">
                       <div className="card-body">
                         <p>
-                          <button
-                            type="button"
-                            className="btn btn-secondary btn-min-width mr-1 mb-1"
-                            onClick={() => setSidebarState(true)}
-                          >
-                            Open side bar
-                          </button>
                           <strong>Pellentesque habitant morbi tristique</strong>{' '}
                           senectus et netus et malesuada fames ac turpis
                           egestas. Vestibulum tortor quam, feugiat vitae.

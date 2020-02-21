@@ -1,4 +1,4 @@
-import react from 'react';
+import React from 'react';
 
 const LoadingComponent = () => (
   <React.Fragment>
@@ -7,7 +7,7 @@ const LoadingComponent = () => (
       {`
         .loader {
           color: #ddd;
-          font-size: 90px;
+          font-size: 1px;
           text-indent: -9999em;
           overflow: hidden;
           width: 1em;
