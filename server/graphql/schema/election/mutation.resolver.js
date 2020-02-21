@@ -6,8 +6,10 @@ import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
 
-// const ADMIN_WALLET = '0xc248515c28a64dFc462Df0301f0D12cF942dae2F'; ropsten account
-const ADMIN_WALLET = '0x86FA91238DdB108831766eC58c365bD0f291b101'; //local account
+const ADMIN_WALLET =
+  process.env.ADMIN_WALLET_ADDRES ||
+  '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
+// const ADMIN_WALLET = '0x86FA91238DdB108831766eC58c365bD0f291b101'; //local account
 
 // web3.eth.sendTransaction({
 //   to: '0xC82108760d430d8A2dF7c349981A87d608476121',
@@ -48,8 +50,7 @@ module.exports = {
           candidates,
           voters,
           electionOwner
-        },
-        { currentUser }
+        }
       ) => {
         const electionStored = await Elections.findOne({ id: electionId });
 
@@ -77,7 +78,7 @@ module.exports = {
                 userData.full_name,
                 'this is a candidate description' //refactor later!
               )
-              .send({ from: currentUser.wallet_address, gas: '6721975' });
+              .send({ from: ADMIN_WALLET, gas: '6721975' });
           })
         );
 
@@ -87,7 +88,7 @@ module.exports = {
             const userData = await Users.findOne({ id: voter }); //got user
             await election.methods
               .registerVoter(userData.wallet_address, userData.full_name)
-              .send({ from: currentUser.wallet_address, gas: '6721975' });
+              .send({ from: ADMIN_WALLET, gas: '6721975' });
           })
         );
 
