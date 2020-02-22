@@ -7,7 +7,7 @@ import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
 
 const ADMIN_WALLET =
-  process.env.ADMIN_WALLET_ADDRES ||
+  process.env.ADMIN_WALLET_ADDRESS ||
   '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
 // const ADMIN_WALLET = '0x86FA91238DdB108831766eC58c365bD0f291b101'; //local account
 
