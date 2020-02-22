@@ -3,11 +3,11 @@
   "migrations": [
     {
       "title": "1577871275635-init-project.js",
-      "timestamp": 1582295770641
+      "timestamp": 1582348209854
     },
     {
       "title": "1581226177990-complie-and-deploy-contract.js",
-      "timestamp": 1582295785854
+      "timestamp": 1582348211897
     }
   ]
 }

@@ -10,13 +10,15 @@ import web3 from '../graphql/libs/web3';
 
 import mongoose from 'mongoose';
 import { Contracts } from '../services';
+require('dotenv').config();
 const {
   MONGODB_URI,
   MONGO_DB,
   MONGO_OPTIONS,
-  ADMIN_WALLET_ADDRES
+  ADMIN_WALLET_ADDRESS
 } = process.env;
 
+console.log(ADMIN_WALLET_ADDRESS);
 const builPath = resolve('contract-build');
 
 const createBuildFolder = () => {
@@ -71,14 +73,14 @@ const compileContracts = () => {
 const mongoUrl = MONGODB_URI || 'mongodb://localhost:27017';
 const dbName = MONGO_DB || 'E-Voting';
 const option = MONGO_OPTIONS
-  ? JSON.parse(MONGODB_URI)
+  ? JSON.parse(MONGO_OPTIONS)
   : {
       useNewUrlParser: true
     };
 
 //this is deploy on ropsten network
 const adminWalletAddress =
-  ADMIN_WALLET_ADDRES || '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
+  ADMIN_WALLET_ADDRESS || '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
 
 const deployContract = async () => {
   const ElectionCreation = require('../contract-build/ElectionCreation.json');
