@@ -182,7 +182,6 @@ class FinishCreateElectionComponent extends React.Component {
                                   role="button"
                                 >
                                   <i className="fa fa-eye"></i> View Election
-                                  network
                                 </a>
                               </Link>
                             </div>

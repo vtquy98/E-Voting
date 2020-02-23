@@ -269,7 +269,7 @@ const PollVoteAPI = makeFetchAction(
   POLL_VOTE_API,
   gql`
     mutation($listUserId: [String!]!, $electionId: String!) {
-      poll_vote2(listUserId: $listUserId, electionId: $electionId) {
+      poll_vote(listUserId: $listUserId, electionId: $electionId) {
         name
       }
     }
@@ -292,7 +292,7 @@ export const pollVote = ({ listUserId, electionId }) => {
 
 export const pollVoteDataSelector = flow(
   PollVoteAPI.dataSelector,
-  path('data.poll_vote2')
+  path('data.poll_vote')
 );
 
 export const pollVoteErrorSelector = flow(
