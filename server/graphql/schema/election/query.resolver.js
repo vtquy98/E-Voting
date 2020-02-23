@@ -1,6 +1,6 @@
 import { Users, Elections } from '../../../services';
 import { combineResolvers } from 'graphql-resolvers';
-import { isAdmin } from '../../libs';
+import { isAdmin, checkAuthentication } from '../../libs';
 import Election from '../../libs/election';
 
 module.exports = {
@@ -10,29 +10,32 @@ module.exports = {
       return elections;
     }),
 
-    get_election: combineResolvers(isAdmin, async (_, { id }) => {
+    get_election: combineResolvers(checkAuthentication, async (_, { id }) => {
       const elections = await Elections.findOne({ id });
       return elections;
     }),
 
-    get_all_candidates: combineResolvers(isAdmin, async (_, { electionId }) => {
-      const electionStored = await Elections.findOne({ id: electionId });
-      const election = Election(electionStored.election_address);
-      const candidateList = await election.methods.allCandidates().call();
+    get_all_candidates: combineResolvers(
+      checkAuthentication,
+      async (_, { electionId }) => {
+        const electionStored = await Elections.findOne({ id: electionId });
+        const election = Election(electionStored.election_address);
+        const candidateList = await election.methods.allCandidates().call();
 
-      // if (!candidateList) {
-      //   throw new Error('Faild to get call candidate!');
-      // }
+        // if (!candidateList) {
+        //   throw new Error('Faild to get call candidate!');
+        // }
 
-      const candidateInfo = await Promise.all(
-        candidateList.map(async candidate => {
-          const user = await Users.findOne({ wallet_address: candidate });
-          return user;
-        })
-      );
+        const candidateInfo = await Promise.all(
+          candidateList.map(async candidate => {
+            const user = await Users.findOne({ wallet_address: candidate });
+            return user;
+          })
+        );
 
-      return candidateInfo;
-    }),
+        return candidateInfo;
+      }
+    ),
 
     get_all_voters: combineResolvers(isAdmin, async (_, { electionId }) => {
       const electionStored = await Elections.findOne({

@@ -1,6 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
-import Popup from 'reactjs-popup';
 
 const NavBarComponent = () => (
   <nav className="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-light navbar-border">
@@ -92,7 +90,7 @@ const NavBarComponent = () => (
                   </h6>
                 </li>
                 <li className="scrollable-container media-list">
-                  <a href="javascript:void(0)">
+                  <a>
                     <div className="media">
                       <div className="media-left align-self-center">
                         <i className="ft-plus-square icon-bg-circle bg-cyan"></i>
@@ -113,7 +111,7 @@ const NavBarComponent = () => (
                       </div>
                     </div>
                   </a>
-                  <a href="javascript:void(0)">
+                  <a>
                     <div className="media">
                       <div className="media-left align-self-center">
                         <i className="ft-download-cloud icon-bg-circle bg-red bg-darken-1"></i>
@@ -136,7 +134,7 @@ const NavBarComponent = () => (
                       </div>
                     </div>
                   </a>
-                  <a href="javascript:void(0)">
+                  <a>
                     <div className="media">
                       <div className="media-left align-self-center">
                         <i className="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3"></i>
@@ -159,7 +157,7 @@ const NavBarComponent = () => (
                       </div>
                     </div>
                   </a>
-                  <a href="javascript:void(0)">
+                  <a>
                     <div className="media">
                       <div className="media-left align-self-center">
                         <i className="ft-check-circle icon-bg-circle bg-cyan"></i>
@@ -177,7 +175,7 @@ const NavBarComponent = () => (
                       </div>
                     </div>
                   </a>
-                  <a href="javascript:void(0)">
+                  <a>
                     <div className="media">
                       <div className="media-left align-self-center">
                         <i className="ft-file icon-bg-circle bg-teal"></i>
@@ -199,10 +197,7 @@ const NavBarComponent = () => (
                   </a>
                 </li>
                 <li className="dropdown-menu-footer">
-                  <a
-                    className="dropdown-item text-muted text-center"
-                    href="javascript:void(0)"
-                  >
+                  <a className="dropdown-item text-muted text-center">
                     Read all notifications
                   </a>
                 </li>

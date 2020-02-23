@@ -70,7 +70,6 @@ class ShowElectionComponent extends React.Component {
 
     const submit = (values, dispatch, props) => {
       const articleId = props.electionId.id;
-      console.log(values);
       dispatch(
         pollVote({
           ...values,
