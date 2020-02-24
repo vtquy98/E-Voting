@@ -1,10 +1,10 @@
 import React from 'react';
-import { SELECT_TO_VOTE } from '../../enums/votingType';
+// import { SELECT_TO_VOTE } from '../../enums/votingType';
 const RenderVoteCheckFieldComponent = ({
   input,
   label,
   options,
-  votingType = SELECT_TO_VOTE
+  votingType
 }) => (
   <React.Fragment>
     {options.map((item, index) => (
@@ -65,7 +65,7 @@ const RenderVoteCheckFieldComponent = ({
           border: 1px solid #d9d9d9;
           border-radius: 2px;
           box-shadow: inset 0 0 0 0 ${
-            votingType === SELECT_TO_VOTE ? `#16d39a;` : `#FF7588;`
+            votingType === 'SELECT_TO_VOTE' ? `#16d39a;` : `#FF7588;`
           }
         }
         .checkbox-label:before {
@@ -77,11 +77,11 @@ const RenderVoteCheckFieldComponent = ({
           height: 40px;
           opacity: 0;
           background-color: ${
-            votingType === SELECT_TO_VOTE ? `#16d39a;` : `#FF7588;`
+            votingType === 'SELECT_TO_VOTE' ? `#16d39a;` : `#FF7588;`
           }
 
           background-image: ${
-            votingType === SELECT_TO_VOTE
+            votingType === 'SELECT_TO_VOTE'
               ? `url(/static/assets/images/checked.svg);`
               : `url(/static/assets/images/cancel.svg);`
           }
@@ -107,10 +107,10 @@ const RenderVoteCheckFieldComponent = ({
 
         .checkbox-input:checked + .checkbox-label {
           border-color: ${
-            votingType === SELECT_TO_VOTE ? `#16d39a;` : `#FF7588;`
+            votingType === 'SELECT_TO_VOTE' ? `#16d39a;` : `#FF7588;`
           };
           box-shadow: inset 0 -12px 0 0 ${
-            votingType === SELECT_TO_VOTE ? `#16d39a;` : `#FF7588;`
+            votingType === 'SELECT_TO_VOTE' ? `#16d39a;` : `#FF7588;`
           };
         }
         .checkbox-input:checked + .checkbox-label:before {

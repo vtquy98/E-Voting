@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { Field, reduxForm } from 'redux-form';
 import { createStructuredSelector } from 'reselect';
-import { SELECT_TO_VOTE } from '../enums/votingType';
 import Link from 'next/link';
 
 import {
@@ -69,11 +68,19 @@ class ShowElectionComponent extends React.Component {
     } = this.props;
 
     const submit = (values, dispatch, props) => {
-      const articleId = props.electionId.id;
+      const electionId = props.electionId.id;
+      const candidateList = candidates.map(candidate => candidate.id);
+      const listToVote =
+        values && candidateList.filter(val => !values.listUserId.includes(val));
+
       dispatch(
         pollVote({
-          ...values,
-          electionId: articleId
+          //handle it with trust voting
+          listUserId:
+            election.votingType === 'SELECT_TO_VOTE'
+              ? values.listUserId
+              : listToVote,
+          electionId
         })
       );
     };
@@ -189,7 +196,7 @@ class ShowElectionComponent extends React.Component {
                                     name="listUserId"
                                     options={candidates}
                                     component={RenderVoteCheckFieldComponent}
-                                    votingType={SELECT_TO_VOTE}
+                                    votingType={election.votingType}
                                   />
                                   <div className="text-center mt-2">
                                     <div className="form-group">

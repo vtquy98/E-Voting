@@ -2,11 +2,9 @@ type Election {
   id: ID!
   name: String!
   description: String!
-  thumbnail: String!
   electionAddress: String!
   createdAt: Date!
   updatedAt: Date!
-  # startedAt: Date!
   state: ElectionState!
   totalVoteCount: Int!
   totalCandidateCount: Int!
@@ -14,6 +12,8 @@ type Election {
   electionOwner: String!
   votingTime: Int!
   votingType: VotingType!
+  atLeastVote: Int!
+  mostVote: Int!
 }
 
 type ElectionResult {
@@ -25,6 +25,7 @@ type ElectionResult {
 enum VotingType {
   SELECT_TO_VOTE
   SELECT_TO_REMOVE
+  SELECT_TO_TRUST
 }
 
 enum ElectionState {
@@ -57,6 +58,8 @@ type Mutation {
     candidates: [String!]!
     voters: [String!]!
     electionOwner: String!
+    atLeastVote: Int
+    mostVote: Int
   ): Election!
 
   add_candidate(
