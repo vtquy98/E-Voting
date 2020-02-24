@@ -5,12 +5,6 @@ import { makeFetchAction } from 'redux-api-call';
 import { gql } from '../libs/graphql';
 import { respondToSuccess } from '../middlewares/api-reaction';
 
-export const CREATE_VOTING = 'CreateVotingAPI';
-export const ADD_VOTING_INFO_API = 'AddVotingInfoAPI';
-export const GET_VOTING_DATA_API = 'GetVotingDataAPI';
-export const GET_ALL_VOTING_API = 'GetAllVotingAPI';
-
-//NEWEST
 export const GET_ALL_ELECTION_API = 'GetAllElectionAPI';
 export const GET_ELECTION = 'GetElectionAPI';
 export const GET_ALL_CANDIDATES_API = 'GetAllCandidatesAPI';
@@ -119,6 +113,8 @@ const FinishElectionCreationAPI = makeFetchAction(
       $voters: [String!]!
       $electionId: String!
       $electionOwner: String!
+      $atLeastVote: Int!
+      $mostVote: Int!
     ) {
       finish_election_creation(
         description: $description
@@ -128,6 +124,8 @@ const FinishElectionCreationAPI = makeFetchAction(
         voters: $voters
         electionId: $electionId
         electionOwner: $electionOwner
+        atLeastVote: $atLeastVote
+        mostVote: $mostVote
       ) {
         id
         electionAddress
@@ -143,13 +141,17 @@ export const finishElectionCreation = ({
   candidates,
   electionId,
   voters,
-  electionOwner
+  electionOwner,
+  atLeastVote,
+  mostVote
 }) => {
   return respondToSuccess(
     FinishElectionCreationAPI.actionCreator({
       description,
       votingType: parseInt(votingType),
       votingTime: parseInt(votingTime),
+      atLeastVote: parseInt(atLeastVote),
+      mostVote: parseInt(mostVote),
       candidates,
       electionId,
       voters,
@@ -471,6 +473,9 @@ const GetElectionAPI = makeFetchAction(
         state
         electionOwner
         votingTime
+        votingType
+        mostVote
+        atLeastVote
       }
     }
   `
@@ -536,147 +541,6 @@ export const getAllElectionDataDataSelector = flow(
 
 export const resetDataGetAllElection = dispatch => {
   dispatch(GetAllElectionAPI.resetter(['data', 'error']));
-};
-
-//END NEWEST
-
-const GetVotingDataAPI = makeFetchAction(
-  GET_VOTING_DATA_API,
-  gql`
-    query($votingCode: Int!) {
-      get_voting_data(votingCode: $votingCode) {
-        imageDescription
-        candidates {
-          candidateName
-          candidateDescription
-        }
-      }
-    }
-  `
-);
-
-export const getVotingData = code => {
-  return respondToSuccess(
-    GetVotingDataAPI.actionCreator({ votingCode: parseInt(code) }),
-    resp => {
-      if (resp.errors) {
-        console.error('Err:', resp.errors);
-        return;
-      }
-
-      return;
-    }
-  );
-};
-
-export const getVotingDataDataSelector = flow(
-  GetVotingDataAPI.dataSelector,
-  path('data.get_voting_data')
-);
-
-export const resetDataGetVotingData = dispatch => {
-  dispatch(GetVotingDataAPI.resetter(['data', 'error']));
-};
-
-const AddVotingInfoAPI = makeFetchAction(
-  ADD_VOTING_INFO_API,
-  gql`
-    mutation(
-      $votingCode: Int!
-      $imageDescription: String!
-      $description: String!
-      $candidates: [createCandidateInput]!
-      $votingDatetime: DateTime!
-      $timeVoting: Int!
-      $votingType: Int!
-    ) {
-      create_voting_info(
-        votingCode: $votingCode
-        imageDescription: $imageDescription
-        description: $description
-        candidates: $candidates
-        votingDatetime: $votingDatetime
-        timeVoting: $timeVoting
-        votingType: $votingType
-      ) {
-        id
-      }
-    }
-  `
-);
-
-export const addVotingInfo = ({
-  votingCode,
-  imageDescription,
-  description,
-  candidates,
-  votingDatetime,
-  timeVoting,
-  votingType
-}) => {
-  return respondToSuccess(
-    AddVotingInfoAPI.actionCreator({
-      votingCode: parseInt(votingCode),
-      imageDescription,
-      description,
-      candidates,
-      votingDatetime,
-      timeVoting: parseInt(timeVoting),
-      votingType: parseInt(votingType)
-    }),
-    resp => {
-      if (resp.errors) {
-        console.error('Err:', resp.errors);
-        return;
-      }
-
-      return;
-    }
-  );
-};
-
-export const addVotingInfoDataSelector = flow(
-  AddVotingInfoAPI.dataSelector,
-  path('data.create_voting_info')
-);
-
-const CreateVotingAPI = makeFetchAction(
-  CREATE_VOTING,
-  gql`
-    mutation($votingName: String!) {
-      create_voting(votingName: $votingName) {
-        id
-        votingCode
-      }
-    }
-  `
-);
-
-export const createVoting = votingName => {
-  return respondToSuccess(
-    CreateVotingAPI.actionCreator({ votingName }),
-    resp => {
-      if (resp.errors) {
-        console.error('Err:', resp.errors);
-        return;
-      }
-      const votingCode = resp.data.create_voting.votingCode;
-      Router.push('/create-voting?code=' + votingCode);
-      return;
-    }
-  );
-};
-
-export const createVotingDataSelector = flow(
-  CreateVotingAPI.dataSelector,
-  path('data.create_voting')
-);
-
-export const resetDataCreateVoting = dispatch => {
-  dispatch(CreateVotingAPI.resetter(['data', 'error']));
-};
-export const resetDataAddVotingInfo = dispatch => {
-  dispatch(AddVotingInfoAPI.resetter(['data', 'error']));
 };
 
 export default {};

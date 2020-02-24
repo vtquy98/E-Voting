@@ -1,5 +1,10 @@
 import React from 'react';
-import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../enums/votingType';
+import {
+  SELECT_TO_VOTE,
+  SELECT_TO_REMOVE,
+  SELECT_TO_TRUST
+} from '../../enums/votingType';
+
 const RenderVotingTypeFieldComponent = ({
   input,
   label,
@@ -7,7 +12,6 @@ const RenderVotingTypeFieldComponent = ({
 }) => (
   <div>
     <h4 className="card-title">
-      {' '}
       What is the voting <code>type</code>?{' '}
     </h4>
     <div className="middle">
@@ -15,11 +19,11 @@ const RenderVotingTypeFieldComponent = ({
         <input
           type="radio"
           name="radio"
-          id="option-1"
+          id={SELECT_TO_VOTE}
           value={SELECT_TO_VOTE}
           onChange={input.onChange}
         />
-        <div className="front-end box">
+        <div className="choose-to-vote box">
           <span>Choose to vote</span>
         </div>
       </label>
@@ -28,12 +32,25 @@ const RenderVotingTypeFieldComponent = ({
         <input
           type="radio"
           name="radio"
-          id="option-2"
+          id={SELECT_TO_REMOVE}
           value={SELECT_TO_REMOVE}
           onChange={input.onChange}
         />
-        <div className="back-end box">
+        <div className="choose-to-remove box">
           <span>Choose to remove</span>
+        </div>
+      </label>
+
+      <label>
+        <input
+          type="radio"
+          name="radio"
+          id={SELECT_TO_TRUST}
+          value={SELECT_TO_TRUST}
+          onChange={input.onChange}
+        />
+        <div className="choose-to-trust box">
+          <span>Choose to trust</span>
         </div>
       </label>
 
@@ -105,11 +122,14 @@ const RenderVotingTypeFieldComponent = ({
           font-weight: normal;
           color: white;
         }
-        .middle .front-end span:before {
+        .middle .choose-to-vote span:before {
           content: '\f00c';
         }
-        .middle .back-end span:before {
+        .middle .choose-to-remove span:before {
           content: '\f00d';
+        }
+        .middle .choose-to-trust span:before {
+          content: '\f004';
         }
         .middle p {
           color: #fff;

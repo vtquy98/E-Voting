@@ -2,7 +2,7 @@ import { combineResolvers } from 'graphql-resolvers';
 import { Elections, Users } from '../../../services';
 import { isAdmin, checkAuthentication, formatObject } from '../../libs';
 import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
-
+import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
 
@@ -42,7 +42,9 @@ module.exports = {
           votingType,
           candidates,
           voters,
-          electionOwner
+          electionOwner,
+          mostVote,
+          atLeastVote
         }
       ) => {
         const electionStored = await Elections.findOne({ id: electionId });
@@ -56,7 +58,9 @@ module.exports = {
           voting_time: votingTime,
           voting_type: votingType,
           election_owner: electionOwner,
-          state: CREATED
+          state: CREATED,
+          most_vote: mostVote,
+          at_least_vote: atLeastVote
         });
 
         const election = Election(electionStored.election_address);
@@ -177,14 +181,38 @@ module.exports = {
           id: electionId
         });
         const election = Election(electionStored.election_address);
-        await Promise.all(
-          listUserId.map(async user => {
-            const userData = await Users.findOne({ id: user });
-            await election.methods
-              .pollVote(userData.wallet_address, currentUser.wallet_address)
-              .send({ from: ADMIN_WALLET, gas: '6721975' });
-          })
-        );
+        const candidateList = await election.methods.allCandidates().call();
+
+        if (
+          (electionStored.voting_type === SELECT_TO_VOTE &&
+            listUserId.length < electionStored.at_least_vote) ||
+          listUserId.length > electionStored.most_vote
+        ) {
+          throw new Error(
+            `You must vote at least ${electionStored.at_least_vote} candidates and max ${electionStored.most_vote} candiadtes!`
+          );
+        }
+
+        if (
+          (electionStored.voting_type === SELECT_TO_REMOVE &&
+            candidateList.length - listUserId.length <
+              electionStored.at_least_vote) ||
+          candidateList.length - listUserId.length > electionStored.most_vote
+        ) {
+          throw new Error(
+            `You must remove at least ${electionStored.at_least_vote} candidates and max remove ${electionStored.most_vote} candiadtes!`
+          );
+        }
+
+        listUserId.length &&
+          (await Promise.all(
+            listUserId.map(async user => {
+              const userData = await Users.findOne({ id: user });
+              await election.methods
+                .pollVote(userData.wallet_address, currentUser.wallet_address)
+                .send({ from: ADMIN_WALLET, gas: '6721975' });
+            })
+          ));
 
         return electionStored;
       }

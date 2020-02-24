@@ -28,7 +28,7 @@ import {
   getAllUsersDataSelector,
   getCurrentUserDataSelector
 } from '../stores/UserState';
-
+import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../enums/votingType';
 const ENV_DEPLOY = process.env.ENV_DEPLOY || 'ropsten';
 
 const connectToRedux = connect(
@@ -128,6 +128,24 @@ class ElectionComponent extends React.Component {
                       </span>
                     </li>
                     <li>
+                      Voting type:{' '}
+                      <span className="text-muted">
+                        {election.votingType === SELECT_TO_VOTE
+                          ? 'Select to vote'
+                          : election.votingType === SELECT_TO_REMOVE
+                          ? 'Select to remove'
+                          : 'Select to trust'}
+                      </span>
+                    </li>
+                    <li>
+                      At least vote:{' '}
+                      <span className="text-muted">{election.atLeastVote}</span>
+                    </li>
+                    <li>
+                      Most vote:{' '}
+                      <span className="text-muted">{election.mostVote}</span>
+                    </li>
+                    <li>
                       <a
                         href="#"
                         className="text-muted"
@@ -210,6 +228,17 @@ class ElectionComponent extends React.Component {
                             <i className="fa fa-btc"></i> Explore on blockchain
                             network
                           </a>
+
+                          <button
+                            className="btn mr-1 mb-1 btn-warning"
+                            onClick={e => {
+                              e.preventDefault();
+                              console.log('do later!');
+                            }}
+                          >
+                            <i className="fa fa-print"></i> Print QR for
+                            candidates
+                          </button>
                         </div>
                       ) : election.state === 'STARTED' ? (
                         <button
@@ -333,7 +362,6 @@ class ElectionComponent extends React.Component {
                         sticky sidebar layout page requirements.
                       </p>
                       <p>scroll to view all of voters:</p>
-                      {console.log(voters)}
                       {!voters.length ? (
                         <div
                           className="alert alert-icon-right alert-info alert-dismissible mb-2"
