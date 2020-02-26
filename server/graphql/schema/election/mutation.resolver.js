@@ -214,6 +214,8 @@ module.exports = {
             })
           ));
 
+        electionStored.voted_count += 1;
+        await electionStored.save();
         return electionStored;
       }
     ),
@@ -235,6 +237,8 @@ module.exports = {
             })
           ));
 
+        electionStored.voted_count += 1;
+        await electionStored.save();
         return electionStored;
       }
     )

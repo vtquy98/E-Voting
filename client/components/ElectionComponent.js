@@ -204,7 +204,9 @@ class ElectionComponent extends React.Component {
                         </div>
                         <div className="project-info-count col-lg-4 col-md-12">
                           <div className="project-info-icon">
-                            <h2>0/{voters.length}</h2>
+                            <h2>
+                              {election.votedCount}/{voters.length}
+                            </h2>
                             <div className="project-info-sub-icon">
                               <span className="icon-layers"></span>
                             </div>
