@@ -120,6 +120,14 @@ contract Election {
     totalVotes++;
   }
 
+  function manualPollVote(address _candidateAddress)
+    public
+    inState(State.Voting)
+  {
+    candidateData[_candidateAddress].votes += 1;
+    totalVotes++;
+  }
+
   function endVote() public inState(State.Voting) restricted {
     // close the poll
     state = State.Ended;

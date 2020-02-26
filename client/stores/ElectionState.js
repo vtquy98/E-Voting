@@ -17,6 +17,47 @@ export const GET_ELECTION_TEMP_API = 'GetElectionTempAPI';
 export const FINISH_ELECTION_CREATION_API = 'FinishElectionCreationAPI';
 export const START_VOTING_API = 'StartVotingAPI';
 export const STOP_VOTING_API = 'StopVotingAPI';
+export const MANUAL_VOTING_API = 'ManualVotingAPI';
+
+const ManualVotingAPI = makeFetchAction(
+  MANUAL_VOTING_API,
+  gql`
+    mutation($listUserId: [String!]!, $electionId: String!) {
+      manual_poll_vote(listUserId: $listUserId, electionId: $electionId) {
+        id
+      }
+    }
+  `
+);
+
+export const manualVoting = ({ electionId, listUserId }) => {
+  return respondToSuccess(
+    ManualVotingAPI.actionCreator({ electionId, listUserId }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+      return;
+    }
+  );
+};
+
+export const manualVotingDataSelector = flow(
+  ManualVotingAPI.dataSelector,
+  path('data.manual_poll_vote')
+);
+
+export const manualVotingErrorSelector = flow(
+  ManualVotingAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataGetManualVoting = dispatch => {
+  dispatch(ManualVotingAPI.resetter(['data', 'error']));
+};
 
 const StopVotingAPI = makeFetchAction(
   STOP_VOTING_API,
