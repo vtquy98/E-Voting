@@ -216,6 +216,27 @@ module.exports = {
 
         return electionStored;
       }
+    ),
+    manual_poll_vote: combineResolvers(
+      isAdmin,
+      async (_, { listUserId, electionId }) => {
+        const electionStored = await Elections.findOne({
+          id: electionId
+        });
+        const election = Election(electionStored.election_address);
+
+        listUserId.length &&
+          (await Promise.all(
+            listUserId.map(async user => {
+              const userData = await Users.findOne({ id: user });
+              await election.methods
+                .manualPollVote(userData.wallet_address)
+                .send({ from: ADMIN_WALLET, gas: '6721975' });
+            })
+          ));
+
+        return electionStored;
+      }
     )
   }
 };

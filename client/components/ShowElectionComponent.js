@@ -24,6 +24,7 @@ import {
   getCurrentUserDataSelector
 } from '../stores/UserState';
 import QRCodeComponent from './QRCodeComponent';
+import { createVotingUrl } from '../libs';
 
 const OwlCarousel = dynamic(import('react-owl-carousel'), { ssr: false });
 
@@ -46,9 +47,6 @@ const connectToRedux = connect(
 );
 
 const enhance = compose(connectToRedux);
-
-const createVotingUrl = ({ electionId }) =>
-  `${process.env.DOMAIN_NAME}/voting?id=${electionId}`;
 
 const Completionist = () => (
   <div className="card bg-danger white">
