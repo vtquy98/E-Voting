@@ -220,7 +220,10 @@ class ShowElectionComponent extends React.Component {
                                       <tr key="index">
                                         <td>{index + 1}</td>
                                         <td>{candidate.userData.fullName}</td>
-                                        <td>{candidate.voteCount}</td>
+                                        <td className="text-center">
+                                          {candidate.voteCount} /{' '}
+                                          {election.votedCount}
+                                        </td>
                                         <td>
                                           <div className="insights px-2">
                                             <div>

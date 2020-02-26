@@ -33,11 +33,13 @@ const ManualVotingAPI = makeFetchAction(
 export const manualVoting = ({ electionId, listUserId }) => {
   return respondToSuccess(
     ManualVotingAPI.actionCreator({ electionId, listUserId }),
-    resp => {
+    (resp, headers, store) => {
       if (resp.errors) {
         console.error('Err:', resp.errors);
         return;
       }
+      const electionId = resp.data.manual_poll_vote.id;
+      store.dispatch(getElection(electionId));
       return;
     }
   );
@@ -517,6 +519,7 @@ const GetElectionAPI = makeFetchAction(
         votingType
         mostVote
         atLeastVote
+        votedCount
       }
     }
   `

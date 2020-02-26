@@ -124,10 +124,7 @@ module.exports = {
         const electionStored = await Elections.findOne({
           id: electionId
         });
-
         const election = Election(electionStored.election_address);
-
-        const totalVoteCount = await election.methods.totalVotes().call();
         const candidateAddress = await election.methods.allCandidates().call();
 
         const electionResult = await Promise.all(
@@ -140,7 +137,7 @@ module.exports = {
               voteCount > 0
                 ? (
                     (parseInt(voteCount) * 100) /
-                    parseInt(totalVoteCount)
+                    parseInt(electionStored.voted_count)
                   ).toFixed(2)
                 : 0;
             return { userData, voteCount, percentage };

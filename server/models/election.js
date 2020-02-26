@@ -42,7 +42,12 @@ const ElectionSchema = Schema({
   election_owner: { type: String, required: true, default: 'AGU' },
   voting_time: { type: Number, requiered: true, default: 10 },
   at_least_vote: Number,
-  most_vote: Number
+  most_vote: Number,
+  voted_count: {
+    type: Number,
+    required: true,
+    default: 0
+  }
 });
 
 ElectionSchema.methods.updateDoc = updateDocBuilder();

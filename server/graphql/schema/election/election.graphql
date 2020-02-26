@@ -14,12 +14,14 @@ type Election {
   votingType: VotingType!
   atLeastVote: Int!
   mostVote: Int!
+  votedCount: Int!
 }
 
 type ElectionResult {
   userData: User!
   voteCount: Int!
   percentage: Float!
+  totalUserVoted: Int!
 }
 
 enum VotingType {
