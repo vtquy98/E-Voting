@@ -2,20 +2,13 @@ import { combineResolvers } from 'graphql-resolvers';
 import { Elections, Users } from '../../../services';
 import { isAdmin, checkAuthentication, formatObject } from '../../libs';
 import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
-
+import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
 
 const ADMIN_WALLET =
   process.env.ADMIN_WALLET_ADDRESS ||
   '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
-// const ADMIN_WALLET = '0x86FA91238DdB108831766eC58c365bD0f291b101'; //local account
-
-// web3.eth.sendTransaction({
-//   to: '0xC82108760d430d8A2dF7c349981A87d608476121',
-//   from: '0x001526F8bF8A346abF4d2d60B7e5BA4BeC75FB28',
-//   value: Web3.utils.toWei('1', 'ether')
-// });
 
 module.exports = {
   Mutation: {
@@ -49,7 +42,9 @@ module.exports = {
           votingType,
           candidates,
           voters,
-          electionOwner
+          electionOwner,
+          mostVote,
+          atLeastVote
         }
       ) => {
         const electionStored = await Elections.findOne({ id: electionId });
@@ -63,7 +58,9 @@ module.exports = {
           voting_time: votingTime,
           voting_type: votingType,
           election_owner: electionOwner,
-          state: CREATED
+          state: CREATED,
+          most_vote: mostVote,
+          at_least_vote: atLeastVote
         });
 
         const election = Election(electionStored.election_address);
@@ -179,38 +176,69 @@ module.exports = {
 
     poll_vote: combineResolvers(
       checkAuthentication,
-      async (_, { userId, ElectionAddress }, { currentUser }) => {
-        const userData = await Users.findOne({ id: userId });
-        const election = Election(ElectionAddress);
+      async (_, { listUserId, electionId }, { currentUser }) => {
+        const electionStored = await Elections.findOne({
+          id: electionId
+        });
+        const election = Election(electionStored.election_address);
+        const candidateList = await election.methods.allCandidates().call();
 
-        await election.methods
-          .pollVote(userData.wallet_address)
-          .send({ from: currentUser.wallet_address, gas: '6721975' });
+        if (
+          (electionStored.voting_type === SELECT_TO_VOTE &&
+            listUserId.length < electionStored.at_least_vote) ||
+          listUserId.length > electionStored.most_vote
+        ) {
+          throw new Error(
+            `You must vote at least ${electionStored.at_least_vote} candidates and max ${electionStored.most_vote} candiadtes!`
+          );
+        }
 
-        return userData;
+        if (
+          (electionStored.voting_type === SELECT_TO_REMOVE &&
+            candidateList.length - listUserId.length <
+              electionStored.at_least_vote) ||
+          candidateList.length - listUserId.length > electionStored.most_vote
+        ) {
+          throw new Error(
+            `You must remove at least ${electionStored.at_least_vote} candidates and max remove ${electionStored.most_vote} candiadtes!`
+          );
+        }
+
+        listUserId.length &&
+          (await Promise.all(
+            listUserId.map(async user => {
+              const userData = await Users.findOne({ id: user });
+              await election.methods
+                .pollVote(userData.wallet_address, currentUser.wallet_address)
+                .send({ from: ADMIN_WALLET, gas: '6721975' });
+            })
+          ));
+
+        electionStored.voted_count += 1;
+        await electionStored.save();
+        return electionStored;
       }
     ),
-
-    poll_vote2: combineResolvers(
-      checkAuthentication,
-      async (_, { listUserId, electionId }, { currentUser }) => {
-        // const userData = await Users.findOne({ id: userId });
+    manual_poll_vote: combineResolvers(
+      isAdmin,
+      async (_, { listUserId, electionId }) => {
         const electionStored = await Elections.findOne({
           id: electionId
         });
         const election = Election(electionStored.election_address);
 
-        // listUserId.map(user => console.log(user));
+        listUserId.length &&
+          (await Promise.all(
+            listUserId.map(async user => {
+              const userData = await Users.findOne({ id: user });
+              await election.methods
+                .manualPollVote(userData.wallet_address)
+                .send({ from: ADMIN_WALLET, gas: '6721975' });
+            })
+          ));
 
-        await Promise.all(
-          listUserId.map(async user => {
-            const userData = await Users.findOne({ id: user }); //got user
-            await election.methods
-              .pollVote(userData.wallet_address)
-              .send({ from: currentUser.wallet_address, gas: '6721975' });
-          })
-        );
-
+        electionStored.voted_count += 1;
+        await electionStored.save();
         return electionStored;
       }
     )
