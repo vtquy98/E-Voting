@@ -18,10 +18,6 @@ contract ElectionCreation {
     deployedElections.push(newElection);
   }
 
-  function getLastedDeployedElection() public view returns (Election) {
-    return deployedElections[deployedElections.length - 1];
-  }
-
   function getDeployedElections() public view returns (Election[] memory) {
     return deployedElections;
   }
@@ -50,8 +46,6 @@ contract Election {
   address[] public voterList;
 
   uint256 public totalVotes;
-  //   bool public complete;
-  //   uint256 public winner;
 
   mapping(address => Candidate) public candidateData;
   mapping(address => Voter) public voterData;
@@ -115,13 +109,21 @@ contract Election {
     state = State.Voting;
   }
 
-  function pollVote(address _candidateAddress)
+  function pollVote(address _candidateAddress, address _voterAddress)
     public
     inState(State.Voting)
-    canVote(msg.sender, _candidateAddress) //throw if user has already voted
+    canVote(_voterAddress, _candidateAddress) //throw if user has already voted
   {
-    require(voterData[msg.sender].exists, 'You are not authorized to vote!');
-    hasVoted[_candidateAddress][msg.sender] = true; //make note of the fact he's voting now
+    require(voterData[_voterAddress].exists, 'You are not authorized to vote!');
+    hasVoted[_candidateAddress][_voterAddress] = true; //make note of the fact he's voting now
+    candidateData[_candidateAddress].votes += 1;
+    totalVotes++;
+  }
+
+  function manualPollVote(address _candidateAddress)
+    public
+    inState(State.Voting)
+  {
     candidateData[_candidateAddress].votes += 1;
     totalVotes++;
   }
@@ -129,22 +131,7 @@ contract Election {
   function endVote() public inState(State.Voting) restricted {
     // close the poll
     state = State.Ended;
-
-    //caculation:
-    // uint256 max = 0;
-    // for (uint256 i = 0; i < candidates.length; i++) {
-    //   if (candidates[i].votes > max) {
-    //     max = candidates[i].votes;
-    //     winner = candidates[i].candidateId;
-
-    //   }
-    // }
-
   }
-
-  //   function getResult() public view returns (uint256, uint256, uint256) {
-  //     return (totalVotes, candidates[winner].votes, winner);
-  //   }
 
   function getVotersCount() public view returns (uint256) {
     return voters.length;
@@ -154,12 +141,10 @@ contract Election {
     return candidates.length;
   }
 
-  //get all candidate
   function allCandidates() public view returns (address[] memory) {
     return candidateList;
   }
 
-  //get all voter
   function allVoters() public view returns (address[] memory) {
     return voterList;
   }

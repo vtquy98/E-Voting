@@ -1,7 +1,11 @@
 import { path } from 'lodash/fp';
 import { DRAFT, CREATED, STARTED, ENDED } from '../../../enums/electionState';
 import Election from '../../libs/election';
-import { SELECT_TO_REMOVE, SELECT_TO_VOTE } from '../../../enums/votingType';
+import {
+  SELECT_TO_REMOVE,
+  SELECT_TO_VOTE,
+  SELECT_TO_TRUST
+} from '../../../enums/votingType';
 
 module.exports = {
   Election: {
@@ -10,7 +14,10 @@ module.exports = {
     updatedAt: path('updated_at'),
     electionOwner: path('election_owner'),
     votingTime: path('voting_time'),
+    atLeastVote: path('at_least_vote'),
+    mostVote: path('most_vote'),
     votingType: path('voting_type'),
+    votedCount: path('voted_count'),
     totalCandidateCount: async election => {
       const electionSol = Election(election.election_address);
       const totalCandidateCount = await electionSol.methods
@@ -26,7 +33,8 @@ module.exports = {
   },
   VotingType: {
     SELECT_TO_REMOVE,
-    SELECT_TO_VOTE
+    SELECT_TO_VOTE,
+    SELECT_TO_TRUST
   },
   ElectionState: {
     DRAFT,
