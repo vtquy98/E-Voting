@@ -14,7 +14,7 @@ const UserSchema = Schema({
     default: uuid,
     required: true
   },
-  google_id: { type: String, required: true },
+  google_id: { type: String },
   full_name: { type: String, required: true },
   email: { type: String, required: true },
   wallet_address: { type: String, required: true },
@@ -66,7 +66,7 @@ UserSchema.methods.updateDoc = updateDocBuilder();
 
 UserSchema.pre('save', function(next) {
   var user = this;
-  if (this.isModified('password') || this.isNew) {
+  if (this.isModified('password') || (this.password && this.isNew)) {
     bcrypt.genSalt(10, function(err, salt) {
       if (err) {
         return next(err);
