@@ -11,9 +11,87 @@ export const USER_LOGIN_API = 'UserLoginAPI';
 export const GET_CURRENT_USER_API = 'GetCurrentUserAPI';
 export const USER_LOGOUT = 'UserLogout';
 export const USER_LOGOUT_API = 'UserLogoutAPI';
-export const GET_TYPYCAL_USERS_API = 'GetTypycalUsersAPI';
-export const GET_AUTHOR_BY_ID_API = 'GetAuthorByIdAPI';
 export const GET_ALL_USERS_API = 'GetAllUsersAPI';
+export const ADD_USERS_API = 'AddUsersAPI';
+export const DELETE_USER_API = 'DeleteUserAPI';
+
+const DeleteUserAPI = makeFetchAction(
+  DELETE_USER_API,
+  gql`
+    mutation($userId: String!) {
+      delete_user(userId: $userId) {
+        id
+      }
+    }
+  `
+);
+
+export const deleteUser = userId => {
+  return respondToSuccess(
+    DeleteUserAPI.actionCreator({ userId }),
+    (resp, headers, store) => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+      store.dispatch(getAllUsers());
+      return;
+    }
+  );
+};
+
+export const deleteUserDataSelector = flow(
+  DeleteUserAPI.dataSelector,
+  get('data.delete_user')
+);
+
+export const deleteUserErrorMessageSelector = flow(
+  DeleteUserAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+const AddUsersAPI = makeFetchAction(
+  ADD_USERS_API,
+  gql`
+    mutation($listUserEmails: [String!]!) {
+      add_users(listUserEmails: $listUserEmails) {
+        id
+      }
+    }
+  `
+);
+
+export const addUsers = listUserEmails => {
+  return respondToSuccess(
+    AddUsersAPI.actionCreator({ listUserEmails }),
+    (resp, headers, store) => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+      store.dispatch(getAllUsers());
+      return;
+    }
+  );
+};
+
+export const addUsersDataSelector = flow(
+  AddUsersAPI.dataSelector,
+  get('data.add_users')
+);
+
+export const addUsersErrorMessageSelector = flow(
+  AddUsersAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataAddUsers = dispatch => {
+  dispatch(AddUsersAPI.resetter(['data', 'error']));
+};
 
 const GetAllUsersAPI = makeFetchAction(
   GET_ALL_USERS_API,
@@ -22,6 +100,8 @@ const GetAllUsersAPI = makeFetchAction(
       get_all_users {
         id
         fullName
+        avatar
+        email
       }
     }
   `
@@ -45,71 +125,6 @@ export const getAllUsersDataSelector = flow(
 export const resetDataGetAllUsers = dispatch => {
   dispatch(GetAllUsersAPI.resetter(['data', 'error']));
 };
-
-const GetAuthorByIdAPI = makeFetchAction(
-  GET_AUTHOR_BY_ID_API,
-  gql`
-    query($authorId: String!) {
-      get_author_by_id(authorId: $authorId) {
-        fullName
-        profession
-        avatar
-        id
-      }
-    }
-  `
-);
-
-export const getAuthorById = authorId => {
-  return respondToSuccess(
-    GetAuthorByIdAPI.actionCreator({ authorId }),
-    resp => {
-      if (resp.errors) {
-        console.error('Err:', resp.errors);
-        return;
-      }
-      return;
-    }
-  );
-};
-
-export const getAuthorByIdDataSelector = flow(
-  GetAuthorByIdAPI.dataSelector,
-  get('data.get_author_by_id')
-);
-
-export const resetDataGetAuthorById = dispatch => {
-  dispatch(GetAuthorByIdAPI.resetter(['data', 'error']));
-};
-
-const GetTypycalUsersAPI = makeFetchAction(
-  GET_TYPYCAL_USERS_API,
-  gql`
-    query {
-      get_three_authors_typical {
-        fullName
-        profession
-        avatar
-        id
-      }
-    }
-  `
-);
-
-export const getTypycalUsers = () => {
-  return respondToSuccess(GetTypycalUsersAPI.actionCreator(), resp => {
-    if (resp.errors) {
-      console.error('Err:', resp.errors);
-      return;
-    }
-    return;
-  });
-};
-
-export const getTypycalUsersDataSelector = flow(
-  GetTypycalUsersAPI.dataSelector,
-  get('data.get_three_authors_typical')
-);
 
 const UserLoginAPI = makeFetchAction(
   USER_LOGIN_API,

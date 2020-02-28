@@ -21,24 +21,25 @@ router.use('/auth', async (req, res, next) => {
       }
     });
 
+    const userContent = req.body.user_content;
+
     const doLogin = () => {
       const jwt = auth.sign(userContent);
       saveSession(req.session, jwt);
       const token = 'bearer ' + jwt;
       return res.json({ success: true, token });
     };
-    const userContent = req.body.user_content;
+
+    const userWalletAdress = await generateWallet();
+    const username = userContent.email.substring(
+      0,
+      userContent.email.lastIndexOf('@')
+    );
+    const generateDefaultPassword = Math.random()
+      .toString(36)
+      .slice(-8);
 
     const createNewUser = async () => {
-      const userWalletAdress = await generateWallet();
-      const username = userContent.email.substring(
-        0,
-        userContent.email.lastIndexOf('@')
-      );
-      const generateDefaultPassword = Math.random()
-        .toString(36)
-        .slice(-8);
-
       const user = new Users({
         username,
         password: generateDefaultPassword,
@@ -52,16 +53,24 @@ router.use('/auth', async (req, res, next) => {
       await user.save();
     };
 
-    if (userContent.googleId) {
-      Users.findOne({ google_id: userContent.googleId }).then(existingUser => {
-        if (existingUser) {
-          doLogin();
-        } else {
-          createNewUser();
-          //pubsub - emit - email for user their password later!
-          doLogin();
-        }
+    const existingUser = await Users.findOne({ email: userContent.email });
+
+    if (existingUser) {
+      if (existingUser.google_id) {
+        doLogin(existingUser);
+      }
+      existingUser.updateDoc({
+        username,
+        password: generateDefaultPassword,
+        google_id: userContent.googleId,
+        full_name: userContent.familyName + ' ' + userContent.givenName,
+        avatar: userContent.imageUrl
       });
+      await existingUser.save();
+      doLogin();
+    } else {
+      createNewUser();
+      doLogin();
     }
   } catch (error) {
     next(error);

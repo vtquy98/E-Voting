@@ -6,6 +6,9 @@ export const getUser = payload => {
     return null;
   }
   //status: USER_ACTIVE add later!
+  if (payload.googleId) {
+    return Users.findOne({ google_id: payload.googleId });
+  }
   return Users.findOne({ id: payload.id });
 };
 
