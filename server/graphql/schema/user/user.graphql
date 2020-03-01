@@ -11,6 +11,12 @@ type User {
   totalVote: Int! #add more value in get_candidate_votes from election schema
   balance: Float! #for check admin balance
   avatar: String!
+  createdAt: Date!
+  updatedAt: Date!
+  profession: String!
+  department: String!
+  summaryDescription: String!
+  birthDate: String!
 }
 
 enum Role {
@@ -27,4 +33,12 @@ type Query {
 type Mutation {
   add_users(listUserEmails: [String!]!): [User!]!
   delete_user(userId: String!): [User!]!
+  edit_user_info(
+    birthDate: String!
+    profession: String!
+    department: String!
+    summaryDescription: String!
+    fullName: String!
+    avatar: String!
+  ): User!
 }

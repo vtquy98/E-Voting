@@ -14,6 +14,78 @@ export const USER_LOGOUT_API = 'UserLogoutAPI';
 export const GET_ALL_USERS_API = 'GetAllUsersAPI';
 export const ADD_USERS_API = 'AddUsersAPI';
 export const DELETE_USER_API = 'DeleteUserAPI';
+export const EDIT_USER_INFO_API = 'EditUserInfoAPI';
+
+const EditUserInfoAPI = makeFetchAction(
+  EDIT_USER_INFO_API,
+  gql`
+    mutation(
+      $birthDate: String!
+      $profession: String!
+      $department: String!
+      $summaryDescription: String!
+      $fullName: String!
+      $avatar: String!
+    ) {
+      edit_user_info(
+        birthDate: $birthDate
+        profession: $profession
+        department: $department
+        summaryDescription: $summaryDescription
+        fullName: $fullName
+        avatar: $avatar
+      ) {
+        id
+      }
+    }
+  `
+);
+
+export const editUserInfo = ({
+  userId,
+  birthDate,
+  profession,
+  department,
+  summaryDescription,
+  fullName,
+  avatar
+}) => {
+  return respondToSuccess(
+    EditUserInfoAPI.actionCreator({
+      userId,
+      birthDate,
+      profession,
+      department,
+      summaryDescription,
+      fullName,
+      avatar
+    }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      return;
+    }
+  );
+};
+
+export const editUserInfoDataSelector = flow(
+  EditUserInfoAPI.dataSelector,
+  get('data.edit_user_info')
+);
+
+export const editUserInfoErrorMessageSelector = flow(
+  EditUserInfoAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataEditUserInfo = dispatch => {
+  dispatch(EditUserInfoAPI.resetter(['data', 'error']));
+};
 
 const DeleteUserAPI = makeFetchAction(
   DELETE_USER_API,
@@ -172,6 +244,14 @@ const GetCurrentUserAPI = makeFetchAction(
         googleId
         balance
         walletAddress
+        role
+        createdAt
+        updatedAt
+        avatar
+        profession
+        department
+        summaryDescription
+        birthDate
       }
     }
   `
