@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 const VerticalBarComponent = () => (
   <div
@@ -21,32 +22,20 @@ const VerticalBarComponent = () => (
           ></i>
         </li>
         <li className=" nav-item">
-          <a href="index.html">
-            <i className="ft-home"></i>
-            <span className="menu-title" data-i18n="">
-              Dashboard
-            </span>
-            <span className="badge badge badge-primary badge-pill float-right mr-2">
-              3
-            </span>
-          </a>
-        </li>
-        <li className=" navigation-header">
-          <span>Apps</span>
-          <i
-            className=" ft-minus"
-            data-toggle="tooltip"
-            data-placement="right"
-            data-original-title="Apps"
-          ></i>
+          <Link href="/user/dashboard">
+            <a>
+              <i className="ft-home"></i>
+              <span className="menu-title">Dashboard</span>
+            </a>
+          </Link>
         </li>
         <li className=" nav-item">
-          <a href="email-application.html">
-            <i className="ft-mail"></i>
-            <span className="menu-title" data-i18n="">
-              Email Application
-            </span>
-          </a>
+          <Link href="/user/info">
+            <a>
+              <i className="ft-user"></i>
+              <span className="menu-title">Your information</span>
+            </a>
+          </Link>
         </li>
       </ul>
     </div>

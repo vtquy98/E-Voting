@@ -2,7 +2,7 @@ import Document, { Head, Main, NextScript } from 'next/document';
 import React from 'react';
 
 export default class MyDocument extends Document {
-  // static async getInitialProps(ctx) {
+  // /static async getInitialProps(ctx) {
   //   const initialProps = await Document.getInitialProps(ctx);
   //   const themeName = THEME;
   //   return { ...initialProps, themeName };
@@ -36,85 +36,85 @@ export default class MyDocument extends Document {
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/css/vendors.css"
+            href="/static/assets/css/vendors.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/vendors/css/forms/icheck/icheck.css"
+            href="/static/assets/vendors/css/forms/icheck/icheck.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/vendors/css/forms/icheck/custom.css"
+            href="/static/assets/vendors/css/forms/icheck/custom.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/vendors/css/charts/morris.css"
+            href="/static/assets/vendors/css/charts/morris.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/vendors/css/extensions/unslider.css"
+            href="/static/assets/vendors/css/extensions/unslider.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/vendors/css/weather-icons/climacons.min.css"
+            href="/static/assets/vendors/css/weather-icons/climacons.min.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/css/app.css"
+            href="/static/assets/css/app.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/css/core/menu/menu-types/vertical-menu.css"
+            href="/static/assets/css/core/menu/menu-types/vertical-menu.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/css/core/colors/palette-climacon.css"
+            href="/static/assets/css/core/colors/palette-climacon.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/css/core/colors/palette-gradient.css"
+            href="/static/assets/css/core/colors/palette-gradient.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/fonts/simple-line-icons/style.min.css"
+            href="/static/assets/fonts/simple-line-icons/style.min.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/fonts/meteocons/style.min.css"
+            href="/static/assets/fonts/meteocons/style.min.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/css/pages/users.css"
+            href="/static/assets/css/pages/users.css"
           />
 
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/css/pages/project.css"
+            href="/static/assets/css/pages/project.css"
           />
 
           {/* custom css */}
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/css/custom.css"
+            href="/static/assets/css/custom.css"
           />
           <link
             rel="stylesheet"
             type="text/css"
-            href="static/assets/css/nprogress.css"
+            href="/static/assets/css/nprogress.css"
           />
 
           {/* end custom */}
@@ -129,7 +129,7 @@ export default class MyDocument extends Document {
           <NextScript />
 
           <script
-            src="static/assets/vendors/js/vendors.min.js"
+            src="/static/assets/vendors/js/vendors.min.js"
             type="text/javascript"
           ></script>
 
@@ -138,53 +138,53 @@ export default class MyDocument extends Document {
             type="text/javascript"
           ></script>
           <script
-            src="static/assets/vendors/js/charts/gmaps.min.js"
+            src="/static/assets/vendors/js/charts/gmaps.min.js"
             type="text/javascript"
           ></script>
           <script
-            src="static/assets/vendors/js/forms/icheck/icheck.min.js"
+            src="/static/assets/vendors/js/forms/icheck/icheck.min.js"
             type="text/javascript"
           ></script>
           <script
-            src="static/assets/vendors/js/extensions/jquery.knob.min.js"
+            src="/static/assets/vendors/js/extensions/jquery.knob.min.js"
             type="text/javascript"
           ></script>
           <script
-            src="static/assets/vendors/js/charts/raphael-min.js"
+            src="/static/assets/vendors/js/charts/raphael-min.js"
             type="text/javascript"
           ></script>
           <script
-            src="static/assets/vendors/js/charts/morris.min.js"
+            src="/static/assets/vendors/js/charts/morris.min.js"
             type="text/javascript"
           ></script>
           <script
-            src="static/assets/vendors/js/charts/jquery.sparkline.min.js"
+            src="/static/assets/vendors/js/charts/jquery.sparkline.min.js"
             type="text/javascript"
           ></script>
           <script
-            src="static/assets/vendors/js/extensions/unslider-min.js"
+            src="/static/assets/vendors/js/extensions/unslider-min.js"
             type="text/javascript"
           ></script>
           <script
-            src="static/assets/vendors/js/charts/echarts/echarts.js"
-            type="text/javascript"
-          ></script>
-
-          <script
-            src="static/assets/js/core/app-menu.js"
-            type="text/javascript"
-          ></script>
-          <script
-            src="static/assets/js/core/app.js"
-            type="text/javascript"
-          ></script>
-          <script
-            src="static/assets/js/scripts/customizer.js"
+            src="/static/assets/vendors/js/charts/echarts/echarts.js"
             type="text/javascript"
           ></script>
 
           <script
-            src="static/assets/js/scripts/pages/dashboard-fitness.js"
+            src="/static/assets/js/core/app-menu.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="/static/assets/js/core/app.js"
+            type="text/javascript"
+          ></script>
+          <script
+            src="/static/assets/js/scripts/customizer.js"
+            type="text/javascript"
+          ></script>
+
+          <script
+            src="/static/assets/js/scripts/pages/dashboard-fitness.js"
             type="text/javascript"
           ></script>
         </body>

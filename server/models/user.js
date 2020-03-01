@@ -59,7 +59,25 @@ const UserSchema = Schema({
     UdBHBR5c6gu0bRAU9JmIgsGUaBZwNbj/EPr56vUcehxGgxKniq8OrIq6lm96Ooo5FkQ/QUJHP
     V6pvPV6otXWUlDBJVVtSlJTQjdLPUuqIo9pZiAOer1FM6s+o/D6Gnq8ByDL87iLhoKjHUH6GEdj5V/tN/rdh8eer1Ah0V6aY7n3M0GO1Ms1JguGzCtr8XLMss8obf5cb9yzH7Z8Bz1eqylVCKqjsoCi+ug56vVz56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9X//0dtjnq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vUxY9gGE5owypwfHKFK7DqtfLlgnHb2Mp7hh4Ec9XqJJn30wY5h0lRW5FqBjGHm8owqqISpj/AHrKdA/s
     Hjz1eoCIxn/IdawhTEst1sd7hBNFbX4WXnq9SiXrP1W8nyBmyrP/AB4Spf8A5C2X56vU0GLqX1Eq1SRMUzLUNoFl85lAPtvYAc9XqMFkD0u1k8sOI9QKkU1KtpBgVCwaR9d1pJF0UHxA156vUc3CsJw7B6GnwzCqOPD6CkURU9NTKFRR8AOer1OvPV6vc9Xq9z1er3PV6vc9Xq9z1er3PV6vc9Xq9z1er//S22Oer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vVGqKSlq4zFV00dTE2jRVCK6n6mBHPV6mMZSymCGGWsPBB3KRRU1wf+QOer1P0EEFOgip4EgjXQRwKqqPqUDnq9Wfnq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1f/09tjnq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9X/9TbY56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV//V22Oer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1f/1ttjnq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9X/9fbY56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV7nq9Xuer1e56vV//Z`
-  }
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
+    required: true
+  },
+  updated_at: {
+    type: Date,
+    default: Date.now,
+    required: true
+  },
+  profession: { type: String, required: true, default: 'Member of AGU' },
+  department: { type: String, required: true, default: 'An Giang University' },
+  summary_description: {
+    type: String,
+    required: true,
+    default: 'Death is like a wind, always by my side :)'
+  },
+  birth_date: { type: String, required: true, default: '01/01/1989' }
 });
 
 UserSchema.methods.updateDoc = updateDocBuilder();

@@ -1,7 +1,7 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { generateWallet } from '../../../libs/generateWalletAddress';
 import { Users } from '../../../services';
-import { isAdmin } from '../../libs';
+import { isAdmin, checkAuthentication } from '../../libs';
 import { sendInviteMail } from '../../../mail/mail';
 import { generatePassword } from '../../../libs';
 
@@ -38,6 +38,39 @@ module.exports = {
       await Users.deleteOne({ id: userId });
       const allUser = await Users.find({});
       return allUser;
-    })
+    }),
+    edit_user_info: combineResolvers(
+      checkAuthentication,
+      async (
+        _,
+        {
+          birthDate,
+          profession,
+          department,
+          summaryDescription,
+          fullName,
+          avatar
+        },
+        { currentUser }
+      ) => {
+        const existUser = await Users.findOne({ id: currentUser.id });
+        if (!existUser) {
+          throw new Error('User is not exist!');
+        }
+
+        const userData = {
+          birth_date: birthDate,
+          profession,
+          department,
+          summary_description: summaryDescription,
+          full_name: fullName,
+          avatar
+        };
+
+        existUser.updateDoc(userData);
+        await existUser.save();
+        return existUser;
+      }
+    )
   }
 };
