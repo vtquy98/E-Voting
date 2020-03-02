@@ -15,6 +15,7 @@ type Election {
   atLeastVote: Int!
   mostVote: Int!
   votedCount: Int!
+  dateTakePlace: String!
 }
 
 type ElectionResult {
@@ -47,6 +48,7 @@ type Query {
   get_total_candidates_count(ElectionAddress: String!): Election!
   get_total_voters_count(ElectionAddress: String!): Election!
   get_election_result(electionId: String!): [ElectionResult!]!
+  get_upcoming_election: [Election!]!
 }
 
 type Mutation {
@@ -62,6 +64,7 @@ type Mutation {
     electionOwner: String!
     atLeastVote: Int
     mostVote: Int
+    dateTakePlace: String!
   ): Election!
 
   add_candidate(
@@ -75,4 +78,5 @@ type Mutation {
   end_voting(electionId: String!): Election!
   poll_vote(listUserId: [String!]!, electionId: String!): Election!
   manual_poll_vote(listUserId: [String!]!, electionId: String!): Election!
+  report_participated_election(electionId: String!): [Election!]!
 }

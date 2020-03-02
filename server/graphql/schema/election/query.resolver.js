@@ -1,4 +1,4 @@
-import { Users, Elections } from '../../../services';
+import { Users, Elections, ElectionNotify } from '../../../services';
 import { combineResolvers } from 'graphql-resolvers';
 import { isAdmin, checkAuthentication } from '../../libs';
 import Election from '../../libs/election';
@@ -145,6 +145,20 @@ module.exports = {
         );
 
         return electionResult;
+      }
+    ),
+    get_upcoming_election: combineResolvers(
+      checkAuthentication,
+      async (_, __, { currentUser }) => {
+        const listElectionId = await ElectionNotify.getListElections(
+          currentUser.id
+        );
+
+        const upComingElection = listElectionId.map(
+          async election => await Elections.findOne({ id: election })
+        );
+
+        return upComingElection;
       }
     )
   }
