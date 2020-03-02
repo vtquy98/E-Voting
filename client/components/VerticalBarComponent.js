@@ -31,6 +31,14 @@ const VerticalBarComponent = () => (
             </span>
           </a>
         </li>
+        <li className=" nav-item">
+          <a href="#" data-toggle="modal" data-target="#createNewElectionModal">
+            <i className="ft-plus-square"></i>
+            <span className="menu-title" data-i18n="">
+              Create Election
+            </span>
+          </a>
+        </li>
         <li className=" navigation-header">
           <span>Apps</span>
           <i

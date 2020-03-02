@@ -1,5 +1,5 @@
 import { combineResolvers } from 'graphql-resolvers';
-import { Elections, Users } from '../../../services';
+import { Elections, Users, ElectionNotify } from '../../../services';
 import { isAdmin, checkAuthentication, formatObject } from '../../libs';
 import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
 import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
@@ -44,7 +44,8 @@ module.exports = {
           voters,
           electionOwner,
           mostVote,
-          atLeastVote
+          atLeastVote,
+          dateTakePlace
         }
       ) => {
         const electionStored = await Elections.findOne({ id: electionId });
@@ -60,7 +61,8 @@ module.exports = {
           election_owner: electionOwner,
           state: CREATED,
           most_vote: mostVote,
-          at_least_vote: atLeastVote
+          at_least_vote: atLeastVote,
+          date_take_place: dateTakePlace
         });
 
         const election = Election(electionStored.election_address);
@@ -83,6 +85,12 @@ module.exports = {
         await Promise.all(
           voters.map(async voter => {
             const userData = await Users.findOne({ id: voter }); //got user
+
+            await ElectionNotify.addElectionForUser({
+              voterId: voter,
+              electionId
+            });
+
             await election.methods
               .registerVoter(userData.wallet_address, userData.full_name)
               .send({ from: ADMIN_WALLET, gas: '6721975' });
@@ -214,6 +222,12 @@ module.exports = {
             })
           ));
 
+        //auto remove them on list voter, TODO: handle it on manual voting type
+        await ElectionNotify.removeElection({
+          voterId: currentUser.id,
+          electionId
+        });
+
         electionStored.voted_count += 1;
         await electionStored.save();
         return electionStored;
@@ -240,6 +254,25 @@ module.exports = {
         electionStored.voted_count += 1;
         await electionStored.save();
         return electionStored;
+      }
+    ),
+    report_participated_election: combineResolvers(
+      checkAuthentication,
+      async (_, { electionId }, { currentUser }) => {
+        await ElectionNotify.removeElection({
+          voterId: currentUser.id,
+          electionId
+        });
+
+        const listElectionId = await ElectionNotify.getListElections(
+          currentUser.id
+        );
+
+        const upComingElection = listElectionId.map(
+          async election => await Elections.findOne({ id: election })
+        );
+
+        return upComingElection;
       }
     )
   }

@@ -3,12 +3,8 @@ import UserDashboardComponent from '../../components/UserDashboardComponent';
 import DashboardPageLayout from '../../layouts/DashboardPageLayout';
 import AuthenHOC from '../../components/HOC/AuthenHOC';
 
-const UserDashboardPage = ({ rootProps, currentUser }) => (
-  <DashboardPageLayout
-    {...rootProps}
-    role={currentUser.role}
-    title="not config"
-  >
+const UserDashboardPage = ({ rootProps }) => (
+  <DashboardPageLayout {...rootProps} title="not config">
     <UserDashboardComponent />
   </DashboardPageLayout>
 );

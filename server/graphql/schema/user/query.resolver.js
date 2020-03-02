@@ -15,7 +15,7 @@ module.exports = {
     },
     get_current_user: combineResolvers(
       checkAuthentication,
-      (_, __, { currentUser }) => {
+      async (_, __, { currentUser }) => {
         return Users.findOne({ id: currentUser.id });
       }
     ),

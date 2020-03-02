@@ -43,15 +43,15 @@ class UserInforComponent extends React.Component {
                       <div className="events-content">
                         <li className="selected">
                           <div className="row">
-                            <div className="col-lg-1 text-center mb-2">
+                            <div className="col-lg-2 text-center mb-2">
                               <img
                                 src={currentUser.avatar}
                                 alt="avt"
-                                width="100"
+                                width="150"
                                 className="rounded-circle"
                               />
                             </div>
-                            <div className="col-lg-11 text-center">
+                            <div className="col-lg-10 text-center">
                               <h2>{currentUser.fullName}</h2>
                               <h3 className="text-muted mb-1">
                                 <em>Date join: {currentUser.createdAt}</em>

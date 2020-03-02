@@ -4,6 +4,7 @@ import { required, isNumber } from '../utils/validation';
 import RenderTextAreaFieldComponent from './FormField/RenderTextAreaFieldComponent';
 import RenderVotingTypeFieldComponent from './FormField/RenderVotingTypeFieldComponent';
 import RenderInputFieldWithIcon from './FormField/RenderInputFieldWithIcon';
+
 import { compose } from 'recompose';
 import { connect } from 'react-redux';
 import { SELECT_TO_TRUST } from '../enums/votingType';
@@ -120,6 +121,22 @@ class VotingDescriptionForm extends React.Component {
             </div>
           </div>
         )}
+
+        <div className="row">
+          <div className="col-md-6 mt-2">
+            <h4 className="card-title">
+              Vote <code>the most</code> (option)
+            </h4>
+            <Field
+              type="date"
+              icon="fa fa-calendar-check-o"
+              className="form-control"
+              name="dateTakePlace"
+              component={RenderInputFieldWithIcon}
+              validate={[required]}
+            />
+          </div>
+        </div>
 
         <div className="form-actions right">
           <button type="button" className="btn btn-warning mr-1" disabled>
