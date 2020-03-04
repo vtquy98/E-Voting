@@ -9,6 +9,10 @@ module.exports = {
     googleId: path('google_id'),
     walletAddress: path('wallet_address'),
     fullName: path('full_name'),
+    createdAt: path('created_at'),
+    updatedAt: path('updated_at'),
+    summaryDescription: path('summary_description'),
+    birthDate: path('birth_date'),
     token: (user, _, { req }) => {
       const jwt = auth.sign(user);
       saveSession(req.session, jwt);

@@ -18,6 +18,7 @@ module.exports = {
     mostVote: path('most_vote'),
     votingType: path('voting_type'),
     votedCount: path('voted_count'),
+    dateTakePlace: path('date_take_place'),
     totalCandidateCount: async election => {
       const electionSol = Election(election.election_address);
       const totalCandidateCount = await electionSol.methods

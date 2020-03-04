@@ -47,6 +47,11 @@ const ElectionSchema = Schema({
     type: Number,
     required: true,
     default: 0
+  },
+  date_take_place: {
+    type: String,
+    required: true,
+    default: 'Not schedule'
   }
 });
 
