@@ -1,6 +1,6 @@
 import mailLayout from './layout';
 
-const content = `<div class="text" style="padding: 0 3em; text-align: justify;">
+const content = `<div class="text" style="padding: 0 3em; text-align: left;">
 <h2>Invite letter using our E-Voting system</h2>
 <p>Dear {{name}},</p>
 <p>We invite you using our E-Voting System to vote for candidate you like in some next voting. Here is your infomation to login: </p>

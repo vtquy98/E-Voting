@@ -450,7 +450,7 @@ export default content => `<!DOCTYPE html>
 					<td valign="top" class="bg_white" style="padding: 1em 2.5em; background-color: #6251da;">
 						<table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
 							<tr>
-								<td width="40%" class="logo" style="text-align: left;">
+								<td width="100%" class="logo" style="text-align: left;">
 									<h1><a href="https://e-voting.tech" target="_blank">AGU E-Voting</a></h1>
 								</td>
 								<td width="60%" class="logo" style="text-align: right;"></td>
