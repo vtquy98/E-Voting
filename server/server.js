@@ -13,26 +13,12 @@ import session from './middlewares/session';
 // import expressJWT from './middlewares/express-jwt';
 import api from './routes/apis';
 const app = express();
-const passport = require('passport');
 app.disable('x-powered-by');
 app.use(helmet());
 app.use(cors());
-// app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-);
 
-app.use(passport.initialize());
-// app.use(
-//   bodyParser.urlencoded({
-//     parameterLimit: 100000,
-//     limit: '50mb',
-//     extended: true
-//   })
-// );
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(logger('dev'));
 app.use(session());
 // app.use(expressJWT());

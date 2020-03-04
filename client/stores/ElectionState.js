@@ -18,6 +18,75 @@ export const FINISH_ELECTION_CREATION_API = 'FinishElectionCreationAPI';
 export const START_VOTING_API = 'StartVotingAPI';
 export const STOP_VOTING_API = 'StopVotingAPI';
 export const MANUAL_VOTING_API = 'ManualVotingAPI';
+export const GET_USER_UP_COMING_ELECTION_API = 'GetUserUpComingElectionAPI';
+export const REPORT_PARTICIPATED_ELECTION_API = 'ReportParticipatedElectionAPI';
+
+const ReportParticipatedElectionAPI = makeFetchAction(
+  REPORT_PARTICIPATED_ELECTION_API,
+  gql`
+    mutation($electionId: String!) {
+      report_participated_election(electionId: $electionId) {
+        id
+      }
+    }
+  `
+);
+export const reportParticipatedElection = ({ electionId }) => {
+  return respondToSuccess(
+    ReportParticipatedElectionAPI.actionCreator({ electionId }),
+    (resp, headers, store) => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+      store.dispatch(getUserUpComingElection());
+      return;
+    }
+  );
+};
+
+export const reportParticipatedElectionDataSelector = flow(
+  ReportParticipatedElectionAPI.dataSelector,
+  path('data.report_participated_election')
+);
+
+export const reportParticipatedElectionErrorSelector = flow(
+  ReportParticipatedElectionAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+///
+
+const GetUserUpComingElectionAPI = makeFetchAction(
+  GET_USER_UP_COMING_ELECTION_API,
+  gql`
+    query {
+      get_upcoming_election {
+        dateTakePlace
+        name
+        description
+        id
+        electionOwner
+      }
+    }
+  `
+);
+
+export const getUserUpComingElection = () => {
+  return respondToSuccess(GetUserUpComingElectionAPI.actionCreator(), resp => {
+    if (resp.errors) {
+      console.error('Err:', resp.errors);
+      return;
+    }
+    return;
+  });
+};
+
+export const getUserUpComingElectionDataSelector = flow(
+  GetUserUpComingElectionAPI.dataSelector,
+  path('data.get_upcoming_election')
+);
 
 const ManualVotingAPI = makeFetchAction(
   MANUAL_VOTING_API,
@@ -158,6 +227,7 @@ const FinishElectionCreationAPI = makeFetchAction(
       $electionOwner: String!
       $atLeastVote: Int!
       $mostVote: Int!
+      $dateTakePlace: String!
     ) {
       finish_election_creation(
         description: $description
@@ -169,6 +239,7 @@ const FinishElectionCreationAPI = makeFetchAction(
         electionOwner: $electionOwner
         atLeastVote: $atLeastVote
         mostVote: $mostVote
+        dateTakePlace: $dateTakePlace
       ) {
         id
         electionAddress
@@ -186,7 +257,8 @@ export const finishElectionCreation = ({
   voters,
   electionOwner,
   atLeastVote,
-  mostVote
+  mostVote,
+  dateTakePlace
 }) => {
   return respondToSuccess(
     FinishElectionCreationAPI.actionCreator({
@@ -198,7 +270,8 @@ export const finishElectionCreation = ({
       candidates,
       electionId,
       voters,
-      electionOwner
+      electionOwner,
+      dateTakePlace
     }),
     resp => {
       if (resp.errors) {
