@@ -39,7 +39,7 @@ class CreateElectionModalComponent extends React.Component {
       <div
         className="modal fade text-left"
         id="createNewElectionModal"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="myModalLabel35"
         aria-hidden="true"
@@ -62,7 +62,7 @@ class CreateElectionModalComponent extends React.Component {
             <form>
               <div className="modal-body">
                 <fieldset className="form-group floating-label-form-group">
-                  <label for="email">Election name</label>
+                  <label htmlFor="email">Election name</label>
                   <input
                     type="text"
                     className="form-control"

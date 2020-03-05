@@ -140,7 +140,7 @@ class VotingDescriptionForm extends React.Component {
 
         <div className="form-actions right">
           <button type="button" className="btn btn-warning mr-1" disabled>
-            <i class="ft-x"></i> Previous
+            <i className="ft-x"></i> Previous
           </button>
           <button type="submit" className="btn btn-success" value="Next">
             <i className="fa fa-check-square-o"></i> Next

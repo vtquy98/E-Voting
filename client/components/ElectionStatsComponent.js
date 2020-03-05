@@ -111,7 +111,7 @@ class ElectionStatsComponent extends React.Component {
                       </thead>
                       <tbody>
                         {elections.map((election, index) => (
-                          <tr key="index">
+                          <tr key={index}>
                             <td>{index + 1}</td>
                             <td>
                               <Link
@@ -121,13 +121,13 @@ class ElectionStatsComponent extends React.Component {
                                     : `/election?id=${election.id}`
                                 }
                               >
-                                {election.name}
+                                <a>{election.name}</a>
                               </Link>
                             </td>
                             {/* finish-create */}
                             <td>{election.totalCandidateCount}</td>
                             <td>{election.tocalVoterCount}</td>
-                            <td class="text-center font-small-2">
+                            <td className="text-center font-small-2">
                               {election.state === 'CREATED' ? (
                                 <span className="badge badge-default badge-warning">
                                   {election.state}

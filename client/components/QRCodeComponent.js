@@ -7,7 +7,7 @@ import { generateQrcode } from '../libs/generateQRCode';
 const WithQrCodeState = withState('qrcode', 'setQrcode', '');
 
 class QrCodeComponent extends React.Component {
-  async componentWillMount() {
+  async componentDidMount() {
     const { text, setQrcode, size } = this.props;
     const qrcode = await generateQrcode(text, { width: size, height: size });
 
