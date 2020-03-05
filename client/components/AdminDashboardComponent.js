@@ -100,7 +100,7 @@ class UserDashboardComponent extends React.Component {
 
                   <div className="card">
                     <div className="card-header">
-                      <h4 className="card-title">Project Overview</h4>
+                      <h4 className="card-title">How to using?</h4>
                       <a className="heading-elements-toggle">
                         <i className="fa fa-ellipsis-v font-medium-3"></i>
                       </a>
@@ -122,28 +122,43 @@ class UserDashboardComponent extends React.Component {
                     <div className="card-content">
                       <div className="card-body">
                         <p>
-                          <strong>Pellentesque habitant morbi tristique</strong>{' '}
-                          senectus et netus et malesuada fames ac turpis
-                          egestas. Vestibulum tortor quam, feugiat vitae.
-                          <em>Aenean ultricies mi vitae est.</em> Mauris
-                          placerat eleifend leo. Quisque sit amet est et sapien
-                          ullamcorper pharetra. Vestibulum erat wisi,
-                          condimentum sed, <code>commodo vitae</code>, ornare
-                          sit amet, wisi. Aenean fermentum, elit eget tincidunt
-                          condimentum, eros ipsum rutrum orci, sagittis tempus
-                          lacus enim ac dui.
-                          <a href="#">Donec non enim</a>.
+                          <strong>Thank you for using our system.</strong>
+                          <br /> We hope we can bring you good experience.
+                          <br />
                         </p>
                         <p>
-                          <strong>Lorem ipsum dolor sit</strong>
+                          In this dashboard, you can view all elections, create
+                          new election, view your ethereum wallet address also
+                          current balance.
                         </p>
-                        <ol>
-                          <li>Consectetuer adipiscing</li>
-                          <li>Aliquam tincidunt mauris</li>
-                          <li>Consectetur adipiscing</li>
-                          <li>Vivamus pretium ornare</li>
-                          <li>Curabitur massa</li>
-                        </ol>
+                        <p>
+                          <strong>To Create new Election:</strong>
+                        </p>
+                        <div className="ml-2 mt-1">
+                          <li>
+                            Click <code>create new eleciton</code>, type
+                            Election's name
+                          </li>
+                          <li>Wating for success</li>
+                          <li>
+                            Finish some election's information for anyone know
+                            more that.
+                          </li>
+                        </div>
+                        <div>
+                          <strong>Why any action take so long ?</strong>
+                          <div className="ml-2 mt-1">
+                            <li>
+                              Well, any action on AGU E-Voting will be write on
+                              <code>blockchain</code>, so we must be waitting
+                              for
+                              <code>Consensus Mechanism</code>
+                            </li>
+                            <li className="mt-1">
+                              Usually, each action takes about 1 minute
+                            </li>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

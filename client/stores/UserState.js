@@ -206,6 +206,7 @@ const UserLoginAPI = makeFetchAction(
         id
         fullName
         token
+        role
       }
     }
   `
@@ -220,7 +221,11 @@ export const userLogin = (username, password) => {
         return;
       }
       saveToken(resp.data.login_user.token);
-      Router.push('/admin-dashboard');
+      Router.push(
+        resp.data.login_user.role === 'ADMIN'
+          ? '/admin-dashboard'
+          : '/user/dashboard'
+      );
       return;
     }
   );

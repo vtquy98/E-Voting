@@ -233,6 +233,7 @@ Horizontal Timeline
   opacity: 0;
   animation-duration: 0.4s;
   animation-timing-function: ease-in-out;
+  list-style-type: none;
 }
 .cd-horizontal-timeline .events-content li > * {
   max-width: 800px;

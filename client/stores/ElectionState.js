@@ -547,7 +547,7 @@ const GetAllCandidatesAPI = makeFetchAction(
         id
         fullName
         avatar
-        # description
+        summaryDescription
       }
     }
   `

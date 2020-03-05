@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 class EmptyPageLayout extends React.Component {
   render() {
-    const { children } = this.props;
+    const { children, currentUser } = this.props;
     return (
       <React.Fragment>
         <nav className="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-light navbar-border">
@@ -11,17 +11,31 @@ class EmptyPageLayout extends React.Component {
             <div className="navbar-header ">
               <ul className="nav navbar-nav ">
                 <li className="nav-item">
-                  <Link href="/admin-dashboard">
-                    <a className="navbar-brand">
-                      <img
-                        className="brand-logo"
-                        alt="stack admin logo"
-                        src="/static/assets/images/e-voting-logo.png"
-                        width="30"
-                      />
-                      <h2 className="brand-text">AGU E-VOTING</h2>
-                    </a>
-                  </Link>
+                  {currentUser && currentUser.role === 'ADMIN' ? (
+                    <Link href="/admin-dashboard">
+                      <a className="navbar-brand">
+                        <img
+                          className="brand-logo"
+                          alt="stack admin logo"
+                          src="/static/assets/images/e-voting-logo.png"
+                          width="30"
+                        />
+                        <h2 className="brand-text">AGU E-VOTING</h2>
+                      </a>
+                    </Link>
+                  ) : (
+                    <Link href="/user/dashboard">
+                      <a className="navbar-brand">
+                        <img
+                          className="brand-logo"
+                          alt="stack admin logo"
+                          src="/static/assets/images/e-voting-logo.png"
+                          width="30"
+                        />
+                        <h2 className="brand-text">AGU E-VOTING</h2>
+                      </a>
+                    </Link>
+                  )}
                 </li>
               </ul>
             </div>

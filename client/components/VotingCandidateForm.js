@@ -30,7 +30,7 @@ const VotingCandidateForm = props => {
           value="Previous"
           onClick={previousPage}
         >
-          <i class="fa fa-chevron-circle-left"></i> Previous
+          <i className="fa fa-chevron-circle-left"></i> Previous
         </button>
         <button type="submit" className="btn btn-success" value="Next">
           <i className="fa fa-check-square-o"></i> Next

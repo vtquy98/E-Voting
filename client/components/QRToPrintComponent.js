@@ -34,7 +34,7 @@ class QRToPrintComponent extends React.Component {
                           </h4>
 
                           {candidates.map((candidate, index) => (
-                            <h2 className="text-bold-600 m-3">
+                            <h2 className="text-bold-600 m-3" key={index}>
                               {index + 1}. {candidate.fullName}
                             </h2>
                           ))}

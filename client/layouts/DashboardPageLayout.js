@@ -1,6 +1,5 @@
 import React from 'react';
 import VerticalBarComponent from '../components/VerticalBarComponent';
-import UserVerticalBarComponent from '../components/UserVerticalBarComponent';
 import FooterComponent from '../components/FooterComponent';
 import NavBarComponent from '../components/NavBarComponent';
 class DashboardPageLayout extends React.Component {
@@ -8,12 +7,8 @@ class DashboardPageLayout extends React.Component {
     const { children, currentUser } = this.props;
     return (
       <React.Fragment>
-        <NavBarComponent />
-        {currentUser && currentUser.role === 'ADMIN' ? (
-          <VerticalBarComponent />
-        ) : (
-          <UserVerticalBarComponent />
-        )}
+        <NavBarComponent currentUser={currentUser} />
+        <VerticalBarComponent role={currentUser.role} />
         {children}
         <FooterComponent />
       </React.Fragment>
