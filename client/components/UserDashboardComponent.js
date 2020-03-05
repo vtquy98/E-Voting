@@ -76,7 +76,7 @@ class UserDashboardComponent extends React.Component {
                           <div>
                             <ol>
                               {upComingElection.map((election, index) => (
-                                <div>
+                                <div key={index}>
                                   <li className="selected">
                                     <h2>{election.name}</h2>
                                     <h3 className="text-muted mb-1 mt-1">

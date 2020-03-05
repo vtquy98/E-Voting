@@ -117,40 +117,13 @@ export default class MyDocument extends Document {
 
               {/* test */}
 
-              <link
-                href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i"
-                rel="stylesheet"
-              />
+              <link href="/static/assets/css/font.css" rel="stylesheet" />
               <link
                 rel="stylesheet"
                 type="text/css"
                 href="/static/assets/css/vendors.css"
               />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/vendors/css/forms/icheck/icheck.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/vendors/css/forms/icheck/custom.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/vendors/css/charts/morris.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/vendors/css/extensions/unslider.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/vendors/css/weather-icons/climacons.min.css"
-              />
+
               <link
                 rel="stylesheet"
                 type="text/css"
@@ -222,57 +195,11 @@ export default class MyDocument extends Document {
               ></script>
 
               <script
-                src="//maps.googleapis.com/maps/api/js?key=AIzaSyBDkKetQwosod2SZ7ZGCpxuJdxY3kxo5Po"
-                type="text/javascript"
-              ></script>
-              <script
-                src="/static/assets/vendors/js/charts/gmaps.min.js"
-                type="text/javascript"
-              ></script>
-              <script
-                src="/static/assets/vendors/js/forms/icheck/icheck.min.js"
-                type="text/javascript"
-              ></script>
-              <script
-                src="/static/assets/vendors/js/extensions/jquery.knob.min.js"
-                type="text/javascript"
-              ></script>
-              <script
-                src="/static/assets/vendors/js/charts/raphael-min.js"
-                type="text/javascript"
-              ></script>
-              <script
-                src="/static/assets/vendors/js/charts/morris.min.js"
-                type="text/javascript"
-              ></script>
-              <script
-                src="/static/assets/vendors/js/charts/jquery.sparkline.min.js"
-                type="text/javascript"
-              ></script>
-              <script
-                src="/static/assets/vendors/js/extensions/unslider-min.js"
-                type="text/javascript"
-              ></script>
-              <script
-                src="/static/assets/vendors/js/charts/echarts/echarts.js"
-                type="text/javascript"
-              ></script>
-
-              <script
                 src="/static/assets/js/core/app-menu.js"
                 type="text/javascript"
               ></script>
               <script
                 src="/static/assets/js/core/app.js"
-                type="text/javascript"
-              ></script>
-              <script
-                src="/static/assets/js/scripts/customizer.js"
-                type="text/javascript"
-              ></script>
-
-              <script
-                src="/static/assets/js/scripts/pages/dashboard-fitness.js"
                 type="text/javascript"
               ></script>
             </body>

@@ -80,12 +80,12 @@ const renderer = ({ minutes, seconds, completed }) => {
           <div className="card-body">
             <div className="row">
               <div className="col-xl-12 col-lg-12 col-md-12 text-center clearfix">
-                <h2 className="pt-1">
+                <p className="pt-1 h2">
                   {minutes}:{seconds}
                   <h4>
                     <span className="icon-clock"></span> Time remaining
                   </h4>
-                </h2>
+                </p>
               </div>
             </div>
           </div>
@@ -114,8 +114,6 @@ class ShowElectionComponent extends React.Component {
       // voters = [],
       // getTotalVotesCount
     } = this.props;
-    console.log(election);
-    console.log(candidates);
 
     return (
       <React.Fragment>
@@ -171,9 +169,9 @@ class ShowElectionComponent extends React.Component {
                                                   alt="Card"
                                                 />
 
-                                                {/* <p className="card-text">
-                                                {candidate.description} DO LATER!!!
-                                              </p> */}
+                                                <p className="card-text">
+                                                  {candidate.summaryDescription}
+                                                </p>
                                               </div>
                                             </div>
                                           </div>

@@ -56,27 +56,27 @@ const chartOption = electionResult => {
       trigger: 'item',
       formatter: '{a} <br/>{b} : {c} ({d}%)'
     },
-    legend: {
-      left: 'center',
-      top: 'bottom',
-      padding: [0, 10],
-      data: electionResult.map(result => {
-        return result.userData.fullName;
-      })
-    },
-    toolbox: {
-      show: true,
-      feature: {
-        mark: { show: true },
-        dataView: { show: true, readOnly: false },
-        magicType: {
-          show: true,
-          type: ['pie', 'funnel']
-        },
-        restore: { show: true },
-        saveAsImage: { show: true }
-      }
-    },
+    // legend: {
+    //   left: 'center',
+    //   top: 'bottom',
+    //   padding: [0, 10],
+    //   data: electionResult.map(result => {
+    //     return result.userData.fullName;
+    //   })
+    // },
+    // toolbox: {
+    //   show: true,
+    //   feature: {
+    //     mark: { show: true },
+    //     dataView: { show: true, readOnly: false },
+    //     magicType: {
+    //       show: true,
+    //       type: ['pie', 'funnel']
+    //     },
+    //     restore: { show: true },
+    //     saveAsImage: { show: true }
+    //   }
+    // },
     series: [
       {
         name: 'Statistic chart',
@@ -125,7 +125,6 @@ class ShowElectionComponent extends React.Component {
 
   render() {
     const { election = [], electionResult = [] } = this.props;
-    console.log(electionResult);
     return (
       <React.Fragment>
         <link
@@ -173,7 +172,7 @@ class ShowElectionComponent extends React.Component {
                   </div>
                 ) : (
                   <React.Fragment>
-                    <div className="col-xl-7 col-lg-12 col-md-12">
+                    <div className="col-xl-6 col-lg-12 col-md-12">
                       <div className="card">
                         <div className="card-header border-0-bottom">
                           <h1 className="card-title text-center mb-2">
@@ -194,7 +193,7 @@ class ShowElectionComponent extends React.Component {
                         </div>
                       </div>
                     </div>
-                    <div className="col-xl-5 col-lg-12 col-md-12">
+                    <div className="col-xl-6 col-lg-12 col-md-12">
                       <div className="row">
                         <div className="col-xl-12 col-lg-6 col-md-12">
                           <div className="card">
@@ -203,7 +202,7 @@ class ShowElectionComponent extends React.Component {
                                 Details of the votes of candidates
                               </h4>
                             </div>
-                            <div className="card-content">
+                            <div className="card-content table-responsive">
                               <table className="table mb-0">
                                 <thead>
                                   <tr>
@@ -217,7 +216,7 @@ class ShowElectionComponent extends React.Component {
                                   {electionResult
                                     .sort((a, b) => b.percentage - a.percentage)
                                     .map((candidate, index) => (
-                                      <tr key="index">
+                                      <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td>{candidate.userData.fullName}</td>
                                         <td className="text-center">

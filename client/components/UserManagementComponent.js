@@ -103,7 +103,7 @@ class UserDashboardComponent extends React.Component {
                           <tbody>
                             {users &&
                               users.map((user, index) => (
-                                <tr>
+                                <tr key={index}>
                                   <th scope="row">{index + 1}</th>
                                   <td className="w-25">
                                     <img
