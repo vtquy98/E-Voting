@@ -69,7 +69,7 @@ const UserLoginComponent = ({
       <div className="content-header row"></div>
       <div className="content-body">
         <section className="flexbox-container">
-          <div className="col-12 d-flex align-items-center justify-content-center">
+          <div className="col-12 d-flex align-items-center justify-content-center mt-2">
             <div className="col-md-4 col-10 box-shadow-2 p-0">
               <div className="card border-grey border-lighten-3 m-0">
                 <div className="card-header border-0">
@@ -120,7 +120,7 @@ const UserLoginComponent = ({
                   <div className="card-body pt-0">
                     <form className="form-horizontal" action="index.html">
                       <fieldset className="form-group floating-label-form-group">
-                        <label for="user-name">Your Username</label>
+                        <label htmlFor="user-name">Your Username</label>
                         <input
                           type="text"
                           className="form-control"
@@ -130,7 +130,7 @@ const UserLoginComponent = ({
                         />
                       </fieldset>
                       <fieldset className="form-group floating-label-form-group mb-1">
-                        <label for="user-password">Enter Password</label>
+                        <label htmlFor="user-password">Enter Password</label>
                         <input
                           type="password"
                           className="form-control"
@@ -140,16 +140,7 @@ const UserLoginComponent = ({
                         />
                       </fieldset>
                       <div className="form-group row">
-                        <div className="col-md-6 col-12 text-center text-sm-left">
-                          <fieldset>
-                            <input
-                              type="checkbox"
-                              id="remember-me"
-                              className="chk-remember"
-                            />
-                            <label for="remember-me"> Remember Me</label>
-                          </fieldset>
-                        </div>
+                        <div className="col-md-6 col-12 text-center text-sm-left"></div>
                         <div className="col-md-6 col-12 float-sm-left text-center text-sm-right">
                           <a href="recover-password.html" className="card-link">
                             Forgot Password?
@@ -185,15 +176,6 @@ const UserLoginComponent = ({
         </section>
       </div>
     </div>
-    <style jsx>
-      {`
-        .bg-full-screen-image {
-          background: url('static/assets/images/bg.jpeg') no-repeat center
-            center fixed;
-          background-size: cover;
-        }
-      `}
-    </style>
   </div>
 );
 
