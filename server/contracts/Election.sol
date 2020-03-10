@@ -109,14 +109,20 @@ contract Election {
     state = State.Voting;
   }
 
-  function pollVote(address _candidateAddress, address _voterAddress)
+  function pollVote(
+    address _candidateAddress,
+    address _voterAddress,
+    bool _choice
+  )
     public
     inState(State.Voting)
     canVote(_voterAddress, _candidateAddress) //throw if user has already voted
   {
     require(voterData[_voterAddress].exists, 'You are not authorized to vote!');
     hasVoted[_candidateAddress][_voterAddress] = true; //make note of the fact he's voting now
-    candidateData[_candidateAddress].votes += 1;
+    if (_choice) {
+      candidateData[_candidateAddress].votes += 1;
+    }
     totalVotes++;
   }
 

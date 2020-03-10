@@ -152,6 +152,7 @@ class ElectionComponent extends React.Component {
                         </span>
                       </li>
                       <li>
+                        {/* HANDLE IT WHEN CHOOSE TRUST VOTE */}
                         At least choose:{' '}
                         <span className="text-muted">
                           {election.atLeastVote}
