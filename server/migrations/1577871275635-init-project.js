@@ -11,14 +11,6 @@ const {
   USER_WALLET_ADDRESS
 } = process.env;
 
-// ganache:
-//   admin: 0x86FA91238DdB108831766eC58c365bD0f291b101
-//   user: 0xA195956136328E5aFAA1eDD7185101BAf4e9166a
-
-// ropsten:
-//   admin: 0xc248515c28a64dFc462Df0301f0D12cF942dae2F
-//   user: 0x842782b6F3243195083F96deEC7d065bf03a1c6D
-
 const adminWalletAddress =
   ADMIN_WALLET_ADDRESS || '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
 

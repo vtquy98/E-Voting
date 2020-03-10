@@ -1,6 +1,6 @@
 type User {
   id: ID!
-  googleId: String!
+  googleId: String
   fullName: String!
   email: String!
   walletAddress: String!

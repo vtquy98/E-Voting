@@ -13,10 +13,16 @@ import {
   getElectionDataSelector,
   pollVote,
   pollVoteDataSelector,
-  pollVoteErrorSelector
+  pollVoteErrorSelector,
+  pollVoteTrustType,
+  pollVoteTrustTypeDataSelector,
+  pollVoteTrustTypeErrorSelector,
+  resetDataPollVoteTrustType
 } from '../stores/ElectionState';
+
 import { getCurrentUserDataSelector } from '../stores/UserState';
 import RenderVoteCheckFieldComponent from './FormField/RenderVoteCheckFieldComponent';
+import RenderTrustField from './FormField/RenderTrustField';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -24,11 +30,14 @@ const connectToRedux = connect(
     errorMessage: pollVoteErrorSelector,
     successMessage: pollVoteDataSelector,
     candidates: getAllCandidatesDataSelector,
-    currentUser: getCurrentUserDataSelector
+    currentUser: getCurrentUserDataSelector,
+    errorMessageTrustTypeVote: pollVoteTrustTypeErrorSelector,
+    successMessageTrustTypeVote: pollVoteTrustTypeDataSelector
   }),
   dispatch => ({
     resetData: () => {
       resetDataPollVote(dispatch);
+      resetDataPollVoteTrustType(dispatch);
     },
     getElection: id => dispatch(getElection(id)),
     getAllCandidates: electionId => dispatch(getAllCandidates(electionId))
@@ -64,25 +73,40 @@ class ShowElectionComponent extends React.Component {
       submitting,
       successMessage,
       errorMessage,
+      errorMessageTrustTypeVote,
+      successMessageTrustTypeVote,
       election = []
     } = this.props;
 
     const submit = (values, dispatch, props) => {
       const electionId = props.electionId.id;
       const candidateList = candidates.map(candidate => candidate.id);
-      const listToVote =
-        values && candidateList.filter(val => !values.listUserId.includes(val));
 
-      dispatch(
-        pollVote({
-          //handle it with trust voting
-          listUserId:
-            election.votingType === 'SELECT_TO_VOTE'
-              ? values.listUserId
-              : listToVote,
-          electionId
-        })
-      );
+      // console.log(election.votingType);
+      if (election.votingType === 'SELECT_TO_VOTE') {
+        const listToVote =
+          values &&
+          candidateList.filter(val => !values.listUserId.includes(val));
+
+        dispatch(
+          pollVote({
+            //handle it with trust voting
+            listUserId:
+              election.votingType === 'SELECT_TO_VOTE'
+                ? values.listUserId
+                : listToVote,
+            electionId
+          })
+        );
+      } else {
+        dispatch(
+          pollVoteTrustType({
+            choice: values.voterChoice === 'true',
+            electionId,
+            userId: candidateList[0]
+          })
+        );
+      }
     };
 
     return (
@@ -90,7 +114,7 @@ class ShowElectionComponent extends React.Component {
         <div className="content-wrapper">
           <div className="content-body">
             <div className="row">
-              {election.state === 'ENDED' ? (
+              {election.state !== 'STARTED' ? (
                 <div className="col-lg-12 card">
                   <div className="card-header">
                     <h4 className="card-title">{election.name}</h4>
@@ -99,24 +123,27 @@ class ShowElectionComponent extends React.Component {
                     <div className="card-body">
                       <div className="card-text">
                         <h1 className="text-center">
-                          Sorry, this election was ended!
+                          Sorry, this is not time to vote!
                         </h1>
 
                         <div className="text-center">
-                          <Link href={`/election-result?id=${election.id}`}>
-                            <a
-                              type="button"
-                              className="btn btn-outline-info btn-min-width mr-1 mb-1"
-                            >
-                              <i className="fa fa-heart"></i> View result
-                            </a>
-                          </Link>
-                          <Link href="/">
+                          {election.state === 'ENDED' && (
+                            <Link href={`/election-result?id=${election.id}`}>
+                              <a
+                                type="button"
+                                className="btn btn-outline-info btn-min-width mr-1 mb-1"
+                              >
+                                <i className="fa fa-heart"></i> View result
+                              </a>
+                            </Link>
+                          )}
+
+                          <Link href="/user/dashboard">
                             <a
                               type="button"
                               className="btn btn-outline-secondary btn-min-width mr-1 mb-1"
                             >
-                              <i className="fa fa-home"></i> Go to home
+                              <i className="fa fa-home"></i> Go to dashboard
                             </a>
                           </Link>
                         </div>
@@ -169,7 +196,7 @@ class ShowElectionComponent extends React.Component {
                     <div className="card">
                       <div className="card-content">
                         <div className="card-body">
-                          {successMessage ? (
+                          {successMessage || successMessageTrustTypeVote ? (
                             <div>
                               <h1 className="title text-center mt-2 mb-2">
                                 Thank you for your participation!
@@ -192,12 +219,20 @@ class ShowElectionComponent extends React.Component {
                               </h1>
                               <div className="col-lg-12 col-md-6 col-sm-12">
                                 <form onSubmit={handleSubmit(submit)}>
-                                  <Field
-                                    name="listUserId"
-                                    options={candidates}
-                                    component={RenderVoteCheckFieldComponent}
-                                    votingType={election.votingType}
-                                  />
+                                  {election.votingType === 'SELECT_TO_TRUST' ? (
+                                    <Field
+                                      name="voterChoice"
+                                      component={RenderTrustField}
+                                    />
+                                  ) : (
+                                    <Field
+                                      name="listUserId"
+                                      options={candidates}
+                                      component={RenderVoteCheckFieldComponent}
+                                      votingType={election.votingType}
+                                    />
+                                  )}
+
                                   <div className="text-center mt-2">
                                     <div className="form-group">
                                       <button
@@ -217,13 +252,15 @@ class ShowElectionComponent extends React.Component {
                                         <i className="fa fa-times"></i> Reset
                                       </button>
                                     </div>
-                                    {errorMessage ? (
+                                    {errorMessage ||
+                                    errorMessageTrustTypeVote ? (
                                       <div
                                         className="mt-2 alert alert-danger border-0 mb-2"
                                         role="alert"
                                       >
                                         <strong>Error: </strong>
-                                        {errorMessage}
+                                        {errorMessage ||
+                                          errorMessageTrustTypeVote}
                                       </div>
                                     ) : null}
                                   </div>

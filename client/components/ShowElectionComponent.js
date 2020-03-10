@@ -80,12 +80,12 @@ const renderer = ({ minutes, seconds, completed }) => {
           <div className="card-body">
             <div className="row">
               <div className="col-xl-12 col-lg-12 col-md-12 text-center clearfix">
-                <p className="pt-1 h2">
+                <div className="pt-1 h2">
                   {minutes}:{seconds}
                   <h4>
                     <span className="icon-clock"></span> Time remaining
                   </h4>
-                </p>
+                </div>
               </div>
             </div>
           </div>
