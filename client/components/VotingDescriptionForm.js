@@ -125,7 +125,7 @@ class VotingDescriptionForm extends React.Component {
         <div className="row">
           <div className="col-md-6 mt-2">
             <h4 className="card-title">
-              Vote <code>the most</code> (option)
+              Time to <code>take place</code> (option)
             </h4>
             <Field
               type="date"

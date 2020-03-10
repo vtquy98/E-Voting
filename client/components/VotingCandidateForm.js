@@ -1,25 +1,44 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { required } from '../utils/validation';
 import RenderCandidateSelectionField from './FormField/RenderCandidateSelectionField';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
+import { SELECT_TO_TRUST } from '../enums/votingType';
 
 const withForm = reduxForm({
   form: 'create_voting',
   destroyOnUnmount: false // <------ preserve form data
 });
 
+const selector = formValueSelector('create_voting');
+
+const SelectingFormValuesForm = connect(state => {
+  const votingTypeValue = selector(state, 'votingType');
+  return {
+    votingTypeValue
+  };
+});
+
+const enhance = compose(
+  withForm,
+  SelectingFormValuesForm
+);
+
 const VotingCandidateForm = props => {
-  const { handleSubmit, previousPage, options } = props;
+  const { handleSubmit, previousPage, options, votingTypeValue } = props;
   return (
     <form onSubmit={handleSubmit}>
       <h4 className="card-title">
         Let's add some <code>candidates</code> to add into the election
       </h4>
+
       <Field
         name="candidates"
         component={RenderCandidateSelectionField}
         options={options}
         validate={[required]}
+        isMulti={!(parseInt(votingTypeValue) === SELECT_TO_TRUST)}
       />
 
       <div className="form-actions right">
@@ -51,4 +70,4 @@ const VotingCandidateForm = props => {
   );
 };
 
-export default withForm(VotingCandidateForm);
+export default enhance(VotingCandidateForm);

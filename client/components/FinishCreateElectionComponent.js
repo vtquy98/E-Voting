@@ -235,9 +235,14 @@ class FinishCreateElectionComponent extends React.Component {
                                           onSubmit={values =>
                                             finishElectionCreation({
                                               ...values,
-                                              candidates: values.candidates.map(
-                                                candidate => candidate.value
-                                              ),
+                                              candidates:
+                                                values.candidates.length ===
+                                                undefined
+                                                  ? [values.candidates['value']]
+                                                  : values.candidates.map(
+                                                      candidate =>
+                                                        candidate.value
+                                                    ),
                                               voters: values.voters.map(
                                                 voter => voter.value
                                               ),

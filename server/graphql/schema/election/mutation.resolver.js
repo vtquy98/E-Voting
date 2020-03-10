@@ -217,7 +217,11 @@ module.exports = {
             listUserId.map(async user => {
               const userData = await Users.findOne({ id: user });
               await election.methods
-                .pollVote(userData.wallet_address, currentUser.wallet_address)
+                .pollVote(
+                  userData.wallet_address,
+                  currentUser.wallet_address,
+                  true
+                )
                 .send({ from: ADMIN_WALLET, gas: '6721975' });
             })
           ));
@@ -251,11 +255,40 @@ module.exports = {
             })
           ));
 
+        //handle remove user from upcoming list !!!!!
         electionStored.voted_count += 1;
         await electionStored.save();
         return electionStored;
       }
     ),
+
+    poll_vote_trust: combineResolvers(
+      checkAuthentication,
+      async (_, { userId, electionId, choice }, { currentUser }) => {
+        //handle it with manual vote
+        const electionStored = await Elections.findOne({
+          id: electionId
+        });
+        const election = Election(electionStored.election_address);
+
+        const userData = await Users.findOne({ id: userId });
+
+        await election.methods
+          .pollVote(userData.wallet_address, currentUser.wallet_address, choice)
+          .send({ from: ADMIN_WALLET, gas: '6721975' });
+
+        //auto remove them on list voter
+        await ElectionNotify.removeElection({
+          voterId: currentUser.id,
+          electionId
+        });
+
+        electionStored.voted_count += 1;
+        await electionStored.save();
+        return electionStored;
+      }
+    ),
+
     report_participated_election: combineResolvers(
       checkAuthentication,
       async (_, { electionId }, { currentUser }) => {
