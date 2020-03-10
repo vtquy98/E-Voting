@@ -20,6 +20,52 @@ export const STOP_VOTING_API = 'StopVotingAPI';
 export const MANUAL_VOTING_API = 'ManualVotingAPI';
 export const GET_USER_UP_COMING_ELECTION_API = 'GetUserUpComingElectionAPI';
 export const REPORT_PARTICIPATED_ELECTION_API = 'ReportParticipatedElectionAPI';
+export const POLL_VOTE_TRUST_TYPE_API = 'PollVoteTrustTypeAPI';
+
+const PollVoteTrustTypeAPI = makeFetchAction(
+  POLL_VOTE_TRUST_TYPE_API,
+  gql`
+    mutation($userId: String!, $electionId: String!, $choice: Boolean!) {
+      poll_vote_trust(
+        userId: $userId
+        electionId: $electionId
+        choice: $choice
+      ) {
+        id
+      }
+    }
+  `
+);
+
+export const pollVoteTrustType = ({ userId, electionId, choice }) => {
+  return respondToSuccess(
+    PollVoteTrustTypeAPI.actionCreator({ userId, electionId, choice }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      return;
+    }
+  );
+};
+
+export const pollVoteTrustTypeDataSelector = flow(
+  PollVoteTrustTypeAPI.dataSelector,
+  path('data.poll_vote_trust')
+);
+
+export const pollVoteTrustTypeErrorSelector = flow(
+  PollVoteTrustTypeAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataPollVoteTrustType = dispatch => {
+  dispatch(PollVoteTrustTypeAPI.resetter(['data', 'error']));
+};
 
 const ReportParticipatedElectionAPI = makeFetchAction(
   REPORT_PARTICIPATED_ELECTION_API,
@@ -225,8 +271,8 @@ const FinishElectionCreationAPI = makeFetchAction(
       $voters: [String!]!
       $electionId: String!
       $electionOwner: String!
-      $atLeastVote: Int!
-      $mostVote: Int!
+      $atLeastVote: Int
+      $mostVote: Int
       $dateTakePlace: String!
     ) {
       finish_election_creation(

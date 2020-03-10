@@ -79,4 +79,9 @@ type Mutation {
   poll_vote(listUserId: [String!]!, electionId: String!): Election!
   manual_poll_vote(listUserId: [String!]!, electionId: String!): Election!
   report_participated_election(electionId: String!): [Election!]!
+  poll_vote_trust(
+    userId: String!
+    electionId: String!
+    choice: Boolean!
+  ): Election!
 }

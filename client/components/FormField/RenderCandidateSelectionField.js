@@ -14,7 +14,8 @@ const customStyles = {
 const RenderCandidateSelectionField = ({
   input,
   meta: { touched, error },
-  options
+  options,
+  isMulti = true
 }) => (
   <div>
     <Select
@@ -23,7 +24,7 @@ const RenderCandidateSelectionField = ({
       onChange={input.onChange}
       onBlur={() => input.onBlur(input.value)} //if not it won't display what selected
       options={options}
-      isMulti
+      isMulti={isMulti}
       closeMenuOnSelect={false}
       components={animatedComponents}
       styles={customStyles}
