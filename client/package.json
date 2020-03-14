@@ -4,7 +4,7 @@
   "description": "This example features:",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "babel-node server.js",
     "build": "next build",
     "start": "next start"
   },
@@ -22,6 +22,7 @@
     "jimp": "^0.9.3",
     "moment": "^2.24.0",
     "next": "^9.1.7",
+    "next-i18next": "^4.2.1",
     "next-redux-wrapper": "^3.0.0",
     "nprogress": "^0.2.0",
     "prettier": "1.18.2",
@@ -51,6 +52,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/preset-env": "^7.8.3",
     "@babel/plugin-proposal-do-expressions": "7.0.0-rc.1",
     "prettier": "1.18.2"
   }

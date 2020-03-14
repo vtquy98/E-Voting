@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, withState } from 'recompose';
+import { withTranslation } from '../i18n';
 
 import { userLogin, userLoginErrorMessageSelector } from '../stores/UserState';
 
@@ -53,7 +54,8 @@ const connectToRedux = connect(
 const enhance = compose(
   withUsernameState,
   withPasswordState,
-  connectToRedux
+  connectToRedux,
+  withTranslation('login')
 );
 
 const UserLoginComponent = ({
@@ -62,7 +64,8 @@ const UserLoginComponent = ({
   password,
   setUsername,
   setPassword,
-  errorMessage
+  errorMessage,
+  t
 }) => (
   <div className="app-content">
     <div className="content-wrapper">
@@ -83,7 +86,7 @@ const UserLoginComponent = ({
                     </div>
                   </div>
                   <h6 className="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
-                    <span>Easily Using</span>
+                    <span>{t('way')}</span>
                   </h6>
                 </div>
                 <div className="card-content">

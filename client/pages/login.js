@@ -2,10 +2,15 @@ import React from 'react';
 
 import EmptyPageLayout from '../layouts/EmptyPageLayout';
 import UserLoginComponent from '../components/UserLoginComponent';
-const UserLogin = rootProps => (
+
+const UserLoginPage = rootProps => (
   <EmptyPageLayout>
-    <UserLoginComponent />
+    <UserLoginComponent {...rootProps} />
   </EmptyPageLayout>
 );
 
-export default UserLogin;
+UserLoginPage.getInitialProps = () => ({
+  namespacesRequired: ['login']
+});
+
+export default UserLoginPage;

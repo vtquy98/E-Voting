@@ -4,10 +4,7 @@ import App, { Container } from 'next/app';
 import store from '../stores/store';
 import withRedux from 'next-redux-wrapper';
 import Head from 'next/head';
-
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { fas } from '@fortawesome/free-solid-svg-icons';
-// library.add(fas);
+import { appWithTranslation } from '../i18n';
 
 class AppRedux extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -23,7 +20,7 @@ class AppRedux extends App {
     return (
       <React.Fragment>
         <Head>
-          <title>{pageProps.title || 'Young Radio'}</title>
+          <title>{pageProps.title || 'AGU E-Voting'}</title>
         </Head>
         <Provider store={store}>
           <Component {...pageProps} />
@@ -33,4 +30,4 @@ class AppRedux extends App {
   }
 }
 
-export default withRedux(store)(AppRedux);
+export default withRedux(store)(appWithTranslation(AppRedux));

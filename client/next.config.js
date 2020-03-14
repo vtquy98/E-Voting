@@ -12,7 +12,6 @@ module.exports = withCSS({
     config.node = {
       fs: 'empty'
     };
-
     config.plugins = config.plugins || [];
 
     config.plugins = [

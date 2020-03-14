@@ -2,7 +2,7 @@ import React from 'react';
 import EmptyPageLayout from '../layouts/EmptyPageLayout';
 import PageNotFoundComponent from '../components/PageNotFoundComponent';
 
-class Error extends React.Component {
+class ErrorPage extends React.Component {
   static getInitialProps({ res, err }) {
     const statusCode = res ? res.statusCode : err ? err.statusCode : null;
     return { statusCode };
@@ -20,4 +20,8 @@ class Error extends React.Component {
   }
 }
 
-export default Error;
+ErrorPage.getInitialProps = async () => ({
+  namespacesRequired: []
+});
+
+export default ErrorPage;
