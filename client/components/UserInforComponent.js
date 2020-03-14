@@ -3,6 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { getCurrentUserDataSelector } from '../stores/UserState';
+import ChangePasswordPopupComponent from './ChangePasswordPopupComponent';
+import Popup from 'reactjs-popup';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -33,9 +35,29 @@ class UserInforComponent extends React.Component {
                           type="button"
                           className="btn btn-sm bg-blue-grey white"
                         >
-                          <i className="fa fa-cog white"></i> Edit
+                          <i className="fa fa-cog white"></i> Edit info
                         </a>
                       </Link>
+
+                      <Popup
+                        trigger={
+                          <a
+                            type="button"
+                            className="btn btn-sm bg-blue-grey white ml-1"
+                          >
+                            <i className="ft-lock"></i> Change pasword
+                          </a>
+                        }
+                        modal
+                      >
+                        {close => (
+                          <div className="hi">
+                            <ChangePasswordPopupComponent
+                              onClick={() => close()}
+                            />
+                          </div>
+                        )}
+                      </Popup>
                     </div>
                   </div>
                   <div className="card-body">

@@ -1,14 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
 import { compose, withState } from 'recompose';
-
-import { userLogin, userLoginErrorMessageSelector } from '../stores/UserState';
-
+import { userLogin } from '../stores/UserState';
+import { toast } from 'react-toastify';
 import { GoogleLogin } from 'react-google-login';
 import { saveToken } from '../libs/token-libs';
 import Router from 'next/router';
 const API_SERVER_URL = process.env.API_SERVER_URL || 'http://localhost:3003';
+
 const GOOGLE_CLIENT_ID =
   process.env.GOOGLE_CLIENT_ID ||
   '830741702755-h2vuh5arm3tg3t5bh64lp0d6qog62qhs.apps.googleusercontent.com';
@@ -32,18 +31,21 @@ const responseGoogle = response => {
   fetch(`${API_SERVER_URL}/auth`, options).then(r => {
     r.json().then(user => {
       saveToken(user.token);
-      Router.push('/');
+      Router.push('/user/dashboard');
     });
   });
+};
+
+const responseError = response => {
+  response.error === 'popup_closed_by_user' &&
+    toast.error('Error: Let choose your google account!');
 };
 
 const withUsernameState = withState('username', 'setUsername', '');
 const withPasswordState = withState('password', 'setPassword', '');
 
 const connectToRedux = connect(
-  createStructuredSelector({
-    errorMessage: userLoginErrorMessageSelector
-  }),
+  null,
   dispatch => ({
     doLogin: (username, password) =>
       username && password && dispatch(userLogin(username, password))
@@ -61,8 +63,7 @@ const UserLoginComponent = ({
   username,
   password,
   setUsername,
-  setPassword,
-  errorMessage
+  setPassword
 }) => (
   <div className="app-content">
     <div className="content-wrapper">
@@ -90,6 +91,7 @@ const UserLoginComponent = ({
                   <div className="card-body pt-0 text-center">
                     <a
                       href="#"
+                      onClick={() => toast.warn('Comming soon!')}
                       className="btn btn-social mb-1 mr-1 btn-outline-facebook"
                     >
                       <span className="fa fa-facebook"></span>
@@ -100,7 +102,7 @@ const UserLoginComponent = ({
                       clientId={GOOGLE_CLIENT_ID}
                       buttonText="Login with Google"
                       onSuccess={responseGoogle}
-                      onFailure={responseGoogle}
+                      onFailure={responseError}
                       cookiePolicy={'single_host_origin'}
                       render={renderProps => (
                         <a
@@ -158,16 +160,6 @@ const UserLoginComponent = ({
                         <i className="ft-unlock"></i> Login
                       </button>
                     </form>
-
-                    {errorMessage ? (
-                      <div
-                        className="mt-2 alert alert-danger border-0 mb-2"
-                        role="alert"
-                      >
-                        <strong>Error: </strong>
-                        {errorMessage}
-                      </div>
-                    ) : null}
                   </div>
                 </div>
               </div>

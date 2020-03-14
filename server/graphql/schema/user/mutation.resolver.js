@@ -71,6 +71,20 @@ module.exports = {
         await existUser.save();
         return existUser;
       }
+    ),
+    change_password: combineResolvers(
+      checkAuthentication,
+      async (_, { currentPassword, newPassword }, { currentUser }) => {
+        const user = await Users.findOne({ id: currentUser.id });
+        if (user) {
+          if (await user.comparePassword(currentPassword)) {
+            user.password = newPassword;
+            await user.save();
+            return user;
+          }
+          throw new Error('Incorrect old password');
+        }
+      }
     )
   }
 };

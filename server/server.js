@@ -7,10 +7,7 @@ import express from 'express';
 import helmet from 'helmet';
 import logger from 'morgan';
 import cors from 'cors';
-// import { sessionMiddlewares, expressJWT } from './middlewares'; //build in the future
 import session from './middlewares/session';
-// import expressJWT from './middlewares/express-jwt';
-// import expressJWT from './middlewares/express-jwt';
 import api from './routes/apis';
 const app = express();
 app.disable('x-powered-by');
@@ -21,17 +18,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(logger('dev'));
 app.use(session());
-// app.use(expressJWT());
 app.use(api);
-
-// app.get(
-//   '/auth/google',
-//   passport.authenticate('google', {
-//     scope: ['profile', 'email']
-//   })
-// );
-
-// app.get('/auth/google/callback', passport.authenticate('google'));
 
 app.use(function(err, req, res, next) {
   //todo: handle error below, try catch api with catch(e) { next(e) }
