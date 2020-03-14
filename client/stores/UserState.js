@@ -2,10 +2,14 @@ import { makeFetchAction, ACTIONS } from 'redux-api-call';
 import { respondToSuccess } from '../middlewares/api-reaction';
 import Router from 'next/router';
 import { flow, join, map, path, get, has } from 'lodash/fp';
-
+import { toast } from 'react-toastify';
 import { gql } from '../libs/graphql';
 import { saveToken, removeToken } from '../libs/token-libs';
 import nfetch from '../libs/nfetch';
+
+export const EmitErrorToast = errors => {
+  errors.map(err => toast.error(`Error:  ${err.message}`));
+};
 
 export const USER_LOGIN_API = 'UserLoginAPI';
 export const GET_CURRENT_USER_API = 'GetCurrentUserAPI';
@@ -15,6 +19,49 @@ export const GET_ALL_USERS_API = 'GetAllUsersAPI';
 export const ADD_USERS_API = 'AddUsersAPI';
 export const DELETE_USER_API = 'DeleteUserAPI';
 export const EDIT_USER_INFO_API = 'EditUserInfoAPI';
+export const CHANGE_PASSWORD_API = 'ChangePasswordAPI';
+
+const ChangePasswordAPI = makeFetchAction(
+  CHANGE_PASSWORD_API,
+  gql`
+    mutation($currentPassword: String!, $newPassword: String!) {
+      change_password(
+        currentPassword: $currentPassword
+        newPassword: $newPassword
+      ) {
+        id
+      }
+    }
+  `
+);
+
+export const changePassword = ({ currentPassword, newPassword }) => {
+  return respondToSuccess(
+    ChangePasswordAPI.actionCreator({
+      currentPassword,
+      newPassword
+    }),
+    resp => {
+      if (resp.errors) {
+        console.log('Err: ', resp.errors);
+        return;
+      }
+      toast.success('Your password has been changed succesfully !');
+      return;
+    }
+  );
+};
+
+export const changeUserPasswordErrorMessageSelector = flow(
+  ChangePasswordAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataChangeUserPassword = dispatch => {
+  dispatch(ChangePasswordAPI.resetter(['data', 'error']));
+};
 
 const EditUserInfoAPI = makeFetchAction(
   EDIT_USER_INFO_API,
@@ -63,6 +110,7 @@ export const editUserInfo = ({
     resp => {
       if (resp.errors) {
         console.error('Err:', resp.errors);
+        EmitErrorToast(resp.errors);
         return;
       }
 
@@ -104,6 +152,7 @@ export const deleteUser = userId => {
     (resp, headers, store) => {
       if (resp.errors) {
         console.error('Err:', resp.errors);
+        EmitErrorToast(resp.errors);
         return;
       }
       store.dispatch(getAllUsers());
@@ -141,6 +190,7 @@ export const addUsers = listUserEmails => {
     (resp, headers, store) => {
       if (resp.errors) {
         console.error('Err:', resp.errors);
+        EmitErrorToast(resp.errors);
         return;
       }
       store.dispatch(getAllUsers());
@@ -183,6 +233,7 @@ export const getAllUsers = () => {
   return respondToSuccess(GetAllUsersAPI.actionCreator(), resp => {
     if (resp.errors) {
       console.error('Err:', resp.errors);
+      EmitErrorToast(resp.errors);
       return;
     }
     return;
@@ -218,6 +269,8 @@ export const userLogin = (username, password) => {
     resp => {
       if (resp.errors) {
         console.error('Err:', resp.errors);
+        EmitErrorToast(resp.errors);
+
         return;
       }
       saveToken(resp.data.login_user.token);
@@ -226,6 +279,7 @@ export const userLogin = (username, password) => {
           ? '/admin-dashboard'
           : '/user/dashboard'
       );
+      toast.success('Welcome back, ' + resp.data.login_user.fullName);
       return;
     }
   );
@@ -274,6 +328,7 @@ export const getCurrentUser = () =>
   respondToSuccess(GetCurrentUserAPI.actionCreator({}), resp => {
     if (resp.errors) {
       console.error(resp.errors);
+      EmitErrorToast(resp.errors);
       return Router.replace({
         pathname: '/login'
       });

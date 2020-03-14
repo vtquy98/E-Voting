@@ -32,6 +32,7 @@ type Query {
 
 type Mutation {
   add_users(listUserEmails: [String!]!): [User!]!
+  change_password(currentPassword: String!, newPassword: String!): User!
   delete_user(userId: String!): [User!]!
   edit_user_info(
     birthDate: String!

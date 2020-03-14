@@ -178,6 +178,12 @@ export default class MyDocument extends Document {
                 href="/static/assets/css/nprogress.css"
               />
 
+              <link
+                rel="stylesheet"
+                type="text/css"
+                href="/static/assets/custom/ReactToastify.css"
+              />
+
               {/* end custom */}
             </Head>
             <body
