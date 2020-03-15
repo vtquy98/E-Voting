@@ -4,6 +4,7 @@ import Router from 'next/router';
 import { makeFetchAction } from 'redux-api-call';
 import { gql } from '../libs/graphql';
 import { respondToSuccess } from '../middlewares/api-reaction';
+import { EmitUpdatedToast } from '../libs/toast';
 
 export const GET_ALL_ELECTION_API = 'GetAllElectionAPI';
 export const GET_ELECTION = 'GetElectionAPI';
@@ -194,6 +195,11 @@ export const stopVoting = electionId => {
       return;
     }
 
+    EmitUpdatedToast({
+      toastId: resp.data.end_voting.id,
+      content: `Election has been stoped!`
+    });
+
     const electionId = resp.data.end_voting.id;
     Router.push('/election-result?id=' + electionId);
 
@@ -236,6 +242,11 @@ export const startVoting = electionId => {
         console.error('Err:', resp.errors);
         return;
       }
+
+      EmitUpdatedToast({
+        toastId: resp.data.start_voting.id,
+        content: `Election has been started!`
+      });
 
       const electionId = resp.data.start_voting.id;
       Router.push('/show-election?id=' + electionId);
@@ -325,6 +336,11 @@ export const finishElectionCreation = ({
         return;
       }
 
+      EmitUpdatedToast({
+        toastId: resp.data.finish_election_creation.id,
+        content: `Election has been finished created!`
+      });
+
       return;
     }
   );
@@ -392,6 +408,7 @@ const CreateNewElectionAPI = makeFetchAction(
     mutation($name: String!) {
       create_election(name: $name) {
         id
+        name
       }
     }
   `
@@ -405,6 +422,11 @@ export const createNewElection = name => {
         console.error('Err:', resp.errors);
         return;
       }
+
+      EmitUpdatedToast({
+        toastId: resp.data.create_election.name,
+        content: `${resp.data.create_election.name} has been created!`
+      });
       const electionId = resp.data.create_election.id;
       Router.push('/finish-create?id=' + electionId);
 

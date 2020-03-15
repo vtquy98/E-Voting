@@ -152,13 +152,6 @@ class ElectionStatsComponent extends React.Component {
                     </table>
                   </div>
                 </div>
-                <div className="card-footer border-top-blue-grey border-top-lighten-5 text-muted">
-                  <span className="float-right">
-                    <a href="#" className="card-link">
-                      View all <i className="fa fa-angle-right"></i>
-                    </a>
-                  </span>
-                </div>
               </div>
             </div>
           </div>

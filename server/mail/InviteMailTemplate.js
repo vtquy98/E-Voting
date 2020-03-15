@@ -7,6 +7,8 @@ const content = `<div class="text" style="padding: 0 3em; text-align: left;">
 <p>Username: <b>{{name}}</b></p>
 <p>Default password: <b>{{password}}</b></p>
 <p>Please remind that change your password in the next login.</p>
+<p>By the way, you can also use your <b>Google account</b> to login.</p>
+
 <p>In case you need more information, don't hesitate to reach us at <a href="mailto:agu@e-voting.tech">agu@e-voting.tech</a>.</p>
 </div>`;
 

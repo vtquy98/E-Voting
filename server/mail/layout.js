@@ -482,8 +482,10 @@ export default content => `<!DOCTYPE html>
 											<td style="text-align: left; padding-left: 5px; padding-right: 5px;">
 												<h3 class="heading">Contact Info</h3>
 												<ul>
-													<li><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-													<li><span class="text">+2 392 3929 210</span></a></li>
+													<li><span class="text">18 Ung Van Khiem, Dong Xuyen Ward, Long Xuyen City, An Giang</span></li>
+													<li><span class="text"><b>Thanh Quy Vo</b></span></li>
+													<li><span class="text">+84 34 306 2244</span></a></li>
+													<li><span class="text">vtquy98@gmail.com</span></a></li>
 												</ul>
 											</td>
 										</tr>

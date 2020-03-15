@@ -5,6 +5,7 @@ import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
 import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
+import { sendInviteVotingMail } from '../../../mail/mail';
 
 const ADMIN_WALLET =
   process.env.ADMIN_WALLET_ADDRESS ||
@@ -94,6 +95,13 @@ module.exports = {
             await election.methods
               .registerVoter(userData.wallet_address, userData.full_name)
               .send({ from: ADMIN_WALLET, gas: '6721975' });
+
+            sendInviteVotingMail(userData.email, {
+              name: userData.full_name,
+              department: electionOwner,
+              electionName: electionStored.name,
+              date: dateTakePlace
+            });
           })
         );
 
