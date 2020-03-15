@@ -12,17 +12,19 @@ module.exports = {
       listUserEmails.map(async user => {
         const existUser = await Users.findOne({ email: user });
         if (!existUser) {
+          const username = user.substring(0, user.lastIndexOf('@'));
           const password = generatePassword(8);
           const userData = {
             wallet_address: userWalletAdress,
             email: user,
             full_name: user,
+            username,
             password
           };
           const newUser = new Users(userData);
           await newUser.save();
 
-          sendInviteMail(user, { name: user, password });
+          sendInviteMail(user, { name: username, password });
         }
       });
 

@@ -1,5 +1,6 @@
 import InviteMailTemplate from './InviteMailTemplate';
 import GrettingMailTemplate from './GrettingMailTemplate';
+import InviteVotingMailTemplate from './InviteVotingMailTemplate';
 
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -35,6 +36,27 @@ export const sendGrettingMail = (recipient, { name, password }) => {
     to: recipient,
     subject: 'Welcome To AGU E-voting System!',
     html: replaceMailContent(GrettingMailTemplate, mapObj),
+    from: 'agu@e-voting.tech'
+  };
+
+  return sgMail.send(mailObj);
+};
+
+export const sendInviteVotingMail = (
+  recipient,
+  { name, department, electionName, date }
+) => {
+  const mapObj = {
+    '{{name}}': name,
+    '{{department}}': department,
+    '{{electionName}}': electionName,
+    '{{date}}': date
+  };
+
+  const mailObj = {
+    to: recipient,
+    subject: 'Invite Voting Letter',
+    html: replaceMailContent(InviteVotingMailTemplate, mapObj),
     from: 'agu@e-voting.tech'
   };
 

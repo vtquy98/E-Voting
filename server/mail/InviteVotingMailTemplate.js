@@ -1,0 +1,18 @@
+import mailLayout from './layout';
+
+const content = `<div class="text" style="padding: 0 3em; text-align: left;">
+<h2>Invite To Voting At AGU E-Voting</h2>
+<p>Dear {{name}},</p>
+<p> {{department}} Invite you using E-Voting System to vote for candidate you trust in <b> {{electionName}} </b>. Here is some infomation for this election: </p>
+
+<ul>
+  <li>Election Name: {{electionName}}</li>
+  <li>Date: {{date}}</li>
+</ul>
+
+<p>You also can login to your account we provided before to view more about this election (candiates, voters, some role, etc...) in your dashboad.</p>
+
+<p>In case you need more information, don't hesitate to reach us at <a href="mailto:agu@e-voting.tech">agu@e-voting.tech</a>.</p>
+</div>`;
+
+export default mailLayout(content);

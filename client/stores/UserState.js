@@ -2,15 +2,10 @@ import { makeFetchAction, ACTIONS } from 'redux-api-call';
 import { respondToSuccess } from '../middlewares/api-reaction';
 import Router from 'next/router';
 import { flow, join, map, path, get, has } from 'lodash/fp';
-import { toast } from 'react-toastify';
 import { gql } from '../libs/graphql';
 import { saveToken, removeToken } from '../libs/token-libs';
 import nfetch from '../libs/nfetch';
-
-export const EmitErrorToast = errors => {
-  errors.map(err => toast.error(`Error:  ${err.message}`));
-};
-
+import { EmitErrorToast, EmitToastSuccess } from '../libs/toast';
 export const USER_LOGIN_API = 'UserLoginAPI';
 export const GET_CURRENT_USER_API = 'GetCurrentUserAPI';
 export const USER_LOGOUT = 'UserLogout';
@@ -46,7 +41,7 @@ export const changePassword = ({ currentPassword, newPassword }) => {
         console.log('Err: ', resp.errors);
         return;
       }
-      toast.success('Your password has been changed succesfully !');
+      EmitToastSuccess('Your password has been changed succesfully !');
       return;
     }
   );
@@ -57,6 +52,11 @@ export const changeUserPasswordErrorMessageSelector = flow(
   path('errors'),
   map('message'),
   join(' | ')
+);
+
+export const changeUserPasswordDataSelector = flow(
+  ChangePasswordAPI.dataSelector,
+  get('data.change_password')
 );
 
 export const resetDataChangeUserPassword = dispatch => {
@@ -141,6 +141,7 @@ const DeleteUserAPI = makeFetchAction(
     mutation($userId: String!) {
       delete_user(userId: $userId) {
         id
+        fullName
       }
     }
   `
@@ -155,6 +156,7 @@ export const deleteUser = userId => {
         EmitErrorToast(resp.errors);
         return;
       }
+      EmitToastSuccess(`User was deleted!`);
       store.dispatch(getAllUsers());
       return;
     }
@@ -279,7 +281,8 @@ export const userLogin = (username, password) => {
           ? '/admin-dashboard'
           : '/user/dashboard'
       );
-      toast.success('Welcome back, ' + resp.data.login_user.fullName);
+
+      EmitToastSuccess(`Welcome back,  ${resp.data.login_user.fullName}`);
       return;
     }
   );
