@@ -4,7 +4,7 @@ import Router from 'next/router';
 import { makeFetchAction } from 'redux-api-call';
 import { gql } from '../libs/graphql';
 import { respondToSuccess } from '../middlewares/api-reaction';
-import { EmitUpdatedToast } from '../libs/toast';
+import { EmitUpdatedToast, EmitToastSuccess } from '../libs/toast';
 
 export const GET_ALL_ELECTION_API = 'GetAllElectionAPI';
 export const GET_ELECTION = 'GetElectionAPI';
@@ -78,6 +78,7 @@ const ReportParticipatedElectionAPI = makeFetchAction(
     }
   `
 );
+
 export const reportParticipatedElection = ({ electionId }) => {
   return respondToSuccess(
     ReportParticipatedElectionAPI.actionCreator({ electionId }),
@@ -86,6 +87,7 @@ export const reportParticipatedElection = ({ electionId }) => {
         console.error('Err:', resp.errors);
         return;
       }
+      EmitToastSuccess('Removed!');
       store.dispatch(getUserUpComingElection());
       return;
     }
@@ -470,6 +472,11 @@ export const pollVote = ({ listUserId, electionId }) => {
         console.error('Err:', resp.errors);
         return;
       }
+
+      EmitUpdatedToast({
+        toastId: 'voting_toast',
+        content: `Vote successfully !`
+      });
 
       return;
     }

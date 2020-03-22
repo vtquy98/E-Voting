@@ -115,8 +115,12 @@ export default class MyDocument extends Document {
               <meta name="application-name" content="QR Scanner" />
               <meta name="msapplication-TileColor" />
 
-              {/* test */}
-
+              <link
+                rel="icon"
+                href="/static/assets/images/e-voting-logo.png"
+                type="image/png"
+                sizes="16x16"
+              />
               <link href="/static/assets/css/font.css" rel="stylesheet" />
               <link
                 rel="stylesheet"
@@ -183,11 +187,9 @@ export default class MyDocument extends Document {
                 type="text/css"
                 href="/static/assets/custom/ReactToastify.css"
               />
-
-              {/* end custom */}
             </Head>
             <body
-              className="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
+              className="vertical-layout 2-columns fixed-navbar  menu-hide vertical-overlay-menu pace-done"
               data-open="click"
               data-menu="vertical-menu"
               data-col="2-columns"
@@ -198,16 +200,16 @@ export default class MyDocument extends Document {
               <script
                 src="/static/assets/vendors/js/vendors.min.js"
                 type="text/javascript"
-              ></script>
+              />
 
               <script
                 src="/static/assets/js/core/app-menu.js"
                 type="text/javascript"
-              ></script>
+              />
               <script
                 src="/static/assets/js/core/app.js"
                 type="text/javascript"
-              ></script>
+              />
             </body>
           </React.Fragment>
         )}
