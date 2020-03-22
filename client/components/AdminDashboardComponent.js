@@ -1,6 +1,5 @@
 import React from 'react';
 import SmallCardComponent from './SmallCardComponent';
-import CreateElectionModalComponent from './CreateElectionModalComponent';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, withState } from 'recompose';
@@ -167,7 +166,6 @@ class UserDashboardComponent extends React.Component {
             </div>
           </div>
         </div>
-        <CreateElectionModalComponent />
       </React.Fragment>
     );
   }

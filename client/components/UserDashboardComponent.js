@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { getCurrentUserDataSelector } from '../stores/UserState';
+import Link from 'next/link';
+
 import {
   getUserUpComingElection,
   getUserUpComingElectionDataSelector,
@@ -78,7 +80,11 @@ class UserDashboardComponent extends React.Component {
                               {upComingElection.map((election, index) => (
                                 <div key={index}>
                                   <li className="selected">
-                                    <h2>{election.name}</h2>
+                                    <h2>
+                                      <Link href={`/voting?id=${election.id}`}>
+                                        <a> {election.name}</a>
+                                      </Link>
+                                    </h2>
                                     <h3 className="text-muted mb-1 mt-1">
                                       <em>
                                         Take place on: {election.dateTakePlace},{' '}

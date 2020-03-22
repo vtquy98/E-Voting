@@ -119,7 +119,7 @@ module.exports = {
     ),
 
     get_election_result: combineResolvers(
-      isAdmin,
+      checkAuthentication,
       async (_, { electionId }) => {
         const electionStored = await Elections.findOne({
           id: electionId

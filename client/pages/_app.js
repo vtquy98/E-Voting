@@ -1,13 +1,11 @@
 /* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 import { Provider } from 'react-redux';
-import App, { Container } from 'next/app';
+import App from 'next/app';
 import store from '../stores/store';
 import withRedux from 'next-redux-wrapper';
 import Head from 'next/head';
-
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { fas } from '@fortawesome/free-solid-svg-icons';
-// library.add(fas);
+import { ToastContainer } from 'react-toastify';
 
 class AppRedux extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -23,9 +21,10 @@ class AppRedux extends App {
     return (
       <React.Fragment>
         <Head>
-          <title>{pageProps.title || 'Young Radio'}</title>
+          <title>{pageProps.title || 'AGU E-Voting System'}</title>
         </Head>
         <Provider store={store}>
+          <ToastContainer autoClose={5000} />
           <Component {...pageProps} />
         </Provider>
       </React.Fragment>

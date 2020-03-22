@@ -1,7 +1,6 @@
 import React from 'react';
 const RenderTrustField = ({ input, label, meta: { touched, error } }) => (
   <div className="tab-pane" id="account">
-    <h4 className="info-text"> What do you vote? </h4>
     <div className="row">
       <div className="option-group">
         <div className="option-container">
