@@ -11,6 +11,8 @@ const ADMIN_WALLET =
   process.env.ADMIN_WALLET_ADDRESS ||
   '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
 
+const DOMAIN_NAME = process.env.DOMAIN_NAME || 'https://e-voting.tech';
+
 module.exports = {
   Mutation: {
     create_election: combineResolvers(isAdmin, async (_, { name }) => {
@@ -100,7 +102,9 @@ module.exports = {
               name: userData.full_name,
               department: electionOwner,
               electionName: electionStored.name,
-              date: dateTakePlace
+              date: dateTakePlace,
+              linkToVote: `${DOMAIN_NAME}/voting?id=${electionId}`,
+              description
             });
           })
         );

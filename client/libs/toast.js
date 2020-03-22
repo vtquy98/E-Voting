@@ -12,6 +12,14 @@ export const EmitUpdatedToast = ({ toastId, content }) => {
   });
 };
 
+export const EmitUpdatedErrorToast = ({ toastId, content }) => {
+  toast.update(toastId, {
+    type: toast.TYPE.ERROR,
+    autoClose: 5000,
+    render: content
+  });
+};
+
 export const EmitToastSuccess = content => {
   toast.success(content);
 };

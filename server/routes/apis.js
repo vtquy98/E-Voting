@@ -82,4 +82,16 @@ router.use('/auth', async (req, res, next) => {
   }
 });
 
+router.use('/signout', async (req, res, next) => {
+  try {
+    if (req.session.key) {
+      await req.session.destroy();
+    }
+
+    return res.json({ success: true, message: 'Sign out successfully.' });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

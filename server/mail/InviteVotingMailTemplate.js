@@ -7,10 +7,10 @@ const content = `<div class="text" style="padding: 0 3em; text-align: left;">
 
 <ul>
   <li>Election Name: {{electionName}}</li>
+  <li>Description: {{description}} </li>
   <li>Date: {{date}}</li>
+  <li>Link to vote: {{linkToVote}} </li>  
 </ul>
-
-<p>You also can login to your account we provided before to view more about this election (candiates, voters, some role, etc...) in your dashboad.</p>
 
 <p>In case you need more information, don't hesitate to reach us at <a href="mailto:agu@e-voting.tech">agu@e-voting.tech</a>.</p>
 </div>`;

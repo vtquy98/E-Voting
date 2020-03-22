@@ -7,10 +7,6 @@ import withRedux from 'next-redux-wrapper';
 import Head from 'next/head';
 import { ToastContainer } from 'react-toastify';
 
-// import { library } from '@fortawesome/fontawesome-svg-core';
-// import { fas } from '@fortawesome/free-solid-svg-icons';
-// library.add(fas);
-
 class AppRedux extends App {
   static async getInitialProps({ Component, ctx }) {
     const pageProps = Component.getInitialProps
@@ -25,7 +21,7 @@ class AppRedux extends App {
     return (
       <React.Fragment>
         <Head>
-          <title>{pageProps.title || 'Young Radio'}</title>
+          <title>{pageProps.title || 'AGU E-Voting System'}</title>
         </Head>
         <Provider store={store}>
           <ToastContainer autoClose={5000} />

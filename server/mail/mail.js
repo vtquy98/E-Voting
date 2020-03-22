@@ -3,7 +3,10 @@ import GrettingMailTemplate from './GrettingMailTemplate';
 import InviteVotingMailTemplate from './InviteVotingMailTemplate';
 
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(
+  process.env.SENDGRID_API_KEY ||
+    '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'
+);
 
 const replaceMailContent = (template, mapObj) => {
   const re = new RegExp(Object.keys(mapObj).join('|'), 'gi');
@@ -44,13 +47,15 @@ export const sendGrettingMail = (recipient, { name, password }) => {
 
 export const sendInviteVotingMail = (
   recipient,
-  { name, department, electionName, date }
+  { name, department, electionName, date, linkToVote, description }
 ) => {
   const mapObj = {
     '{{name}}': name,
     '{{department}}': department,
     '{{electionName}}': electionName,
-    '{{date}}': date
+    '{{date}}': date,
+    '{{linkToVote}}': linkToVote,
+    '{{description}}': description
   };
 
   const mailObj = {
