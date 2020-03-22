@@ -8,6 +8,7 @@ import {
   createNewElectionErrorSelector,
   resetDataCreateNewElection
 } from '../stores/ElectionState';
+import { toast } from 'react-toastify';
 
 const withElectionNameState = withState('electionName', 'setElectionName', '');
 
@@ -17,7 +18,10 @@ const connectToRedux = connect(
     errorMessage: createNewElectionErrorSelector
   }),
   dispatch => ({
-    createNewElection: name => name && dispatch(createNewElection(name)),
+    createNewElection: name => {
+      name && dispatch(createNewElection(name));
+      toast(`Initializing ${name} ...`, { autoClose: false, toastId: name });
+    },
     resetData: () => {
       resetDataCreateNewElection(dispatch);
     }

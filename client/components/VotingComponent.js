@@ -4,6 +4,7 @@ import { compose } from 'recompose';
 import { Field, reduxForm } from 'redux-form';
 import { createStructuredSelector } from 'reselect';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 import {
   getAllCandidates,
@@ -82,15 +83,16 @@ class ShowElectionComponent extends React.Component {
       const electionId = props.electionId.id;
       const candidateList = candidates.map(candidate => candidate.id);
 
-      // console.log(election.votingType);
-      if (election.votingType === 'SELECT_TO_VOTE') {
+      if (election.votingType !== 'SELECT_TO_TRUST') {
+        toast(`Voting ...`, {
+          autoClose: false,
+          toastId: 'voting_toast'
+        });
         const listToVote =
           values &&
           candidateList.filter(val => !values.listUserId.includes(val));
-
         dispatch(
           pollVote({
-            //handle it with trust voting
             listUserId:
               election.votingType === 'SELECT_TO_VOTE'
                 ? values.listUserId
@@ -99,6 +101,10 @@ class ShowElectionComponent extends React.Component {
           })
         );
       } else {
+        toast(`Voting ...`, {
+          autoClose: false,
+          toastId: 'voting_toast'
+        });
         dispatch(
           pollVoteTrustType({
             choice: values.voterChoice === 'true',
@@ -163,30 +169,18 @@ class ShowElectionComponent extends React.Component {
                   <div className="col-md-4">
                     <div className="card text-white box-shadow-0 bg-warning">
                       <div className="card-header">
-                        <h4 className="card-title">Caution!</h4>
-                        <a className="heading-elements-toggle">
-                          <i className="fa fa-ellipsis-v font-medium-3"></i>
-                        </a>
-                        <div className="heading-elements">
-                          <ul className="list-inline mb-0">
-                            <li>
-                              <a data-action="collapse">
-                                <i className="ft-minus"></i>
-                              </a>
-                            </li>
-                            <li>
-                              <a data-action="close">
-                                <i className="ft-x"></i>
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
+                        <h4 className="card-title">Before you vote</h4>
                       </div>
                       <div className="card-content collapse show">
                         <div className="card-body">
                           <p className="card-text">
-                            Use <code>bg-warning</code> class for warning
-                            background color.
+                            Thank you for going there and voting. The type of
+                            this election is
+                            {election.votingType === 'SELECT_TO_TRUST'
+                              ? ` Trust or Do not trust . So you must be choose one of selection to vote.`
+                              : election.votingType === 'SELECT_TO_VOTE'
+                              ? ` Select to vote . So you must be choose at least ${election.atLeastVote} candidate(s) and max ${election.mostVote} that you trust to vote for them.`
+                              : ` Select to remove . So you must be choose at least ${election.atLeastVote} candidate(s) and max ${election.mostVote} that you do not trust to remove them.`}
                           </p>
                         </div>
                       </div>

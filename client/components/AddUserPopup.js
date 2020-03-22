@@ -63,7 +63,7 @@ class AddUserPopup extends React.Component {
                     className="height-150"
                   />
                 </div>
-                <h3 className="text-center mt-2">Invite successfylly!</h3>
+                <h3 className="text-center mt-2">Invite successfully!</h3>
                 <p className="text-center mt-2">
                   They will review an email include
                   <code>Username, password</code> to using E-Voting system

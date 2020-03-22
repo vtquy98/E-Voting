@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import ReactToPrint from 'react-to-print';
 import QRToPrintComponent from './QRToPrintComponent';
 import Popup from 'reactjs-popup';
+import { toast } from 'react-toastify';
 
 import {
   // resetDataGetElection,
@@ -56,8 +57,14 @@ const connectToRedux = connect(
     getAllCandidates: electionId => dispatch(getAllCandidates(electionId)),
     getAllVoters: electionId => dispatch(getAllVoters(electionId)),
     getTotalVotesCount: electionId => dispatch(getTotalVotesCount(electionId)),
-    startVoting: electionId => dispatch(startVoting(electionId)),
-    stopVoting: electionId => dispatch(stopVoting(electionId))
+    startVoting: electionId => {
+      dispatch(startVoting(electionId));
+      toast(`Starting election ...`, { autoClose: false, toastId: electionId });
+    },
+    stopVoting: electionId => {
+      dispatch(stopVoting(electionId));
+      toast(`Stoping election ...`, { autoClose: false, toastId: electionId });
+    }
   })
 );
 

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'recompose';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 import {
   getElectionTemp,
@@ -40,6 +41,10 @@ const connectToRedux = connect(
       resetDataGetFinishElectionCreation(dispatch);
     },
     finishElectionCreation: ({ candidates, voters, electionId, ...values }) => {
+      toast(`Finishing create election ...`, {
+        autoClose: false,
+        toastId: electionId
+      });
       dispatch(
         finishElectionCreation({
           ...values,

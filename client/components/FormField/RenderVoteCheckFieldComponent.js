@@ -27,12 +27,11 @@ const RenderVoteCheckFieldComponent = ({
             return input.onChange(newValue);
           }}
         />
-        <label for={item.id} className="checkbox-label">
+        <label htmlFor={item.id} className="checkbox-label">
           <div className="checkbox-text">
             <h3 className="text-bold-400">{item.fullName}</h3>
             <p className="checkbox-text--description">
-              Click to <span className="un">un</span>check it!
-              {/* {shortDescription} */}
+              {item.summaryDescription}
             </p>
           </div>
         </label>

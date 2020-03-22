@@ -5,10 +5,13 @@ import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
 import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
+import { sendInviteVotingMail } from '../../../mail/mail';
 
 const ADMIN_WALLET =
   process.env.ADMIN_WALLET_ADDRESS ||
   '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
+
+const DOMAIN_NAME = process.env.DOMAIN_NAME || 'https://e-voting.tech';
 
 module.exports = {
   Mutation: {
@@ -94,6 +97,15 @@ module.exports = {
             await election.methods
               .registerVoter(userData.wallet_address, userData.full_name)
               .send({ from: ADMIN_WALLET, gas: '6721975' });
+
+            sendInviteVotingMail(userData.email, {
+              name: userData.full_name,
+              department: electionOwner,
+              electionName: electionStored.name,
+              date: dateTakePlace,
+              linkToVote: `${DOMAIN_NAME}/voting?id=${electionId}`,
+              description
+            });
           })
         );
 
