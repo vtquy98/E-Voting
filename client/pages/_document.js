@@ -102,18 +102,28 @@ export default class MyDocument extends Document {
         ) : (
           <React.Fragment>
             <Head>
-              <meta charSet="UTF-8" />
+              <meta charSet="utf-8" />
               <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
               <meta
                 name="viewport"
-                content="width=device-width, initial-scale=1.0"
+                content="width=device-width, initial-scale=1, shrink-to-fit=no"
               />
-              <meta name="mobile-web-app-capable" content="yes" />
-              <meta name="apple-mobile-web-app-title" content="React-Voting" />
-              <meta name="apple-mobile-web-app-status-bar-style" />
-              <meta name="apple-mobile-web-app-capable" content="yes" />
-              <meta name="application-name" content="QR Scanner" />
-              <meta name="msapplication-TileColor" />
+              <meta name="description" content="" />
+              <meta name="author" content="" />
+
+              <link
+                href="/static/assets/vendor/fontawesome-free/css/all.min.css"
+                rel="stylesheet"
+                type="text/css"
+              />
+              <link
+                href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+                rel="stylesheet"
+              />
+              <link
+                href="/static/assets/css/sb-admin-2.min.css"
+                rel="stylesheet"
+              />
 
               <link
                 rel="icon"
@@ -121,66 +131,8 @@ export default class MyDocument extends Document {
                 type="image/png"
                 sizes="16x16"
               />
+
               <link href="/static/assets/css/font.css" rel="stylesheet" />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/css/vendors.css"
-              />
-
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/css/app.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/css/core/menu/menu-types/vertical-menu.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/css/core/colors/palette-climacon.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/css/core/colors/palette-gradient.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/fonts/simple-line-icons/style.min.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/fonts/meteocons/style.min.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/css/pages/users.css"
-              />
-
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/css/pages/project.css"
-              />
-
-              {/* custom css */}
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/css/custom.css"
-              />
-              <link
-                rel="stylesheet"
-                type="text/css"
-                href="/static/assets/css/nprogress.css"
-              />
 
               <link
                 rel="stylesheet"
@@ -188,28 +140,25 @@ export default class MyDocument extends Document {
                 href="/static/assets/custom/ReactToastify.css"
               />
             </Head>
-            <body
-              className="vertical-layout 2-columns fixed-navbar  menu-hide vertical-overlay-menu pace-done"
-              data-open="click"
-              data-menu="vertical-menu"
-              data-col="2-columns"
-            >
+            <body id="page-top">
               <Main {...rootProps} />
               <NextScript />
 
               <script
-                src="/static/assets/vendors/js/vendors.min.js"
+                src="/static/assets/vendor/jquery/jquery.min.js"
+                type="text/javascript"
+              />
+              <script
+                src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"
                 type="text/javascript"
               />
 
               <script
-                src="/static/assets/js/core/app-menu.js"
+                src="/static/assets/vendor/jquery-easing/jquery.easing.min.js"
                 type="text/javascript"
               />
-              <script
-                src="/static/assets/js/core/app.js"
-                type="text/javascript"
-              />
+
+              <script src="js/sb-admin-2.min.js" type="text/javascript" />
             </body>
           </React.Fragment>
         )}
