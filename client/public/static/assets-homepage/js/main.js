@@ -1,6 +1,4 @@
 $(function() {
-  
-
   //===== Prealoder
 
   $(window).on('load', function(event) {
