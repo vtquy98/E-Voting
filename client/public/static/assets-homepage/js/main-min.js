@@ -1,5 +1,4 @@
 $(function() {
-  
   $(window).on('load', function(e) {
     $('.preloader')
       .delay(500)
