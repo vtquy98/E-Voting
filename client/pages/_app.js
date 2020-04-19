@@ -16,6 +16,25 @@ class AppRedux extends App {
     return { pageProps, store };
   }
 
+  // componentDidMount() {
+  //   // An array of assets
+  //   const scripts = [
+  //     { src: '/static/assets/vendor/jquery/jquery.min.js' },
+  //     { src: '/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js' },
+  //     { src: '/static/assets/vendor/jquery-easing/jquery.easing.min.js' },
+  //     { src: '/static/assets/js/sb-admin-2.min.js' }
+  //   ];
+  //   //Append the script element on each iteration
+
+  //   scripts.map(item => {
+  //     const script = document.createElement('script');
+  //     script.src = item.src;
+  //     script.async = false;
+  //     document.getElementById('__next').appendChild(script);
+  //     return true;
+  //   });
+  // }
+
   render() {
     const { Component, store, pageProps } = this.props;
     return (

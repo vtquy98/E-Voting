@@ -7,13 +7,17 @@ class DashboardPageLayout extends React.Component {
   render() {
     const { children, currentUser } = this.props;
     return (
-      <React.Fragment>
-        <NavBarComponent currentUser={currentUser} />
+      <div id="wrapper">
         <VerticalBarComponent role={currentUser.role} />
-        {children}
+        <div id="content-wrapper" className="d-flex flex-column">
+          <div id="content">
+            <NavBarComponent currentUser={currentUser} />
+            <div className="container-fluid">{children}</div>
+          </div>
+          <FooterComponent />
+        </div>
         {currentUser.role === 'ADMIN' && <CreateElectionModalComponent />}
-        <FooterComponent />
-      </React.Fragment>
+      </div>
     );
   }
 }

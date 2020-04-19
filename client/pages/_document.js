@@ -132,7 +132,7 @@ export default class MyDocument extends Document {
                 sizes="16x16"
               />
 
-              <link href="/static/assets/css/font.css" rel="stylesheet" />
+              <link href="/static/assets/custom/font.css" rel="stylesheet" />
 
               <link
                 rel="stylesheet"
@@ -144,21 +144,12 @@ export default class MyDocument extends Document {
               <Main {...rootProps} />
               <NextScript />
 
-              <script
-                src="/static/assets/vendor/jquery/jquery.min.js"
-                type="text/javascript"
-              />
-              <script
-                src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"
-                type="text/javascript"
-              />
+              <script src="/static/assets/vendor/jquery/jquery.min.js" />
+              <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js" />
 
-              <script
-                src="/static/assets/vendor/jquery-easing/jquery.easing.min.js"
-                type="text/javascript"
-              />
+              <script src="/static/assets/vendor/jquery-easing/jquery.easing.min.js" />
 
-              <script src="js/sb-admin-2.min.js" type="text/javascript" />
+              <script src="/static/assets/js/sb-admin-2.min.js" />
             </body>
           </React.Fragment>
         )}

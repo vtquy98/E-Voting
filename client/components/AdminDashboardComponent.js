@@ -36,7 +36,7 @@ class UserDashboardComponent extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="app-content content">
+        {/* <div className="app-content content">
           <div className="content-wrapper">
             <div className="content-header row">
               <div className="content-header-left col-md-12 col-12 mb-1">
@@ -162,6 +162,187 @@ class UserDashboardComponent extends React.Component {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+       */}
+
+        <h1 className="h3 mb-4 text-gray-800">Admin Dashboard</h1>
+
+        <div className="row">
+          <div className="col-xl-3 col-md-6 mb-4">
+            <div className="card border-left-primary shadow h-100 py-2">
+              <div className="card-body">
+                <div className="row no-gutters align-items-center">
+                  <div className="col mr-2">
+                    <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                      Earnings (Monthly)
+                    </div>
+                    <div className="h5 mb-0 font-weight-bold text-gray-800">
+                      $40,000
+                    </div>
+                  </div>
+                  <div className="col-auto">
+                    <i className="fas fa-calendar fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-xl-3 col-md-6 mb-4">
+            <div className="card border-left-success shadow h-100 py-2">
+              <div className="card-body">
+                <div className="row no-gutters align-items-center">
+                  <div className="col mr-2">
+                    <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
+                      Earnings (Annual)
+                    </div>
+                    <div className="h5 mb-0 font-weight-bold text-gray-800">
+                      $215,000
+                    </div>
+                  </div>
+                  <div className="col-auto">
+                    <i className="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-xl-3 col-md-6 mb-4">
+            <div className="card border-left-info shadow h-100 py-2">
+              <div className="card-body">
+                <div className="row no-gutters align-items-center">
+                  <div className="col mr-2">
+                    <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
+                      Tasks
+                    </div>
+                    <div className="row no-gutters align-items-center">
+                      <div className="col-auto">
+                        <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                          50%
+                        </div>
+                      </div>
+                      <div className="col">
+                        <div className="progress progress-sm mr-2">
+                          <div
+                            className="progress-bar bg-info"
+                            role="progressbar"
+                            aria-valuenow="50"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                          ></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-auto">
+                    <i className="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-xl-3 col-md-6 mb-4">
+            <div className="card border-left-warning shadow h-100 py-2">
+              <div className="card-body">
+                <div className="row no-gutters align-items-center">
+                  <div className="col mr-2">
+                    <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                      Pending Requests
+                    </div>
+                    <div className="h5 mb-0 font-weight-bold text-gray-800">
+                      18
+                    </div>
+                  </div>
+                  <div className="col-auto">
+                    <i className="fas fa-comments fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-xl-8 col-lg-7">
+            <ElectionStatsComponent />
+          </div>
+
+          <div className="col-xl-4 col-lg-5">
+            <div className="card shadow mb-4">
+              <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 className="m-0 font-weight-bold text-primary">
+                  Revenue Sources
+                </h6>
+                <div className="dropdown no-arrow">
+                  <a
+                    className="dropdown-toggle"
+                    href="#"
+                    role="button"
+                    id="dropdownMenuLink"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <i className="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                  </a>
+                  <div
+                    className="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                    aria-labelledby="dropdownMenuLink"
+                  >
+                    <div className="dropdown-header">Dropdown Header:</div>
+                    <a className="dropdown-item" href="#">
+                      Action
+                    </a>
+                    <a className="dropdown-item" href="#">
+                      Another action
+                    </a>
+                    <div className="dropdown-divider"></div>
+                    <a className="dropdown-item" href="#">
+                      Something else here
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="card-body">ahihi</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row">
+          <div className="col-lg-12 mb-4">
+            <div className="card shadow mb-4">
+              <div className="card-header py-3">
+                <h6 className="m-0 font-weight-bold text-primary">
+                  Illustrations
+                </h6>
+              </div>
+              <div className="card-body">
+                <div className="text-center">
+                  <img
+                    className="img-fluid px-3 px-sm-4 mt-3 mb-4"
+                    src="img/undraw_posting_photo.svg"
+                    alt=""
+                  />
+                </div>
+                <p>
+                  Add some quality, svg illustrations to your project courtesy
+                  of{' '}
+                  <a rel="nofollow" href="https://undraw.co/">
+                    unDraw
+                  </a>
+                  , a constantly updated collection of beautiful svg images that
+                  you can use completely free and without attribution!
+                </p>
+                <a rel="nofollow" href="https://undraw.co/">
+                  Browse Illustrations on unDraw &rarr;
+                </a>
               </div>
             </div>
           </div>
