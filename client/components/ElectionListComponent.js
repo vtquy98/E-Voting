@@ -1,33 +1,6 @@
 import Link from 'next/link';
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import { createStructuredSelector } from 'reselect';
 import TableComponent from './TableComponent';
-
-import {
-  getAllElection,
-  getAllElectionDataDataSelector
-} from '../stores/ElectionState';
-import {
-  getAllUsers,
-  getAllUsersDataSelector,
-  getCurrentUserDataSelector
-} from '../stores/UserState';
-
-const connectToRedux = connect(
-  createStructuredSelector({
-    elections: getAllElectionDataDataSelector,
-    currentUser: getCurrentUserDataSelector,
-    users: getAllUsersDataSelector
-  }),
-  dispatch => ({
-    getAllElection: () => dispatch(getAllElection()),
-    getAllUsers: () => dispatch(getAllUsers())
-  })
-);
-
-const enhance = compose(connectToRedux);
 
 const COLUMNS = [
   {
@@ -89,18 +62,15 @@ const mapElectionsToDataField = ({ elections = [] }) =>
       )
   }));
 
-class ElectionStatsComponent extends React.Component {
-  componentDidMount() {
-    this.props.getAllElection();
-    this.props.getAllUsers();
-  }
-
+class ElectionListComponent extends React.Component {
   render() {
-    const { elections = [], users = [] } = this.props;
+    const { elections } = this.props;
     return (
-      <div className="card shadow mb-4">
+      <div className="card shadow border-none mb-4">
         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 className="m-0 font-weight-bold text-primary">All Elections</h6>
+          <h6 className="m-0 font-weight-bold text-primary">
+            Lasted Elections
+          </h6>
           <div className="dropdown no-arrow">
             <a
               className="dropdown-toggle"
@@ -147,4 +117,4 @@ class ElectionStatsComponent extends React.Component {
   }
 }
 
-export default enhance(ElectionStatsComponent);
+export default ElectionListComponent;

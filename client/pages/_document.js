@@ -139,6 +139,12 @@ export default class MyDocument extends Document {
                 type="text/css"
                 href="/static/assets/custom/ReactToastify.css"
               />
+
+              <link
+                rel="stylesheet"
+                type="text/css"
+                href="/static/assets/custom/style.css"
+              />
             </Head>
             <body id="page-top">
               <Main {...rootProps} />
