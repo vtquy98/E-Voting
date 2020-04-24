@@ -1,11 +1,11 @@
 import React from 'react';
-import ShowElectionComponent from '../components/ShowElectionComponent';
+import PresentationElectionComponent from '../components/PresentationElectionComponent';
 import EmptyPageLayout from '../layouts/EmptyPageLayout';
 import AuthenHOC from '../components/HOC/AuthenHOC';
 
 const ShowElectionPage = ({ electionId, ...rootProps }) => (
   <EmptyPageLayout {...rootProps} title="not config">
-    <ShowElectionComponent electionId={electionId} />
+    <PresentationElectionComponent electionId={electionId} />
   </EmptyPageLayout>
 );
 

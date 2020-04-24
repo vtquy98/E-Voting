@@ -17,7 +17,13 @@ import {
   FcTodoList
 } from 'react-icons/fc';
 
-import { FaEthereum } from 'react-icons/fa';
+import {
+  FaEthereum,
+  FaPoll,
+  FaPlay,
+  FaHandLizard,
+  FaStop
+} from 'react-icons/fa';
 
 import {
   // resetDataGetElection,
@@ -307,14 +313,21 @@ class ElectionComponent extends React.Component {
                         </div>
                       ) : election.state === 'STARTED' ? (
                         <div>
+                          <Link href={`/presentation?id=${election.id}`}>
+                            <a
+                              type="button"
+                              className="btn mr-1 mb-1 btn-success"
+                            >
+                              <FaPlay /> Show election
+                            </a>
+                          </Link>
                           <Popup
                             trigger={
                               <a
                                 type="button"
                                 className="btn mr-1 mb-1 btn-info text-white"
                               >
-                                <i className="fa fa-hand-paper-o"></i> Manual
-                                voting
+                                <FaHandLizard /> Manual voting
                               </a>
                             }
                             modal
@@ -338,8 +351,7 @@ class ElectionComponent extends React.Component {
                               stopVoting(election.id);
                             }}
                           >
-                            <i className="fa fa-hand-paper-o"></i> Stop voting
-                            and caculate result
+                            <FaStop /> Stop voting
                           </button>
                         </div>
                       ) : (
@@ -348,7 +360,7 @@ class ElectionComponent extends React.Component {
                             type="button"
                             className="btn mr-1 mb-1 btn-success"
                           >
-                            View election result
+                            <FaPoll /> View election result
                           </a>
                         </Link>
                       )}
