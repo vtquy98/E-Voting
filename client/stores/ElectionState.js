@@ -586,6 +586,7 @@ const GetAllVotersAPI = makeFetchAction(
         id
         fullName
         avatar
+        department
       }
     }
   `
@@ -623,6 +624,7 @@ const GetAllCandidatesAPI = makeFetchAction(
         fullName
         avatar
         summaryDescription
+        department
       }
     }
   `

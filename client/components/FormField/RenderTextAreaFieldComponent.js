@@ -23,7 +23,7 @@ const RenderTextAreaFieldComponent = ({
     <div className="text-danger text-center mt-1">
       {touched &&
         (error && (
-          <div className="alert bg-danger  mb-2">
+          <div>
             <button type="button" className="close"></button>
             <strong>Oh snap!</strong> {error}
           </div>

@@ -1,3 +1,9 @@
 .border-none {
   border: none !important;
 }
+
+.border-none-custom {
+  border-top: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+}

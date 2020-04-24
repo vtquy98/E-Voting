@@ -11,9 +11,9 @@ const RenderVotingTypeFieldComponent = ({
   meta: { touched, error }
 }) => (
   <div>
-    <h4 className="card-title">
+    <h5 className="card-title mt-2">
       What is the voting <code>type</code>?{' '}
-    </h4>
+    </h5>
     <div className="middle">
       <label>
         <input
@@ -57,7 +57,7 @@ const RenderVotingTypeFieldComponent = ({
       <div className="text-danger text-center mt-1">
         {touched &&
           (error && (
-            <div className="alert bg-danger  mb-2">
+            <div>
               <button type="button" className="close"></button>
               <strong>Oh snap!</strong> {error}
             </div>
