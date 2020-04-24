@@ -4,9 +4,7 @@ import InviteVotingMailTemplate from './InviteVotingMailTemplate';
 
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(
-  process.env.SENDGRID_API_KEY ||
-    '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'
-);
+  process.env.SENDGRID_API_KEY);
 
 const replaceMailContent = (template, mapObj) => {
   const re = new RegExp(Object.keys(mapObj).join('|'), 'gi');
