@@ -35,9 +35,9 @@ class VotingDescriptionForm extends React.Component {
       <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-md-12 mt-2">
-            <h4 className="card-title">
+            <h5 className="card-title">
               Election's <code>description</code>
-            </h4>
+            </h5>
             <Field
               name="description"
               type="text"
@@ -60,9 +60,9 @@ class VotingDescriptionForm extends React.Component {
 
         <div className="row">
           <div className="col-md-6 mt-2">
-            <h4 className="card-title">
+            <h5 className="card-title">
               Election <code>Owner</code>
-            </h4>
+            </h5>
 
             <Field
               icon="ft-user"
@@ -74,9 +74,9 @@ class VotingDescriptionForm extends React.Component {
             />
           </div>
           <div className="col-md-6 mt-2">
-            <h4 className="card-title">
+            <h5 className="card-title">
               Voting's <code>time</code>
-            </h4>
+            </h5>
 
             <Field
               icon="ft-clock"
@@ -92,9 +92,9 @@ class VotingDescriptionForm extends React.Component {
         {parseInt(votingTypeValue) !== SELECT_TO_TRUST && (
           <div className="row">
             <div className="col-md-6 mt-2">
-              <h4 className="card-title">
+              <h5 className="card-title">
                 Vote <code>at least</code> (option)
-              </h4>
+              </h5>
 
               <Field
                 icon="ft-chevrons-right"
@@ -106,9 +106,9 @@ class VotingDescriptionForm extends React.Component {
               />
             </div>
             <div className="col-md-6 mt-2">
-              <h4 className="card-title">
+              <h5 className="card-title">
                 Vote <code>the most</code> (option)
-              </h4>
+              </h5>
 
               <Field
                 icon="ft-chevrons-left"
@@ -124,9 +124,9 @@ class VotingDescriptionForm extends React.Component {
 
         <div className="row">
           <div className="col-md-6 mt-2">
-            <h4 className="card-title">
+            <h5 className="card-title">
               Time to <code>take place</code> (option)
-            </h4>
+            </h5>
             <Field
               type="date"
               icon="fa fa-calendar-check-o"
@@ -137,16 +137,13 @@ class VotingDescriptionForm extends React.Component {
             />
           </div>
         </div>
-
-        <div className="form-actions right">
-          <button type="button" className="btn btn-warning mr-1" disabled>
-            <i className="ft-x"></i> Previous
-          </button>
-          <button type="submit" className="btn btn-success" value="Next">
-            <i className="fa fa-check-square-o"></i> Next
-          </button>
+        <div className="d-flex justify-content-end">
+          <div className="form-actions">
+            <button type="submit" className="btn btn-success" value="Next">
+              <i className="fa fa-check-square-o"></i> Next
+            </button>
+          </div>
         </div>
-
         <style jsx>{`
           .material-icons {
             font-size: 50px;
