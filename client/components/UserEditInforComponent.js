@@ -14,6 +14,8 @@ import { required } from '../utils/validation';
 import RenderInputFieldComponent from './FormField/RenderInputFieldComponent';
 import RenderTextAreaFieldComponent from './FormField/RenderTextAreaFieldComponent';
 import RenderSelectedImageFieldComponent from './FormField/RenderSelectedImageFieldComponent';
+import Link from 'next/link';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -54,46 +56,44 @@ class UserInforComponent extends React.Component {
     } = this.props;
 
     return (
-      <div className="app-content content">
-        <div className="content-wrapper">
-          <div className="content-header row">
-            <div className="content-header-left col-md-6 col-12 mb-1">
-              <h3 className="content-header-title">Edit your info</h3>
-            </div>
-          </div>
-          <div className="content-body">
-            <div className="card">
-              <div className="card-content collpase show">
-                <div className="card-body">
-                  {successMessage ? (
-                    <div>
-                      <h1 className="title text-center mt-2 mb-2">
-                        Your information was updated!
-                      </h1>
-                      <div className="d-flex justify-content-center">
-                        <img
-                          src="/static/assets/images/vote-success.svg"
-                          alt="success"
-                          className="height-200"
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <div className="card-text">
-                        <p>
-                          Edit your information for anyone know more about you.
-                        </p>
-                      </div>
-                      <form
-                        className="form form-horizontal form-bordered"
-                        onSubmit={handleSubmit}
-                      >
-                        <div className="form-body">
-                          <h4 className="form-section">
-                            <i className="ft-user"></i> Personal Info
-                          </h4>
+      <React.Fragment>
+        <h1 className="h3 mb-4 text-gray-800">Your Infomrmation</h1>
 
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card shadow border-none mb-4">
+              <div className="card-header py-3 d-flex">
+                <Link href="/user/info">
+                  <a className="btn btn-primary btn-icon-split mr-2">
+                    <span className="icon text-white-50">
+                      <FaArrowLeft />
+                    </span>
+                    <span className="text">Back</span>
+                  </a>
+                </Link>
+              </div>
+              <div className="card-body">
+                {successMessage ? (
+                  <div>
+                    <h3 className="title text-center mt-2 mb-2">
+                      Your information was updated!
+                    </h3>
+                    <div className="d-flex justify-content-center">
+                      <img
+                        src="/static/assets/images/vote-success.svg"
+                        alt="success"
+                        width="50%"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <form
+                    className="form form-horizontal form-bordered"
+                    onSubmit={handleSubmit}
+                  >
+                    <div className="form-body">
+                      <div className="row">
+                        <div className="col-sm-4 d-flex align-items-center justify-content-center">
                           <Field
                             type="text"
                             className="form-control"
@@ -102,6 +102,8 @@ class UserInforComponent extends React.Component {
                             component={RenderSelectedImageFieldComponent}
                             validate={[required]}
                           />
+                        </div>
+                        <div className="col-sm">
                           <div className="form-group row">
                             <label
                               className="col-md-3 label-control"
@@ -193,41 +195,41 @@ class UserInforComponent extends React.Component {
                             </div>
                           </div>
                         </div>
-                        <div className="form-actions text-center">
-                          <button
-                            className="btn btn-primary"
-                            type="submit"
-                            disabled={pristine || submitting}
-                          >
-                            <i className="fa fa-check-square-o"></i> Save
-                          </button>
-                          <button
-                            disabled={pristine || submitting}
-                            className="btn btn-warning ml-1 text-white"
-                            type="button"
-                            onClick={reset}
-                          >
-                            <i className="ft-x"></i> Reset
-                          </button>
-                          {errorMessage ? (
-                            <div
-                              className="mt-2 alert alert-danger border-0 mb-2"
-                              role="alert"
-                            >
-                              <strong>Error: </strong>
-                              {errorMessage}
-                            </div>
-                          ) : null}
-                        </div>
-                      </form>
+                      </div>{' '}
                     </div>
-                  )}
-                </div>
+                    <div className="form-actions text-center">
+                      <button
+                        className="btn btn-primary"
+                        type="submit"
+                        disabled={pristine || submitting}
+                      >
+                        <i className="fa fa-check-square-o"></i> Save
+                      </button>
+                      <button
+                        disabled={pristine || submitting}
+                        className="btn btn-warning ml-1 text-white"
+                        type="button"
+                        onClick={reset}
+                      >
+                        <i className="ft-x"></i> Reset
+                      </button>
+                      {errorMessage ? (
+                        <div
+                          className="mt-2 alert alert-danger border-0 mb-2"
+                          role="alert"
+                        >
+                          <strong>Error: </strong>
+                          {errorMessage}
+                        </div>
+                      ) : null}
+                    </div>
+                  </form>
+                )}{' '}
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

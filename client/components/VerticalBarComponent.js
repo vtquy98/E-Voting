@@ -74,7 +74,7 @@ const VerticalBarComponent = ({ role }) => (
     <div className="sidebar-heading">Your menu</div>
 
     <li className="nav-item">
-      <Link href="/user/profile">
+      <Link href="/user/info">
         <a className="nav-link">
           <i className="fas fa-fw fa-tachometer-alt"></i>
           <span>Your profile </span>

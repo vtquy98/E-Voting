@@ -33,11 +33,11 @@ class RenderSelectedImageFieldComponent extends React.Component {
               src={value || '/static/images/image_placeholder.jpg'}
               alt="..."
               width="auto"
-              height="150"
+              height="200"
               className="rounded-circle"
             />
           </div>
-          <span className="btn btn-primary mb-2 dz-clickable mt-2">
+          <span className="btn btn-primary mb-4 dz-clickable mt-2">
             <label
               htmlFor="file-upload"
               className="custom-file-upload text-white"
@@ -60,6 +60,9 @@ class RenderSelectedImageFieldComponent extends React.Component {
           .custom-file-upload {
             display: inline-block;
             cursor: pointer;
+          }
+          label {
+            margin-bottom: 0 !important;
           }
         `}</style>
       </React.Fragment>
