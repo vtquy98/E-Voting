@@ -9,6 +9,23 @@ import Popup from 'reactjs-popup';
 import { toast } from 'react-toastify';
 
 import {
+  FcAbout,
+  FcOrganization,
+  FcCalendar,
+  FcClock,
+  FcEngineering,
+  FcTodoList
+} from 'react-icons/fc';
+
+import {
+  FaEthereum,
+  FaPoll,
+  FaPlay,
+  FaHandLizard,
+  FaStop
+} from 'react-icons/fa';
+
+import {
   // resetDataGetElection,
   getAllCandidates,
   getAllCandidatesDataSelector,
@@ -35,6 +52,7 @@ import {
 } from '../stores/UserState';
 // import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../enums/votingType';
 import ManualVotingPopup from './ManualVotingPopup';
+import DisplayUsersListComponent from './DisplayUsersListComponent';
 
 const ENV_DEPLOY = process.env.ENV_DEPLOY || 'ropsten';
 
@@ -102,372 +120,337 @@ class ElectionComponent extends React.Component {
             candidates={candidates}
           />
         </div>
-        <div className="app-content content">
-          <div className="content-wrapper">
-            <div className="content-header row">
-              <div className="content-header-left col-md-6 col-12 mb-1">
-                <h3 className="content-header-title">{election.name}</h3>
+
+        <h1 className="h3 mb-2 text-gray-800">{election.name}</h1>
+
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="card shadow mb-4">
+              <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 className="m-0 font-weight-bold text-primary">
+                  Election's Summary
+                </h6>
+
+                {election.state === 'CREATED' ? (
+                  <span className="badge badge-default badge-warning">
+                    {election.state}
+                  </span>
+                ) : election.state === 'STARTED' ? (
+                  <span className="badge badge-default badge-success">
+                    {election.state}
+                  </span>
+                ) : (
+                  <span className="badge badge-default badge-danger">
+                    {election.state}
+                  </span>
+                )}
               </div>
-            </div>
-            <div className="">
-              <div className="content-body">
-                <section id="descriptioin" className="card">
-                  <div className="card-header">
-                    <h4 className="card-title">summary</h4>
-                    <div className="heading-elements">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-lg-12 mb-4">
+                    <div className="card border-none bg-info text-white shadow">
+                      <div className="card-body">
+                        <div className="row">
+                          <div className="col-sm-1 text-center h3 ">
+                            <i className="fas fa-splotch"></i>
+                          </div>
+                          <div className="col-sm">{election.description}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-lg-12 mb-4">
+                    <div className="card border-left-info h-100 py-2">
+                      <div className="card-body">
+                        <div className="row">
+                          <div className="col-sm-1 text-center h3 ">
+                            <FcAbout />
+                          </div>
+                          <div className="col-sm-4">
+                            <div>
+                              <p>
+                                <FcOrganization /> Election Owner:
+                                <span className="text-muted font-weight-bold">
+                                  {' '}
+                                  {election.electionOwner}
+                                </span>
+                              </p>
+                              <p>
+                                {' '}
+                                <FcCalendar /> Created at:
+                                <span className="text-muted font-weight-bold">
+                                  {' '}
+                                  {election.createdAt}
+                                </span>
+                              </p>
+                              <p>
+                                <FcClock /> Voting time:
+                                <span className="text-muted font-weight-bold">
+                                  {' '}
+                                  {election.votingTime} min
+                                </span>
+                              </p>
+                              <p>
+                                <FcEngineering /> Voting type:
+                                <span className="text-muted font-weight-bold">
+                                  {' '}
+                                  {election.votingType === 'SELECT_TO_VOTE'
+                                    ? 'Select to vote'
+                                    : election.votingType === 'SELECT_TO_REMOVE'
+                                    ? 'Select to remove'
+                                    : 'Select to trust'}
+                                </span>
+                              </p>
+                              <p>
+                                {/* HANDLE IT WHEN CHOOSE TRUST VOTE */}
+                                <FcTodoList /> At least choose:
+                                <span className="text-muted font-weight-bold">
+                                  {' '}
+                                  {election.atLeastVote}
+                                </span>
+                              </p>
+                              <p>
+                                <FcTodoList /> Most choose:
+                                <span className="text-muted font-weight-bold">
+                                  {' '}
+                                  {election.mostVote}
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-sm">
+                            <div className="col-lg-12">
+                              {' '}
+                              <div id="project-info" className="card-body row">
+                                <div className="project-info-count col-lg-4 col-md-12">
+                                  <div className="project-info-icon">
+                                    <h2>{candidates.length}</h2>
+                                    <div className="project-info-sub-icon">
+                                      <span>
+                                        <i className="fas fa-user-friends"></i>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="project-info-text pt-1">
+                                    <h5>Candidates</h5>
+                                  </div>
+                                </div>
+                                <div className="project-info-count col-lg-4 col-md-12">
+                                  <div className="project-info-icon">
+                                    <h2>{voters.length}</h2>
+                                    <div className="project-info-sub-icon">
+                                      <span>
+                                        <i className="fas fa-users"></i>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="project-info-text pt-1">
+                                    <h5>Voters</h5>
+                                  </div>
+                                </div>
+                                <div className="project-info-count col-lg-4 col-md-12">
+                                  <div className="project-info-icon">
+                                    <h2>
+                                      {election.votedCount}/{voters.length}
+                                    </h2>
+                                    <div className="project-info-sub-icon">
+                                      <span>
+                                        <i className="fas fa-vote-yea"></i>
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="project-info-text pt-1">
+                                    <h5>Voted</h5>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-lg-12">
+                    <div className="d-flex justify-content-center text-center">
                       {election.state === 'CREATED' ? (
-                        <span className="badge badge-default badge-warning">
-                          {election.state}
-                        </span>
+                        <div>
+                          <button
+                            className="btn mr-1 mb-1 btn-success"
+                            onClick={e => {
+                              e.preventDefault();
+                              startVoting(election.id);
+                            }}
+                          >
+                            <i className="fa fa-hourglass-start"></i> Start
+                            voting now
+                          </button>
+
+                          <a
+                            className="btn mr-1 mb-1 btn-info"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            href={`${
+                              ENV_DEPLOY === 'ropsten'
+                                ? 'https://ropsten.etherscan.io/address/' +
+                                  election.electionAddress
+                                : 'https://etherscan.io/address/' +
+                                  election.electionAddress
+                            }`}
+                            role="button"
+                          >
+                            <FaEthereum /> Explore on blockchain network
+                          </a>
+
+                          <ReactToPrint
+                            trigger={() => (
+                              <button className="btn mr-1 mb-1 btn-warning">
+                                <i className="fa fa-print"></i> Print QR for
+                                candidates
+                              </button>
+                            )}
+                            content={() => this.componentRef}
+                          />
+                        </div>
                       ) : election.state === 'STARTED' ? (
-                        <span className="badge badge-default badge-success">
-                          {election.state}
-                        </span>
+                        <div>
+                          <Link href={`/presentation?id=${election.id}`}>
+                            <a
+                              type="button"
+                              className="btn mr-1 mb-1 btn-success"
+                            >
+                              <FaPlay /> Show election
+                            </a>
+                          </Link>
+                          <Popup
+                            trigger={
+                              <a
+                                type="button"
+                                className="btn mr-1 mb-1 btn-info text-white"
+                              >
+                                <FaHandLizard /> Manual voting
+                              </a>
+                            }
+                            modal
+                          >
+                            {close => (
+                              <div className="hi">
+                                <ManualVotingPopup
+                                  candidates={candidates}
+                                  electionId={election.id}
+                                  onClick={() => close()}
+                                />
+                              </div>
+                            )}
+                          </Popup>
+
+                          <button
+                            type="button"
+                            className="btn mr-1 mb-1 btn-warning"
+                            onClick={e => {
+                              e.preventDefault();
+                              stopVoting(election.id);
+                            }}
+                          >
+                            <FaStop /> Stop voting
+                          </button>
+                        </div>
                       ) : (
-                        <span className="badge badge-default badge-danger">
-                          {election.state}
-                        </span>
+                        <Link href={`/result?id=${election.id}`}>
+                          <a
+                            type="button"
+                            className="btn mr-1 mb-1 btn-success"
+                          >
+                            <FaPoll /> View election result
+                          </a>
+                        </Link>
                       )}
                     </div>
                   </div>
-                  <div className="card-content">
-                    <ul className="list-inline list-inline-pipe text-center p-1 border-bottom-grey border-bottom-lighten-3">
-                      <li>
-                        Election Owner:{' '}
-                        <span className="text-muted">
-                          {election.electionOwner}
-                        </span>
-                      </li>
-                      <li>
-                        Created at:{' '}
-                        <span className="text-muted">{election.createdAt}</span>
-                      </li>
-                      <li>
-                        Voting time:{' '}
-                        <span className="text-muted">
-                          {election.votingTime} min
-                        </span>
-                      </li>
-                      <li>
-                        Voting type:{' '}
-                        <span className="text-muted">
-                          {election.votingType === 'SELECT_TO_VOTE'
-                            ? 'Select to vote'
-                            : election.votingType === 'SELECT_TO_REMOVE'
-                            ? 'Select to remove'
-                            : 'Select to trust'}
-                        </span>
-                      </li>
-                      <li>
-                        {/* HANDLE IT WHEN CHOOSE TRUST VOTE */}
-                        At least choose:{' '}
-                        <span className="text-muted">
-                          {election.atLeastVote}
-                        </span>
-                      </li>
-                      <li>
-                        Most choose:{' '}
-                        <span className="text-muted">{election.mostVote}</span>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          className="text-muted"
-                          data-toggle="tooltip"
-                          data-placement="bottom"
-                          title=""
-                          data-original-title="Export as PDF"
-                        >
-                          <i className="fa fa-file-excel-o"></i>
-                        </a>
-                      </li>
-                    </ul>
-
-                    <div className="card-body">
-                      <div className="card-text text-center">
-                        <p>{election.description}</p>
-                      </div>
-                      <div id="project-info" className="card-body row">
-                        <div className="project-info-count col-lg-4 col-md-12">
-                          <div className="project-info-icon">
-                            <h2>{candidates.length}</h2>
-                            <div className="project-info-sub-icon">
-                              <span className="icon-user"></span>
-                            </div>
-                          </div>
-                          <div className="project-info-text pt-1">
-                            <h5>Candidates</h5>
-                          </div>
-                        </div>
-                        <div className="project-info-count col-lg-4 col-md-12">
-                          <div className="project-info-icon">
-                            <h2>{voters.length}</h2>
-                            <div className="project-info-sub-icon">
-                              <span className="ft-users"></span>
-                            </div>
-                          </div>
-                          <div className="project-info-text pt-1">
-                            <h5>Voters</h5>
-                          </div>
-                        </div>
-                        <div className="project-info-count col-lg-4 col-md-12">
-                          <div className="project-info-icon">
-                            <h2>
-                              {election.votedCount}/{voters.length}
-                            </h2>
-                            <div className="project-info-sub-icon">
-                              <span className="icon-layers"></span>
-                            </div>
-                          </div>
-                          <div className="project-info-text pt-1">
-                            <h5>Voted</h5>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="d-flex justify-content-center">
-                        {election.state === 'CREATED' ? (
-                          <div>
-                            <button
-                              className="btn mr-1 mb-1 btn-success"
-                              onClick={e => {
-                                e.preventDefault();
-                                startVoting(election.id);
-                              }}
-                            >
-                              <i className="fa fa-hourglass-start"></i> Start
-                              voting now
-                            </button>
-
-                            <a
-                              className="btn mr-1 mb-1 btn-info"
-                              rel="noopener noreferrer"
-                              target="_blank"
-                              href={`${
-                                ENV_DEPLOY === 'ropsten'
-                                  ? 'https://ropsten.etherscan.io/address/' +
-                                    election.electionAddress
-                                  : 'https://etherscan.io/address/' +
-                                    election.electionAddress
-                              }`}
-                              role="button"
-                            >
-                              <i className="fa fa-btc"></i> Explore on
-                              blockchain network
-                            </a>
-
-                            <ReactToPrint
-                              trigger={() => (
-                                <button className="btn mr-1 mb-1 btn-warning">
-                                  <i className="fa fa-print"></i> Print QR for
-                                  candidates
-                                </button>
-                              )}
-                              content={() => this.componentRef}
-                            />
-                          </div>
-                        ) : election.state === 'STARTED' ? (
-                          <div>
-                            <Popup
-                              trigger={
-                                <a
-                                  type="button"
-                                  className="btn mr-1 mb-1 btn-info text-white"
-                                >
-                                  <i className="fa fa-hand-paper-o"></i> Manual
-                                  voting
-                                </a>
-                              }
-                              modal
-                            >
-                              {close => (
-                                <div className="hi">
-                                  <ManualVotingPopup
-                                    candidates={candidates}
-                                    electionId={election.id}
-                                    onClick={() => close()}
-                                  />
-                                </div>
-                              )}
-                            </Popup>
-
-                            <button
-                              type="button"
-                              className="btn mr-1 mb-1 btn-warning"
-                              onClick={e => {
-                                e.preventDefault();
-                                stopVoting(election.id);
-                              }}
-                            >
-                              <i className="fa fa-hand-paper-o"></i> Stop voting
-                              and caculate result
-                            </button>
-                          </div>
-                        ) : (
-                          <Link href={`/election-result?id=${election.id}`}>
-                            <a
-                              type="button"
-                              className="btn mr-1 mb-1 btn-success"
-                            >
-                              View election result
-                            </a>
-                          </Link>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                <section className="card">
-                  <div className="card-header">
-                    <h4 className="card-title">Candidates</h4>
-                  </div>
-                  <div className="card-content">
-                    <div className="card-body">
-                      <div className="card-text">
-                        <p>
-                          This table contains all classNamees related to the
-                          content detached left sticky sidebar layout. This is a
-                          custom layout classNamees for content detached left
-                          sticky sidebar layout page requirements.
-                        </p>
-                        <p>All of candidates:</p>
-                        {!candidates.length ? (
-                          <div
-                            className="alert alert-icon-right alert-info alert-dismissible mb-2"
-                            role="alert"
-                          >
-                            <strong>Heads up!</strong> This election does have
-                            any candidate, let's try{' '}
-                            <a href="#" className="alert-link">
-                              add someone
-                            </a>
-                          </div>
-                        ) : (
-                          <div className="row">
-                            {candidates.map((candidate, index) => (
-                              <div
-                                className="col-xl-4 col-md-4 col-sm-12"
-                                key={index}
-                              >
-                                <div className="card">
-                                  <div className="card-content">
-                                    <div className="card-body">
-                                      <h4 className="card-title">
-                                        {candidate.fullName}
-                                      </h4>
-                                      <img
-                                        className="img-fluid my-1"
-                                        src={candidate.avatar}
-                                        alt="Card"
-                                      />
-
-                                      <p className="card-text">
-                                        {/* {candidate.description} DO LATER!!! */}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </section>
-
-                <section id="html-markup" className="card">
-                  <div className="card-header">
-                    <h4 className="card-title">Voters</h4>
-                    <a className="heading-elements-toggle">
-                      <i className="fa fa-ellipsis-v font-medium-3"></i>
-                    </a>
-                    <div className="heading-elements">
-                      <ul className="list-inline mb-0">
-                        <li>
-                          <a data-action="collapse">
-                            <i className="ft-minus"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a data-action="reload">
-                            <i className="ft-rotate-cw"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a data-action="close">
-                            <i className="ft-x"></i>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div className="card-content vertical-scroll scroll-example height-300">
-                    <div className="card-body">
-                      <div className="card-text">
-                        <p>
-                          This table contains all classNamees related to the
-                          content detached left sticky sidebar layout. This is a
-                          custom layout classNamees for content detached left
-                          sticky sidebar layout page requirements.
-                        </p>
-                        <p>scroll to view all of voters:</p>
-                        {!voters.length ? (
-                          <div
-                            className="alert alert-icon-right alert-info alert-dismissible mb-2"
-                            role="alert"
-                          >
-                            <strong>Heads up!</strong> This election does have
-                            any voter, let's try{' '}
-                            <a href="#" className="alert-link">
-                              add someone
-                            </a>
-                          </div>
-                        ) : (
-                          <div className="row">
-                            {voters.map((voter, index) => (
-                              <div
-                                className="col-xl-4 col-md-4 col-sm-12"
-                                key={index}
-                              >
-                                <div className="card">
-                                  <div className="card-content">
-                                    <div className="card-body">
-                                      <h4 className="card-title">
-                                        {voter.fullName}
-                                      </h4>
-                                      <img
-                                        className="img-fluid my-1"
-                                        src={voter.avatar}
-                                        alt="Card"
-                                      />
-
-                                      <p className="card-text">
-                                        {/* {candidate.description} DO LATER!!! */}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </section>
+                </div>
               </div>
             </div>
           </div>
-          <style jsx>{`
-            .scroll-example {
-              padding: 0.5rem;
-              position: relative;
-              border: none;
-              overflow: auto;
-            }
-          `}</style>
         </div>
+
+        <div className="row">
+          <div className="col-sm">
+            <div className="card shadow mb-4" style={{ height: '400px' }}>
+              <div className="card-header py-3">
+                <h6 className="m-0 font-weight-bold text-primary">
+                  Candidates List
+                </h6>
+              </div>
+
+              <div className="card-body overflow-auto">
+                <DisplayUsersListComponent users={candidates} />
+              </div>
+            </div>
+          </div>
+
+          <div className="col-sm">
+            <div className="card shadow mb-4" style={{ height: '400px' }}>
+              <div className="card-header py-3">
+                <h6 className="m-0 font-weight-bold text-primary">
+                  Voters List
+                </h6>
+              </div>
+
+              <div className="card-body overflow-auto">
+                {' '}
+                <DisplayUsersListComponent users={voters} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <style jsx>{`
+          .scroll-example {
+            padding: 0.5rem;
+            position: relative;
+            border: none;
+            overflow: auto;
+          }
+
+          #project-info {
+            overflow: hidden;
+          }
+          #project-info .project-info-count {
+            text-align: center;
+            vertical-align: top;
+          }
+          #project-info .project-info-count .project-info-icon {
+            border: 3px solid #ececec;
+            border-radius: 50%;
+            display: block;
+            margin: 0 auto;
+            padding: 37px 0;
+            position: relative;
+            width: 110px;
+            height: 110px;
+          }
+          #project-info .project-info-count .project-info-text {
+            display: block;
+            margin-top: 20px;
+            left: 0;
+            position: relative;
+            top: 0;
+            width: 99.8%;
+          }
+          #project-info .project-info-count .project-info-sub-icon {
+            position: relative;
+            border-radius: 65px;
+            border: 1px solid #adadad;
+            background: #fff;
+            bottom: -5px;
+            left: 34px;
+            width: 40px;
+            height: 40px;
+          }
+          #project-info .project-info-count .project-info-sub-icon span {
+            font-size: 1.2rem;
+            top: 10px;
+            position: relative;
+          }
+        `}</style>
       </React.Fragment>
     );
   }

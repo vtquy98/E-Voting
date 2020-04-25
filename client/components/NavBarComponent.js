@@ -11,116 +11,62 @@ const connectToRedux = connect(
 );
 
 const NavBarComponent = ({ currentUser, logout }) => (
-  <nav className="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-light navbar-border">
-    <div className="navbar-wrapper">
-      <div className="navbar-header">
-        <ul className="nav navbar-nav flex-row">
-          <li className="nav-item mobile-menu d-md-none mr-auto">
-            <a
-              className="nav-link nav-menu-main menu-toggle hidden-xs"
-              href="#"
-            >
-              <i className="ft-menu font-large-1"></i>
-            </a>
-          </li>
-          <li className="nav-item">
-            <Link
-              href={
-                currentUser.role === 'ADMIN'
-                  ? `/admin-dashboard`
-                  : `/user/dashboard`
-              }
-            >
-              <a className="navbar-brand">
-                <img
-                  className="brand-logo"
-                  alt="stack admin logo"
-                  src="/static/assets/images/e-voting-logo.png"
-                  width="30"
-                />
-                <h2 className="brand-text">AGU E-VOTING</h2>
-              </a>
-            </Link>
-          </li>
-          <li className="nav-item d-md-none">
-            <a
-              className="nav-link open-navbar-container"
-              data-toggle="collapse"
-              data-target="#navbar-mobile"
-            >
-              <i className="fa fa-ellipsis-v"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div className="navbar-container content">
-        <div className="collapse navbar-collapse" id="navbar-mobile">
-          <ul className="nav navbar-nav mr-auto float-left">
-            <li className="nav-item d-none d-md-block">
-              <a
-                className="nav-link nav-menu-main menu-toggle hidden-xs"
-                href="#"
-              >
-                <i className="ft-menu"></i>
-              </a>
-            </li>
-          </ul>
-          <ul className="nav navbar-nav float-right">
-            <li className="dropdown dropdown-language nav-item">
-              <a
-                className="dropdown-toggle nav-link"
-                id="dropdown-flag"
-                href="#"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i className="flag-icon flag-icon-gb"></i>
-                <span className="selected-language"></span>
-              </a>
-              <div className="dropdown-menu" aria-labelledby="dropdown-flag">
-                <a className="dropdown-item" href="#">
-                  <i className="flag-icon flag-icon-gb"></i> English
-                </a>
-                <a className="dropdown-item" href="#">
-                  <i className="flag-icon flag-icon-vn"></i> Vietnam
-                </a>
-              </div>
-            </li>
-            <li className="dropdown dropdown-user nav-item">
-              <a
-                className="dropdown-toggle nav-link dropdown-user-link"
-                href="#"
-                data-toggle="dropdown"
-              >
-                <span className="avatar avatar-online">
-                  <img src={currentUser && currentUser.avatar} alt="avatar" />
-                  <i></i>
-                </span>
-                <span className="user-name">{currentUser.fullName}</span>
-              </a>
-              <div className="dropdown-menu dropdown-menu-right">
-                <Link href="/user/dashboard">
-                  <a className="dropdown-item">
-                    <i className="ft-check-square"></i> Dashboard
-                  </a>
-                </Link>
-                <Link href="/user/info">
-                  <a className="dropdown-item">
-                    <i className="ft-user"></i> Your Profile
-                  </a>
-                </Link>
+  <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+    <button
+      id="sidebarToggleTop"
+      className="btn btn-link d-md-none rounded-circle mr-3"
+    >
+      <i className="fa fa-bars"></i>
+    </button>
 
-                <div className="dropdown-divider"></div>
-                <a className="dropdown-item" onClick={logout}>
-                  <i className="ft-power"></i> Logout
-                </a>
-              </div>
-            </li>
-          </ul>
+    <ul className="navbar-nav ml-auto">
+      <div className="topbar-divider d-none d-sm-block"></div>
+      <li className="nav-item dropdown no-arrow">
+        <a
+          className="nav-link dropdown-toggle"
+          href="#"
+          id="userDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <span className="mr-2 d-none d-lg-inline text-gray-600 small">
+            {currentUser.fullName}
+          </span>
+          <img
+            src={currentUser && currentUser.avatar}
+            alt="avatar"
+            className="img-profile rounded-circle"
+          />
+        </a>
+
+        <div
+          className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+          aria-labelledby="userDropdown"
+        >
+          <Link href="/user/dashboard">
+            <a className="dropdown-item">
+              <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+              Your Dashboard
+            </a>
+          </Link>
+          <Link href="/user/info">
+            <a className="dropdown-item">
+              <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+              Your Profile
+            </a>
+          </Link>
+
+          <div className="dropdown-divider" />
+
+          <a href="#" className="dropdown-item" onClick={logout}>
+            <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+            Logout
+          </a>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </nav>
 );
 

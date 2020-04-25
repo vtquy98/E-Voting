@@ -3,8 +3,7 @@ import GrettingMailTemplate from './GrettingMailTemplate';
 import InviteVotingMailTemplate from './InviteVotingMailTemplate';
 
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(
-  process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const replaceMailContent = (template, mapObj) => {
   const re = new RegExp(Object.keys(mapObj).join('|'), 'gi');

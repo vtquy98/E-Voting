@@ -1,85 +1,87 @@
 import React from 'react';
 import Link from 'next/link';
 const VerticalBarComponent = ({ role }) => (
-  <div
-    className="main-menu menu-fixed menu-light menu-accordion"
-    data-scroll-to-active="true"
+  <ul
+    className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+    id="accordionSidebar"
   >
-    <div className="main-menu-content">
-      <ul
-        className="navigation navigation-main"
-        id="main-menu-navigation"
-        data-menu="menu-navigation"
-      >
-        {role === 'ADMIN' && (
-          <React.Fragment>
-            {' '}
-            <li className=" navigation-header">
-              <span>For Administator</span>
-              <i
-                className=" ft-minus"
-                data-toggle="tooltip"
-                data-placement="right"
-                data-original-title="General"
-              ></i>
-            </li>
-            <li className="nav-item">
-              <Link href="/admin-dashboard">
-                <a>
-                  <i className="ft-home"></i>
-                  <span className="menu-title">Admin Dashboard</span>
-                </a>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <a
-                href="#"
-                data-toggle="modal"
-                data-target="#createNewElectionModal"
-              >
-                <i className="ft-plus-square"></i>
-                <span className="menu-title">Create Election</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <Link href="/user-management">
-                <a>
-                  <i className="ft-user"></i>
-                  <span className="menu-title">Users Management</span>
-                </a>
-              </Link>
-            </li>
-          </React.Fragment>
-        )}
+    <Link href={role === 'ADMIN' ? `/admin-dashboard` : `/user/dashboard`}>
+      <a className="sidebar-brand d-flex align-items-center justify-content-center">
+        <div className="sidebar-brand-icon">
+          <a className="navbar-brand">
+            <img
+              className="brand-logo"
+              alt="stack admin logo"
+              src="/static/assets/images/e-voting-logo.png"
+              width="40"
+            />
+          </a>
+        </div>
+        <div className="sidebar-brand-text">
+          E-Voting <sup>AGU</sup>
+        </div>
+      </a>
+    </Link>
 
-        <li className=" navigation-header">
-          <span>As a user</span>
-          <i
-            className=" ft-minus"
-            data-toggle="tooltip"
-            data-placement="right"
-            data-original-title="Apps"
-          ></i>
-        </li>
-        <li className=" nav-item">
-          <Link href="/user/dashboard">
-            <a>
-              <i className="ft-home"></i>
-              <span className="menu-title">Dashboard</span>
-            </a>
-          </Link>
-        </li>
+    <hr className="sidebar-divider my-0" />
+
+    <li className="nav-item">
+      <Link href="/user/dashboard">
+        <a className="nav-link">
+          <i className="fas fa-fw fa-tachometer-alt"></i>
+          <span>Your Dashboard</span>
+        </a>
+      </Link>
+    </li>
+    <hr className="sidebar-divider" />
+
+    {role === 'ADMIN' && (
+      <React.Fragment>
+        <div className="sidebar-heading">For Admin</div>
+
         <li className="nav-item">
-          <Link href="/user/info">
-            <a>
-              <i className="ft-user"></i>
-              <span className="menu-title">Your information</span>
+          <Link href="/admin-dashboard">
+            <a className="nav-link">
+              <i className="fas fa-fw fa-tachometer-alt"></i>
+              <span>Admin Dashboard</span>
             </a>
           </Link>
         </li>
-      </ul>
-    </div>
-  </div>
+
+        <li className="nav-item">
+          <a
+            href="#"
+            data-toggle="modal"
+            data-target="#createNewElectionModal"
+            className="nav-link"
+          >
+            <i className="fas fa-plus-circle"></i>
+            <span>Create Election</span>
+          </a>
+        </li>
+
+        <li className="nav-item">
+          <Link href="/user-management">
+            <a className="nav-link">
+              <i className="fas fa-users"></i>
+              <span>User Management</span>
+            </a>
+          </Link>
+        </li>
+      </React.Fragment>
+    )}
+    <hr className="sidebar-divider" />
+    <div className="sidebar-heading">Your menu</div>
+
+    <li className="nav-item">
+      <Link href="/user/profile">
+        <a className="nav-link">
+          <i className="fas fa-fw fa-tachometer-alt"></i>
+          <span>Your profile </span>
+        </a>
+      </Link>
+    </li>
+  </ul>
 );
 
 export default VerticalBarComponent;

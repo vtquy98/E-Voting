@@ -191,22 +191,24 @@ const StopVotingAPI = makeFetchAction(
 );
 
 export const stopVoting = electionId => {
-  return respondToSuccess(StopVotingAPI.actionCreator({ electionId }), resp => {
-    if (resp.errors) {
-      console.error('Err:', resp.errors);
+  return respondToSuccess(
+    StopVotingAPI.actionCreator({ electionId }),
+    (resp, headers, store) => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      EmitUpdatedToast({
+        toastId: resp.data.end_voting.id,
+        content: `Election has been stoped!`
+      });
+
+      store.dispatch(getElection(resp.data.end_voting.id));
+
       return;
     }
-
-    EmitUpdatedToast({
-      toastId: resp.data.end_voting.id,
-      content: `Election has been stoped!`
-    });
-
-    const electionId = resp.data.end_voting.id;
-    Router.push('/election-result?id=' + electionId);
-
-    return;
-  });
+  );
 };
 
 export const stopVotingDataSelector = flow(
@@ -239,7 +241,7 @@ const StartVotingAPI = makeFetchAction(
 export const startVoting = electionId => {
   return respondToSuccess(
     StartVotingAPI.actionCreator({ electionId }),
-    resp => {
+    (resp, headers, store) => {
       if (resp.errors) {
         console.error('Err:', resp.errors);
         return;
@@ -250,8 +252,7 @@ export const startVoting = electionId => {
         content: `Election has been started!`
       });
 
-      const electionId = resp.data.start_voting.id;
-      Router.push('/show-election?id=' + electionId);
+      store.dispatch(getElection(resp.data.start_voting.id));
 
       return;
     }
@@ -586,6 +587,7 @@ const GetAllVotersAPI = makeFetchAction(
         id
         fullName
         avatar
+        department
       }
     }
   `
@@ -623,6 +625,7 @@ const GetAllCandidatesAPI = makeFetchAction(
         fullName
         avatar
         summaryDescription
+        department
       }
     }
   `

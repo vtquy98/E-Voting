@@ -29,9 +29,9 @@ const VotingCandidateForm = props => {
   const { handleSubmit, previousPage, options, votingTypeValue } = props;
   return (
     <form onSubmit={handleSubmit}>
-      <h4 className="card-title">
+      <h5 className="card-title">
         Let's add some <code>candidates</code> to add into the election
-      </h4>
+      </h5>
 
       <Field
         name="candidates"
@@ -40,20 +40,22 @@ const VotingCandidateForm = props => {
         validate={[required]}
         isMulti={!(parseInt(votingTypeValue) === SELECT_TO_TRUST)}
       />
+      <div className="d-flex justify-content-end">
+        <div className="form-actions">
+          <button
+            type="button"
+            className="btn btn-warning mr-1"
+            name="previous"
+            value="Previous"
+            onClick={previousPage}
+          >
+            <i className="fa fa-chevron-circle-left"></i> Previous
+          </button>
 
-      <div className="form-actions right">
-        <button
-          type="button"
-          className="btn btn-warning mr-1"
-          name="previous"
-          value="Previous"
-          onClick={previousPage}
-        >
-          <i className="fa fa-chevron-circle-left"></i> Previous
-        </button>
-        <button type="submit" className="btn btn-success" value="Next">
-          <i className="fa fa-check-square-o"></i> Next
-        </button>
+          <button type="submit" className="btn btn-success" value="Next">
+            <i className="fa fa-check-square-o"></i> Next
+          </button>
+        </div>
       </div>
       <style jsx>{`
         .material-icons {

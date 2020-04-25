@@ -2,14 +2,14 @@ import { combineResolvers } from 'graphql-resolvers';
 import { generateWallet } from '../../../libs/generateWalletAddress';
 import { Users } from '../../../services';
 import { isAdmin, checkAuthentication } from '../../libs';
-import { sendInviteMail } from '../../../mail/mail';
+// import { sendInviteMail } from '../../../mail/mail'; TEMP CLOSE IT!
 import { generatePassword } from '../../../libs';
 
 module.exports = {
   Mutation: {
     add_users: combineResolvers(isAdmin, async (_, { listUserEmails }) => {
-      const userWalletAdress = await generateWallet();
       listUserEmails.map(async user => {
+        const userWalletAdress = await generateWallet();
         const existUser = await Users.findOne({ email: user });
         if (!existUser) {
           const username = user.substring(0, user.lastIndexOf('@'));
@@ -24,7 +24,7 @@ module.exports = {
           const newUser = new Users(userData);
           await newUser.save();
 
-          sendInviteMail(user, { name: username, password });
+          // sendInviteMail(user, { name: username, password });
         }
       });
 

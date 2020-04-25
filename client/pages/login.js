@@ -1,11 +1,11 @@
 import React from 'react';
-
-import EmptyPageLayout from '../layouts/EmptyPageLayout';
+import AuthenPageLayout from '../layouts/AuthenPageLayout';
 import UserLoginComponent from '../components/UserLoginComponent';
+
 const UserLogin = rootProps => (
-  <EmptyPageLayout>
+  <AuthenPageLayout {...rootProps}>
     <UserLoginComponent />
-  </EmptyPageLayout>
+  </AuthenPageLayout>
 );
 
 export default UserLogin;
