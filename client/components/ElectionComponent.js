@@ -355,7 +355,7 @@ class ElectionComponent extends React.Component {
                           </button>
                         </div>
                       ) : (
-                        <Link href={`/election-result?id=${election.id}`}>
+                        <Link href={`/result?id=${election.id}`}>
                           <a
                             type="button"
                             className="btn mr-1 mb-1 btn-success"

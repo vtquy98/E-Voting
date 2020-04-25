@@ -134,7 +134,7 @@ class ShowElectionComponent extends React.Component {
 
                         <div className="text-center">
                           {election.state === 'ENDED' && (
-                            <Link href={`/election-result?id=${election.id}`}>
+                            <Link href={`/result?id=${election.id}`}>
                               <a
                                 type="button"
                                 className="btn btn-outline-info btn-min-width mr-1 mb-1"
