@@ -85,6 +85,11 @@ class EmptyPageLayout extends React.Component {
             <div className="container-fluid">{children}</div>
           </div>
         </div>
+        <style jsx>{`
+          #content-wrapper {
+            min-height: 100vh;
+          }
+        `}</style>
       </div>
     );
   }
