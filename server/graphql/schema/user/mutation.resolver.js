@@ -2,7 +2,7 @@ import { combineResolvers } from 'graphql-resolvers';
 import { generateWallet } from '../../../libs/generateWalletAddress';
 import { Users } from '../../../services';
 import { isAdmin, checkAuthentication } from '../../libs';
-// import { sendInviteMail } from '../../../mail/mail'; TEMP CLOSE IT!
+import { sendInviteMail } from '../../../mail/mail';
 import { generatePassword } from '../../../libs';
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
           const newUser = new Users(userData);
           await newUser.save();
 
-          // sendInviteMail(user, { name: username, password });
+          sendInviteMail(user, { name: username, password });
         }
       });
 

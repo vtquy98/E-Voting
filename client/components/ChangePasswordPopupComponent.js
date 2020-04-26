@@ -72,7 +72,7 @@ class AddUserPopup extends React.Component {
       <div className="card shadow border-none">
         <div className="card-header py-3 text-center">
           <h6 className="m-0 font-weight-bold text-primary ">
-            <i className="fa fa-plus-circle"></i> Add new user
+            <i className="fa fa-plus-circle"></i> Change Password
           </h6>
         </div>
         <div className="card-content">
@@ -83,7 +83,7 @@ class AddUserPopup extends React.Component {
                   <img
                     src="/static/assets/images/vote-success.svg"
                     alt="success"
-                    className="height-150"
+                    width="50%"
                   />
                 </div>
                 <h3 className="text-center mt-2">Password was changed!</h3>
