@@ -117,6 +117,10 @@ const GetUserUpComingElectionAPI = makeFetchAction(
         description
         id
         electionOwner
+        votingTime
+        votingType
+        atLeastVote
+        mostVote
       }
     }
   `

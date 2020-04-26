@@ -116,160 +116,166 @@ class ShowElectionComponent extends React.Component {
     };
 
     return (
-      <div className="app-content content">
-        <div className="content-wrapper">
-          <div className="content-body">
-            <div className="row">
-              {election.state !== 'STARTED' ? (
-                <div className="col-lg-12 card">
-                  <div className="card-header">
-                    <h4 className="card-title">{election.name}</h4>
+      <React.Fragment>
+        <div className="row">
+          {election.state !== 'STARTED' ? (
+            <div className="col-lg-12">
+              <div className="card shadow border-none mb-4">
+                <div className="card-header py-3 text-center">
+                  <h6 className="m-0 font-weight-bold text-primary ">
+                    {election.electionOwner}
+                  </h6>
+                  <h3 className="mt-2 mb-0 font-weight-bold text-primary ">
+                    {election.name}
+                  </h3>
+                </div>
+                <div className="card-body">
+                  <h3 className="text-center">
+                    Sorry, this is not time to vote!
+                  </h3>
+
+                  <div className="text-center">
+                    {election.state === 'ENDED' && (
+                      <Link href={`/result?id=${election.id}`}>
+                        <a
+                          type="button"
+                          className="btn btn-outline-info btn-min-width mr-1 mb-1"
+                        >
+                          <i className="fa fa-heart"></i> View result
+                        </a>
+                      </Link>
+                    )}
+
+                    <Link href="/user/dashboard">
+                      <a
+                        type="button"
+                        className="btn btn-outline-secondary btn-min-width mr-1 mb-1"
+                      >
+                        <i className="fa fa-home"></i> Go to dashboard
+                      </a>
+                    </Link>
                   </div>
+                  <div className="d-flex justify-content-center">
+                    <img
+                      src="/static/assets/images/party.svg"
+                      alt="success"
+                      className="mt-2"
+                      width="50%"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <React.Fragment>
+              <div className="col-lg-4">
+                <div className="card shadow border-none mb-4">
+                  <div className="card-header py-3">
+                    <h6 className="m-0 font-weight-bold text-primary">
+                      Before you vote
+                    </h6>
+                  </div>
+                  <div className="card-body">
+                    <p className="card-text">
+                      Thank you for going there and voting. The type of this
+                      election is
+                      {election.votingType === 'SELECT_TO_TRUST'
+                        ? ` Trust or Do not trust . So you must be choose one of selection to vote.`
+                        : election.votingType === 'SELECT_TO_VOTE'
+                        ? ` Select to vote . So you must be choose at least ${election.atLeastVote} candidate(s) and max ${election.mostVote} that you trust to vote for them.`
+                        : ` Select to remove . So you must be choose at least ${election.atLeastVote} candidate(s) and max ${election.mostVote} that you do not trust to remove them.`}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-md-8">
+                <div className="card shadow border-none mb-4">
                   <div className="card-content">
                     <div className="card-body">
-                      <div className="card-text">
-                        <h1 className="text-center">
-                          Sorry, this is not time to vote!
-                        </h1>
-
-                        <div className="text-center">
-                          {election.state === 'ENDED' && (
-                            <Link href={`/result?id=${election.id}`}>
+                      {successMessage || successMessageTrustTypeVote ? (
+                        <div>
+                          <h1 className="title font-weight-bold text-primary text-center mt-2 mb-2">
+                            Thank you for your participation!
+                          </h1>
+                          <div className="d-flex justify-content-center">
+                            <img
+                              src="/static/assets/images/vote-success.svg"
+                              alt="success"
+                              width="50%"
+                            />
+                          </div>
+                          <div className="text-center mt-2">
+                            <Link href={`/user/dashboard`}>
                               <a
                                 type="button"
-                                className="btn btn-outline-info btn-min-width mr-1 mb-1"
+                                className="btn btn-outline-primary btn-min-width mr-1 mb-1"
                               >
-                                <i className="fa fa-heart"></i> View result
+                                <i className="fa fa-home"></i> Back To Home
                               </a>
                             </Link>
-                          )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div>
+                          <h1 className="title font-weight-bold text-primary text-center mt-2 mb-2">
+                            Who will you vote for?
+                          </h1>
+                          <div className="col-lg-12 col-md-6 col-sm-12">
+                            <form onSubmit={handleSubmit(submit)}>
+                              {election.votingType === 'SELECT_TO_TRUST' ? (
+                                <Field
+                                  name="voterChoice"
+                                  component={RenderTrustField}
+                                />
+                              ) : (
+                                <Field
+                                  name="listUserId"
+                                  options={candidates}
+                                  component={RenderVoteCheckFieldComponent}
+                                  votingType={election.votingType}
+                                />
+                              )}
 
-                          <Link href="/user/dashboard">
-                            <a
-                              type="button"
-                              className="btn btn-outline-secondary btn-min-width mr-1 mb-1"
-                            >
-                              <i className="fa fa-home"></i> Go to dashboard
-                            </a>
-                          </Link>
+                              <div className="text-center mt-2">
+                                <div className="form-group">
+                                  <button
+                                    type="submit"
+                                    className="btn mr-1 mb-1 btn-success btn-lg"
+                                    disabled={pristine || submitting}
+                                  >
+                                    <i className="fa fa-check-circle"></i>{' '}
+                                    Submit
+                                  </button>
+                                  <button
+                                    type="button"
+                                    disabled={pristine || submitting}
+                                    onClick={reset}
+                                    className="btn mr-1 mb-1 btn-danger btn-lg"
+                                  >
+                                    <i className="fa fa-times"></i> Reset
+                                  </button>
+                                </div>
+                                {errorMessage || errorMessageTrustTypeVote ? (
+                                  <div
+                                    className="mt-2 alert alert-danger border-0 mb-2"
+                                    role="alert"
+                                  >
+                                    <strong>Error: </strong>
+                                    {errorMessage || errorMessageTrustTypeVote}
+                                  </div>
+                                ) : null}
+                              </div>
+                            </form>
+                          </div>
                         </div>
-                        <div className="d-flex justify-content-center">
-                          <img
-                            src="/static/assets/images/party.svg"
-                            alt="success"
-                            className="height-300 mt-2"
-                          />
-                        </div>
-                      </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              ) : (
-                <React.Fragment>
-                  <div className="col-md-4">
-                    <div className="card text-white box-shadow-0 bg-warning">
-                      <div className="card-header">
-                        <h4 className="card-title">Before you vote</h4>
-                      </div>
-                      <div className="card-content collapse show">
-                        <div className="card-body">
-                          <p className="card-text">
-                            Thank you for going there and voting. The type of
-                            this election is
-                            {election.votingType === 'SELECT_TO_TRUST'
-                              ? ` Trust or Do not trust . So you must be choose one of selection to vote.`
-                              : election.votingType === 'SELECT_TO_VOTE'
-                              ? ` Select to vote . So you must be choose at least ${election.atLeastVote} candidate(s) and max ${election.mostVote} that you trust to vote for them.`
-                              : ` Select to remove . So you must be choose at least ${election.atLeastVote} candidate(s) and max ${election.mostVote} that you do not trust to remove them.`}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-8">
-                    <div className="card">
-                      <div className="card-content">
-                        <div className="card-body">
-                          {successMessage || successMessageTrustTypeVote ? (
-                            <div>
-                              <h1 className="title text-center mt-2 mb-2">
-                                Thank you for your participation!
-                              </h1>
-                              <div className="d-flex justify-content-center">
-                                <img
-                                  src="/static/assets/images/vote-success.svg"
-                                  alt="success"
-                                  className="height-200"
-                                />
-                              </div>
-                              <h4 className="text-bold-400 text-center mt-2">
-                                Keep calm and waiting for election result
-                              </h4>
-                            </div>
-                          ) : (
-                            <div>
-                              <h1 className="title text-center mt-2 mb-2">
-                                Who will you vote for?
-                              </h1>
-                              <div className="col-lg-12 col-md-6 col-sm-12">
-                                <form onSubmit={handleSubmit(submit)}>
-                                  {election.votingType === 'SELECT_TO_TRUST' ? (
-                                    <Field
-                                      name="voterChoice"
-                                      component={RenderTrustField}
-                                    />
-                                  ) : (
-                                    <Field
-                                      name="listUserId"
-                                      options={candidates}
-                                      component={RenderVoteCheckFieldComponent}
-                                      votingType={election.votingType}
-                                    />
-                                  )}
-
-                                  <div className="text-center mt-2">
-                                    <div className="form-group">
-                                      <button
-                                        type="submit"
-                                        className="btn mr-1 mb-1 btn-success btn-lg"
-                                        disabled={pristine || submitting}
-                                      >
-                                        <i className="fa fa-check-circle"></i>{' '}
-                                        Submit
-                                      </button>
-                                      <button
-                                        type="button"
-                                        disabled={pristine || submitting}
-                                        onClick={reset}
-                                        className="btn mr-1 mb-1 btn-danger btn-lg"
-                                      >
-                                        <i className="fa fa-times"></i> Reset
-                                      </button>
-                                    </div>
-                                    {errorMessage ||
-                                    errorMessageTrustTypeVote ? (
-                                      <div
-                                        className="mt-2 alert alert-danger border-0 mb-2"
-                                        role="alert"
-                                      >
-                                        <strong>Error: </strong>
-                                        {errorMessage ||
-                                          errorMessageTrustTypeVote}
-                                      </div>
-                                    ) : null}
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </React.Fragment>
-              )}
-            </div>
-          </div>
+              </div>
+            </React.Fragment>
+          )}
         </div>
         <style jsx>{`
           .content {
@@ -281,7 +287,7 @@ class ShowElectionComponent extends React.Component {
             font-weight: 300;
           }
         `}</style>
-      </div>
+      </React.Fragment>
     );
   }
 }

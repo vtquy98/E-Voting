@@ -2,8 +2,14 @@ import InviteMailTemplate from './InviteMailTemplate';
 import GrettingMailTemplate from './GrettingMailTemplate';
 import InviteVotingMailTemplate from './InviteVotingMailTemplate';
 
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const mailgun = require('mailgun-js');
+const MAIL_GUN_KEY = process.env.MAIL_GUN_KEY || 'here-is-key';
+const MAIL_GUN_DOMAIN = process.env.MAIL_GUN_DOMAIN || 'contact.e-voting.tech';
+
+const mg = mailgun({
+  apiKey: MAIL_GUN_KEY,
+  domain: MAIL_GUN_DOMAIN
+});
 
 const replaceMailContent = (template, mapObj) => {
   const re = new RegExp(Object.keys(mapObj).join('|'), 'gi');
@@ -23,7 +29,7 @@ export const sendInviteMail = (recipient, { name, password }) => {
     from: 'agu@e-voting.tech'
   };
 
-  return sgMail.send(mailObj);
+  return mg.messages().send(mailObj);
 };
 
 export const sendGrettingMail = (recipient, { name, password }) => {
@@ -39,7 +45,7 @@ export const sendGrettingMail = (recipient, { name, password }) => {
     from: 'agu@e-voting.tech'
   };
 
-  return sgMail.send(mailObj);
+  return mg.messages().send(mailObj);
 };
 
 export const sendInviteVotingMail = (
@@ -62,5 +68,5 @@ export const sendInviteVotingMail = (
     from: 'agu@e-voting.tech'
   };
 
-  return sgMail.send(mailObj);
+  return mg.messages().send(mailObj);
 };

@@ -61,89 +61,91 @@ class ManualVotingPopup extends React.Component {
       );
     };
     return (
-      <div className="card">
-        <div className="card-header">
-          <h4 className="card-title" id="basic-layout-form-center">
-            <i className="fa fa-plus-circle"></i> Manual voting
-          </h4>
-        </div>
-        <div className="card-content">
-          <div className="card-body">
-            {successMessage ? (
-              <div>
-                <div className="d-flex justify-content-center">
-                  <img
-                    src="/static/assets/images/vote-success.svg"
-                    alt="success"
-                    className="height-150"
-                  />
-                </div>
-                <h3 className="text-center mt-2">Vote successfully</h3>
-                <div className="d-flex justify-content-center">
-                  <button
-                    type="button"
-                    className="btn btn-primary mt-2"
-                    onClick={onClick}
-                  >
-                    <i className="ft-x"></i> Close
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <div className="card-text">
-                  <p>
-                    You are going to <code>manual vote</code> for candidate,
-                    just select candiate in below base on the voter's ballot.
-                  </p>
-                </div>
-                <form className="form" onSubmit={handleSubmit(submit)}>
-                  <div className="form-actions center">
-                    <Field
-                      name="listUserId"
-                      component={RenderCandidateSelectionField}
-                      options={
-                        candidates &&
-                        candidates.map(candidate => {
-                          return {
-                            value: candidate.id,
-                            label: candidate.fullName
-                          };
-                        })
-                      }
-                      validate={[required]}
+      <React.Fragment>
+        <div className="card shadow border-none">
+          <div className="card-header py-3 text-center">
+            <h6 className="m-0 font-weight-bold text-primary ">
+              <i className="fa fa-plus-circle"></i> Manual voting
+            </h6>
+          </div>
+          <div className="card-content">
+            <div className="card-body">
+              {successMessage ? (
+                <div>
+                  <div className="d-flex justify-content-center">
+                    <img
+                      src="/static/assets/images/vote-success.svg"
+                      alt="success"
+                      width="50%"
                     />
-
-                    <button
-                      type="submit"
-                      className="btn btn-primary mr-1"
-                      disabled={pristine || submitting}
-                    >
-                      <i className="fa fa-check-square-o"></i> Save
-                    </button>
+                  </div>
+                  <h3 className="text-center mt-2">Vote successfully</h3>
+                  <div className="d-flex justify-content-center">
                     <button
                       type="button"
-                      className="btn btn-warning"
+                      className="btn btn-primary mt-2"
                       onClick={onClick}
                     >
-                      <i className="ft-x"></i> Cancel
+                      <i className="ft-x"></i> Close
                     </button>
                   </div>
-                  {errorMessage ? (
-                    <div
-                      className="mt-2 alert alert-danger border-0 mb-2"
-                      role="alert"
-                    >
-                      <strong>Error: </strong>
-                      {errorMessage}
+                </div>
+              ) : (
+                <div>
+                  <div className="card-text">
+                    <p>
+                      You are going to <code>manual vote</code> for candidate,
+                      just select candiate in below base on the voter's ballot.
+                    </p>
+                  </div>
+                  <form className="form" onSubmit={handleSubmit(submit)}>
+                    <div className="form-actions center">
+                      <Field
+                        name="listUserId"
+                        component={RenderCandidateSelectionField}
+                        options={
+                          candidates &&
+                          candidates.map(candidate => {
+                            return {
+                              value: candidate.id,
+                              label: candidate.fullName
+                            };
+                          })
+                        }
+                        validate={[required]}
+                      />
+
+                      <button
+                        type="submit"
+                        className="btn btn-primary mr-1"
+                        disabled={pristine || submitting}
+                      >
+                        <i className="fa fa-check-square-o"></i> Save
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-warning"
+                        onClick={onClick}
+                      >
+                        <i className="ft-x"></i> Cancel
+                      </button>
                     </div>
-                  ) : null}
-                </form>
-              </div>
-            )}
+                    {errorMessage ? (
+                      <div
+                        className="mt-2 alert alert-danger border-0 mb-2"
+                        role="alert"
+                      >
+                        <strong>Error: </strong>
+                        {errorMessage}
+                      </div>
+                    ) : null}
+                  </form>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

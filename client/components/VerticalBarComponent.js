@@ -32,8 +32,8 @@ const VerticalBarComponent = ({ role }) => (
           <span>Your Dashboard</span>
         </a>
       </Link>
+      <hr className="sidebar-divider" />
     </li>
-    <hr className="sidebar-divider" />
 
     {role === 'ADMIN' && (
       <React.Fragment>
@@ -67,14 +67,15 @@ const VerticalBarComponent = ({ role }) => (
               <span>User Management</span>
             </a>
           </Link>
+          <hr className="sidebar-divider" />
         </li>
       </React.Fragment>
     )}
-    <hr className="sidebar-divider" />
+
     <div className="sidebar-heading">Your menu</div>
 
     <li className="nav-item">
-      <Link href="/user/profile">
+      <Link href="/user/info">
         <a className="nav-link">
           <i className="fas fa-fw fa-tachometer-alt"></i>
           <span>Your profile </span>

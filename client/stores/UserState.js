@@ -226,6 +226,7 @@ const GetAllUsersAPI = makeFetchAction(
         fullName
         avatar
         email
+        department
       }
     }
   `

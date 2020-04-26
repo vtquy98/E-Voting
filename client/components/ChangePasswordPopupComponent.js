@@ -69,11 +69,11 @@ class AddUserPopup extends React.Component {
       successMessage
     } = this.props;
     return (
-      <div className="card">
-        <div className="card-header">
-          <h4 className="card-title" id="basic-layout-form-center">
-            <i className="ft-lock"></i> Change your password
-          </h4>
+      <div className="card shadow border-none">
+        <div className="card-header py-3 text-center">
+          <h6 className="m-0 font-weight-bold text-primary ">
+            <i className="fa fa-plus-circle"></i> Change Password
+          </h6>
         </div>
         <div className="card-content">
           <div className="card-body">
@@ -83,7 +83,7 @@ class AddUserPopup extends React.Component {
                   <img
                     src="/static/assets/images/vote-success.svg"
                     alt="success"
-                    className="height-150"
+                    width="50%"
                   />
                 </div>
                 <h3 className="text-center mt-2">Password was changed!</h3>
