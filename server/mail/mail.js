@@ -2,9 +2,13 @@ import InviteMailTemplate from './InviteMailTemplate';
 import GrettingMailTemplate from './GrettingMailTemplate';
 import InviteVotingMailTemplate from './InviteVotingMailTemplate';
 
+require('dotenv').config({
+  path: './.env'
+});
+
 const mailgun = require('mailgun-js');
-const MAIL_GUN_KEY = process.env.MAIL_GUN_KEY || 'here-is-key';
-const MAIL_GUN_DOMAIN = process.env.MAIL_GUN_DOMAIN || 'contact.e-voting.tech';
+const MAIL_GUN_KEY = process.env.MAIL_GUN_KEY;
+const MAIL_GUN_DOMAIN = process.env.MAIL_GUN_DOMAIN;
 
 const mg = mailgun({
   apiKey: MAIL_GUN_KEY,
