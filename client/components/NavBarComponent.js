@@ -1,24 +1,37 @@
-import React from 'react';
+import { get } from 'lodash/fp';
 import Link from 'next/link';
-import { doLogout } from '../stores/UserState';
+import React from 'react';
 import { connect } from 'react-redux';
-
+import { bindActionCreators } from 'redux';
+import { toggleBarAction } from '../stores/PageState';
+import { doLogout } from '../stores/UserState';
 const connectToRedux = connect(
-  null,
+  store => {
+    return {
+      PageState: get('PageState', store)
+    };
+  },
   dispatch => ({
+    toggleBarAction: bindActionCreators(toggleBarAction, dispatch),
     logout: () => dispatch(doLogout())
   })
 );
 
-const NavBarComponent = ({ currentUser, logout }) => (
+let DEFAULT_VERTICAL_BAR_TOGGLE = true;
+
+const NavBarComponent = ({ currentUser, logout, toggleBarAction }) => (
   <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     <button
       id="sidebarToggleTop"
       className="btn btn-link d-md-none rounded-circle mr-3"
+      onClick={() => {
+        toggleBarAction({
+          isToggledBar: (DEFAULT_VERTICAL_BAR_TOGGLE = !DEFAULT_VERTICAL_BAR_TOGGLE)
+        });
+      }}
     >
       <i className="fa fa-bars"></i>
     </button>
-
     <ul className="navbar-nav ml-auto">
       <div className="topbar-divider d-none d-sm-block"></div>
       <li className="nav-item dropdown no-arrow">

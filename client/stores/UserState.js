@@ -363,7 +363,8 @@ const UserLogoutAPI = makeFetchAction(
   nfetch({ endpoint: '/signout' })
 );
 
-export const userLogout = () => respondToSuccess(UserLogoutAPI.actionCreator());
+export const userLogout = () =>
+  respondToSuccess(UserLogoutAPI.actionCreator(), resp => console.log(resp));
 
 export default {
   connectStatus(state = false, { type, payload }) {

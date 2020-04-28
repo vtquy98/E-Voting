@@ -1,8 +1,27 @@
-import React from 'react';
+import { get } from 'lodash/fp';
 import Link from 'next/link';
-const VerticalBarComponent = ({ role }) => (
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { toggleBarAction } from '../stores/PageState';
+
+const connectToRedux = connect(
+  store => {
+    return {
+      PageState: get('PageState', store)
+    };
+  },
+  dispatch => ({
+    toggleBarAction: bindActionCreators(toggleBarAction, dispatch)
+  })
+);
+
+let DEFAULT_VERTICAL_BAR_TOGGLE = true;
+
+const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
   <ul
-    className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+    className={`navbar-nav bg-gradient-primary sidebar sidebar-dark accordion ${PageState.isToggledBar &&
+      'toggled'}`}
     id="accordionSidebar"
   >
     <Link href={role === 'ADMIN' ? `/admin-dashboard` : `/user/dashboard`}>
@@ -82,7 +101,20 @@ const VerticalBarComponent = ({ role }) => (
         </a>
       </Link>
     </li>
+
+    <hr className="sidebar-divider" />
+    <div className="text-center d-none d-md-inline">
+      <button
+        id="sidebarToggle"
+        className="rounded-circle border-0"
+        onClick={() => {
+          toggleBarAction({
+            isToggledBar: (DEFAULT_VERTICAL_BAR_TOGGLE = !DEFAULT_VERTICAL_BAR_TOGGLE)
+          });
+        }}
+      ></button>
+    </div>
   </ul>
 );
 
-export default VerticalBarComponent;
+export default connectToRedux(VerticalBarComponent);
