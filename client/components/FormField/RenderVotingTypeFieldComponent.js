@@ -77,7 +77,7 @@ const RenderVotingTypeFieldComponent = ({
           display: none;
         }
         .middle input[type='radio']:checked + .box {
-          background-color: #00b5b8;
+          background-color: #4e73df;
         }
         .middle input[type='radio']:checked + .box span {
           color: white;
@@ -114,7 +114,7 @@ const RenderVotingTypeFieldComponent = ({
         }
         .middle .box span:before {
           font-size: 1.2em;
-          font-family: FontAwesome;
+          font-family: 'Font Awesome 5 Free';
           display: block;
           transform: translateY(-80px);
           opacity: 0;
@@ -123,7 +123,7 @@ const RenderVotingTypeFieldComponent = ({
           color: white;
         }
         .middle .choose-to-vote span:before {
-          content: '\f00c';
+          content: '\f682';
         }
         .middle .choose-to-remove span:before {
           content: '\f00d';
