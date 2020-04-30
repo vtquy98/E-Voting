@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { GoogleLogin } from 'react-google-login';
 import { saveToken } from '../libs/token-libs';
 import Router from 'next/router';
+import Link from 'next/link';
 const API_SERVER_URL = process.env.API_SERVER_URL || 'http://localhost:3003';
 
 const GOOGLE_CLIENT_ID =
@@ -149,12 +150,16 @@ const UserLoginComponent = ({
                 </form>
                 <hr />
                 <div className="text-center">
-                  <a className="small" href="#">
-                    Forgot Password?
-                  </a>
+                  <Link href="/forgot-password">
+                    <a className="small">Forgot Password?</a>
+                  </Link>
                 </div>
                 <div className="text-center">
-                  <a className="small" href="#">
+                  <a
+                    className="small"
+                    href="#"
+                    onClick={() => toast.warn('Comming soon!')}
+                  >
                     Create an Account!
                   </a>
                 </div>
@@ -164,6 +169,16 @@ const UserLoginComponent = ({
         </div>
       </div>
     </div>
+
+    <style jsx>
+      {`
+        .bg-login-image {
+          background: url('/static/assets/images/lock.jpg');
+          background-position: center;
+          background-size: cover;
+        }
+      `}
+    </style>
   </div>
 );
 

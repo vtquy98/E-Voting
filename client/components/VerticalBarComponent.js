@@ -27,14 +27,14 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
     <Link href={role === 'ADMIN' ? `/admin-dashboard` : `/user/dashboard`}>
       <a className="sidebar-brand d-flex align-items-center justify-content-center">
         <div className="sidebar-brand-icon">
-          <a className="navbar-brand">
+          <div className="navbar-brand">
             <img
               className="brand-logo"
               alt="stack admin logo"
               src="/static/assets/images/e-voting-logo.png"
               width="40"
             />
-          </a>
+          </div>
         </div>
         <div className="sidebar-brand-text">
           E-Voting <sup>AGU</sup>

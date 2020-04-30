@@ -1,9 +1,10 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { generateWallet } from '../../../libs/generateWalletAddress';
-import { Users } from '../../../services';
+import { Users, Tokens } from '../../../services';
 import { isAdmin, checkAuthentication } from '../../libs';
-import { sendInviteMail } from '../../../mail/mail';
+import { sendInviteMail, sendForgotPasswordMail } from '../../../mail/mail';
 import { generatePassword } from '../../../libs';
+import uuid from 'uuid';
 
 module.exports = {
   Mutation: {
@@ -87,6 +88,42 @@ module.exports = {
           throw new Error('Incorrect old password');
         }
       }
-    )
+    ),
+    user_forgot_password: async (_, { email }) => {
+      const existedAccount = await Users.findOne({ email });
+      if (!existedAccount) {
+        throw new Error('Email does not exist !');
+      }
+      const tokenData = {
+        token: uuid(),
+        email
+      };
+
+      Tokens.createTokenData(tokenData);
+
+      const LinkToReset = process.env.DOMAIN_NAME
+        ? `${process.env.DOMAIN_NAME}/reset-password?token=`
+        : 'e-voting.tech/reset-password?token=';
+
+      sendForgotPasswordMail(email, {
+        name: existedAccount.full_name,
+        linkToReset: LinkToReset + tokenData.token
+      });
+
+      return tokenData;
+    },
+
+    user_reset_password: async (_, { token, newPassword }) => {
+      const existToken = await Tokens.getTokenData(token);
+      const existedAccount = await Users.findOne({
+        email: existToken.email
+      });
+
+      existedAccount.password = newPassword;
+      await existedAccount.save();
+      await Tokens.deleteToken(token);
+
+      return existToken;
+    }
   }
 };

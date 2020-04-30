@@ -143,6 +143,12 @@ export default class MyDocument extends Document {
               <link
                 rel="stylesheet"
                 type="text/css"
+                href="/static/assets/custom/nprogress.css"
+              />
+
+              <link
+                rel="stylesheet"
+                type="text/css"
                 href="/static/assets/custom/style.css"
               />
             </Head>

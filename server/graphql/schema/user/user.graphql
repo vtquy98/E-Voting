@@ -24,13 +24,20 @@ enum Role {
   USER
 }
 
+type tokenData {
+  token: String!
+  email: String!
+}
+
 type Query {
   login_user(username: String!, password: String!): User!
   get_current_user: User!
   get_all_users: [User!]!
+  check_token_reset_password(token: String!): tokenData!
 }
 
 type Mutation {
+  user_reset_password(token: String!, newPassword: String!): tokenData!
   add_users(listUserEmails: [String!]!): [User!]!
   change_password(currentPassword: String!, newPassword: String!): User!
   delete_user(userId: String!): [User!]!
@@ -42,4 +49,5 @@ type Mutation {
     fullName: String!
     avatar: String!
   ): User!
+  user_forgot_password(email: String!): tokenData!
 }
