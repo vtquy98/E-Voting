@@ -1,10 +1,15 @@
 import InviteMailTemplate from './InviteMailTemplate';
 import GrettingMailTemplate from './GrettingMailTemplate';
 import InviteVotingMailTemplate from './InviteVotingMailTemplate';
+import ForgotPasswordTemplate from './ForgotPasswordTemplate';
+
+require('dotenv').config({
+  path: './.env'
+});
 
 const mailgun = require('mailgun-js');
-const MAIL_GUN_KEY = process.env.MAIL_GUN_KEY || 'here-is-key';
-const MAIL_GUN_DOMAIN = process.env.MAIL_GUN_DOMAIN || 'contact.e-voting.tech';
+const MAIL_GUN_KEY = process.env.MAIL_GUN_KEY;
+const MAIL_GUN_DOMAIN = process.env.MAIL_GUN_DOMAIN;
 
 const mg = mailgun({
   apiKey: MAIL_GUN_KEY,
@@ -65,6 +70,22 @@ export const sendInviteVotingMail = (
     to: recipient,
     subject: 'Invite Voting Letter',
     html: replaceMailContent(InviteVotingMailTemplate, mapObj),
+    from: 'agu@e-voting.tech'
+  };
+
+  return mg.messages().send(mailObj);
+};
+
+export const sendForgotPasswordMail = (recipient, { name, linkToReset }) => {
+  const mapObj = {
+    '{{name}}': name,
+    '{{linkToReset}}': linkToReset
+  };
+
+  const mailObj = {
+    to: recipient,
+    subject: 'Reset Your Password On AGU E-Voting!',
+    html: replaceMailContent(ForgotPasswordTemplate, mapObj),
     from: 'agu@e-voting.tech'
   };
 

@@ -15,6 +15,125 @@ export const ADD_USERS_API = 'AddUsersAPI';
 export const DELETE_USER_API = 'DeleteUserAPI';
 export const EDIT_USER_INFO_API = 'EditUserInfoAPI';
 export const CHANGE_PASSWORD_API = 'ChangePasswordAPI';
+export const USER_FORGOT_PASSWORD_API = 'UserForgotPasswordAPI';
+export const CHECK_TOKEN_RESET_USER_PASSWORD_API =
+  'CheckTokenResetUserPasswordAPI';
+export const USER_RESET_PASSWORD_API = 'UserResetPasswordAPI';
+
+const CheckTokenResetUserPasswordAPI = makeFetchAction(
+  CHECK_TOKEN_RESET_USER_PASSWORD_API,
+  gql`
+    query($token: String!) {
+      check_token_reset_password(token: $token) {
+        email
+      }
+    }
+  `
+);
+
+export const checkTokenResetUserPassword = token => {
+  return respondToSuccess(
+    CheckTokenResetUserPasswordAPI.actionCreator({
+      token
+    }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err: ', resp.errors);
+        return;
+      }
+      return;
+    }
+  );
+};
+
+export const checkTokenResetUserPasswordErrorMessageSelector = flow(
+  CheckTokenResetUserPasswordAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+const UserResetPasswordAPI = makeFetchAction(
+  USER_RESET_PASSWORD_API,
+  gql`
+    mutation($token: String!, $newPassword: String!) {
+      user_reset_password(token: $token, newPassword: $newPassword) {
+        email
+      }
+    }
+  `
+);
+
+export const userResetPassword = (token, newPassword) => {
+  return respondToSuccess(
+    UserResetPasswordAPI.actionCreator({
+      token,
+      newPassword
+    }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err: ', resp.errors);
+        return;
+      }
+      EmitToastSuccess('Your password has been resetted!');
+      Router.push('/login');
+      return;
+    }
+  );
+};
+
+export const userResetPasswordSuccessMessageSelector = flow(
+  UserResetPasswordAPI.dataSelector,
+  get('data.user_reset_password')
+);
+
+export const userResetPasswordErrorMessageSelector = flow(
+  UserResetPasswordAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+const UserForgotPasswordAPI = makeFetchAction(
+  USER_FORGOT_PASSWORD_API,
+  gql`
+    mutation($email: String!) {
+      user_forgot_password(email: $email) {
+        email
+      }
+    }
+  `
+);
+
+export const userForgotPassword = email => {
+  return respondToSuccess(
+    UserForgotPasswordAPI.actionCreator({
+      email
+    }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err: ', resp.errors);
+        return;
+      }
+
+      EmitToastSuccess('Check your email for reset password instruction!');
+      Router.push('/login');
+      return;
+    }
+  );
+};
+
+export const userForgotPasswordErrorMessageSelector = flow(
+  UserForgotPasswordAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const userForgotPasswordSuccessMessageSelector = flow(
+  UserForgotPasswordAPI.dataSelector,
+  path('data.user_forgot_password')
+);
 
 const ChangePasswordAPI = makeFetchAction(
   CHANGE_PASSWORD_API,
@@ -363,7 +482,8 @@ const UserLogoutAPI = makeFetchAction(
   nfetch({ endpoint: '/signout' })
 );
 
-export const userLogout = () => respondToSuccess(UserLogoutAPI.actionCreator());
+export const userLogout = () =>
+  respondToSuccess(UserLogoutAPI.actionCreator(), resp => console.log(resp));
 
 export default {
   connectStatus(state = false, { type, payload }) {

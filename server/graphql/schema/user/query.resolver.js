@@ -1,4 +1,4 @@
-import { Users } from '../../../services';
+import { Users, Tokens } from '../../../services';
 import { combineResolvers } from 'graphql-resolvers';
 import { checkAuthentication } from '../../libs';
 
@@ -21,6 +21,15 @@ module.exports = {
     ),
     get_all_users: combineResolvers(checkAuthentication, async () => {
       return Users.find({});
-    })
+    }),
+
+    check_token_reset_password: async (_, { token }) => {
+      const existToken = await Tokens.getTokenData(token);
+      if (!existToken) {
+        throw new Error('Token is invalid');
+      }
+
+      return existToken;
+    }
   }
 };

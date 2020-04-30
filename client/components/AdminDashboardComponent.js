@@ -42,8 +42,6 @@ class UserDashboardComponent extends React.Component {
 
   render() {
     const { currentUser, elections = [], users = [] } = this.props;
-    console.log(elections);
-
     return (
       <React.Fragment>
         <h1 className="h3 mb-4 text-gray-800">Admin Dashboard</h1>
@@ -81,7 +79,7 @@ class UserDashboardComponent extends React.Component {
           <div className="col-xl-3 col-md-6 mb-4">
             <SmallCardComponent
               title="Ether balance"
-              content={currentUser.balance}
+              content={currentUser.balance.toFixed(4)}
               classIcon="fab fa-ethereum"
               cardType="warning"
             />
