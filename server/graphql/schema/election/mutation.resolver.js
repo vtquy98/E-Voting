@@ -1,5 +1,5 @@
 import { combineResolvers } from 'graphql-resolvers';
-import { Elections, Users, ElectionNotify } from '../../../services';
+import { Elections, Users, ElectionNotify, Votes } from '../../../services';
 import { isAdmin, checkAuthentication, formatObject } from '../../libs';
 import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
 import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
@@ -228,13 +228,23 @@ module.exports = {
           (await Promise.all(
             listUserId.map(async user => {
               const userData = await Users.findOne({ id: user });
-              await election.methods
+              const voteAction = await election.methods
                 .pollVote(
                   userData.wallet_address,
                   currentUser.wallet_address,
                   true
                 )
                 .send({ from: ADMIN_WALLET, gas: '6721975' });
+
+              const voteData = new Votes({
+                election_id: electionId,
+                voter_id: currentUser.id,
+                candidate_id: user,
+                is_voted: true,
+                transaction_hash: voteAction.transactionHash
+              });
+
+              await voteData.save();
             })
           ));
 

@@ -1,6 +1,7 @@
 import { path } from 'lodash/fp';
 import { DRAFT, CREATED, STARTED, ENDED } from '../../../enums/electionState';
 import Election from '../../libs/election';
+import { Users } from '../../../services';
 import {
   SELECT_TO_REMOVE,
   SELECT_TO_VOTE,
@@ -42,5 +43,19 @@ module.exports = {
     CREATED,
     STARTED,
     ENDED
+  },
+
+  VoteData: {
+    electionID: path('election_id'),
+    voterData: async voteData => {
+      const voterData = await Users.findOne({ id: voteData.voter_id });
+      return voterData;
+    },
+    candidateData: async voteData => {
+      const candidateData = await Users.findOne({ id: voteData.candidate_id });
+      return candidateData;
+    },
+    isVoted: path('is_voted'),
+    transactionHash: path('transaction_hash')
   }
 };

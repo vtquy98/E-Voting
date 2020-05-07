@@ -22,7 +22,8 @@ import {
   FaPoll,
   FaPlay,
   FaHandLizard,
-  FaStop
+  FaStop,
+  FaVoteYea
 } from 'react-icons/fa';
 
 import {
@@ -355,14 +356,21 @@ class ElectionComponent extends React.Component {
                           </button>
                         </div>
                       ) : (
-                        <Link href={`/result?id=${election.id}`}>
-                          <a
-                            type="button"
-                            className="btn mr-1 mb-1 btn-success"
-                          >
-                            <FaPoll /> View election result
-                          </a>
-                        </Link>
+                        <div>
+                          <Link href={`/result?id=${election.id}`}>
+                            <a
+                              type="button"
+                              className="btn mr-1 mb-1 btn-success"
+                            >
+                              <FaPoll /> View election result
+                            </a>
+                          </Link>
+                          <Link href={`/vote-data?id=${election.id}`}>
+                            <a type="button" className="btn mr-1 mb-1 btn-info">
+                              <FaVoteYea /> View votes data
+                            </a>
+                          </Link>
+                        </div>
                       )}
                     </div>
                   </div>

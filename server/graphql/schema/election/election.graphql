@@ -25,6 +25,14 @@ type ElectionResult {
   totalUserVoted: Int!
 }
 
+type VoteData {
+  electionID: String!
+  voterData: User!
+  candidateData: User!
+  isVoted: Boolean!
+  transactionHash: String!
+}
+
 enum VotingType {
   SELECT_TO_VOTE
   SELECT_TO_REMOVE
@@ -49,6 +57,7 @@ type Query {
   get_total_voters_count(ElectionAddress: String!): Election!
   get_election_result(electionId: String!): [ElectionResult!]!
   get_upcoming_election: [Election!]!
+  get_vote_data(electionId: String!): [VoteData]!
 }
 
 type Mutation {

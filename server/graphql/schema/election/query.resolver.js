@@ -1,4 +1,4 @@
-import { Users, Elections, ElectionNotify } from '../../../services';
+import { Users, Elections, ElectionNotify, Votes } from '../../../services';
 import { combineResolvers } from 'graphql-resolvers';
 import { isAdmin, checkAuthentication } from '../../libs';
 import Election from '../../libs/election';
@@ -160,6 +160,14 @@ module.exports = {
 
         return upComingElection;
       }
-    )
+    ),
+
+    get_vote_data: combineResolvers(isAdmin, async (_, { electionId }) => {
+      const voteData = await Votes.find({
+        election_id: electionId
+      });
+
+      return voteData;
+    })
   }
 };
