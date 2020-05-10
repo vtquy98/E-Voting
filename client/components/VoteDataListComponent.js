@@ -54,7 +54,7 @@ const mapVoteDataToDataField = ({ voteData = [] }) =>
       </div>
     ),
 
-    isVoted: !data.isVoted ? (
+    isVoted: data.isVoted ? (
       <FcCheckmark size="2em" />
     ) : (
       <FcCancel size="2em" />
