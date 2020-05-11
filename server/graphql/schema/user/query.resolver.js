@@ -30,6 +30,13 @@ module.exports = {
       }
 
       return existToken;
-    }
+    },
+
+    get_user_profile: combineResolvers(
+      checkAuthentication,
+      async (_, { id }) => {
+        return Users.findOne({ id });
+      }
+    )
   }
 };

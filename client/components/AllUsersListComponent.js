@@ -1,5 +1,6 @@
 import React from 'react';
 import TableComponent from './TableComponent';
+import Link from 'next/link';
 
 const COLUMNS = [
   {
@@ -47,15 +48,22 @@ const mapUsersToDataField = ({ users = [], deleteUserAction }) =>
     department: user.department,
 
     actions: (
-      <a
-        className="btn btn-danger btn-circle btn-sm text-white"
-        onClick={e => {
-          e.preventDefault();
-          deleteUserAction(user.id);
-        }}
-      >
-        <i className="fas fa-trash"></i>
-      </a>
+      <div>
+        <Link href={`/edit-info?id=${user.id}`}>
+          <a className="btn btn-warning btn-circle btn-sm text-white m-1">
+            <i className="fas fa-pen"></i>
+          </a>
+        </Link>
+        <a
+          className="btn btn-danger btn-circle btn-sm text-white m-1"
+          onClick={e => {
+            e.preventDefault();
+            deleteUserAction(user.id);
+          }}
+        >
+          <i className="fas fa-trash"></i>
+        </a>
+      </div>
     )
   }));
 

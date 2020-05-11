@@ -19,6 +19,56 @@ export const USER_FORGOT_PASSWORD_API = 'UserForgotPasswordAPI';
 export const CHECK_TOKEN_RESET_USER_PASSWORD_API =
   'CheckTokenResetUserPasswordAPI';
 export const USER_RESET_PASSWORD_API = 'UserResetPasswordAPI';
+export const GET_USER_PROFILE_API = 'GetUserProfileAPI';
+
+const GetUserProfileAPI = makeFetchAction(
+  GET_USER_PROFILE_API,
+  gql`
+    query($id: String!) {
+      get_user_profile(id: $id) {
+        email
+        fullName
+        avatar
+        profession
+        department
+        birthDate
+        summaryDescription
+        id
+      }
+    }
+  `
+);
+
+export const getUserProfile = id => {
+  return respondToSuccess(
+    GetUserProfileAPI.actionCreator({
+      id
+    }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err: ', resp.errors);
+        return;
+      }
+      return;
+    }
+  );
+};
+
+export const getUserProfileDataSelector = flow(
+  GetUserProfileAPI.dataSelector,
+  get('data.get_user_profile')
+);
+
+export const getUserProfileErrorSelector = flow(
+  GetUserProfileAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+export const resetDataGetUserProfile = dispatch => {
+  dispatch(GetUserProfileAPI.resetter(['data', 'error']));
+};
 
 const CheckTokenResetUserPasswordAPI = makeFetchAction(
   CHECK_TOKEN_RESET_USER_PASSWORD_API,
@@ -192,6 +242,7 @@ const EditUserInfoAPI = makeFetchAction(
       $summaryDescription: String!
       $fullName: String!
       $avatar: String!
+      $id: String!
     ) {
       edit_user_info(
         birthDate: $birthDate
@@ -200,6 +251,7 @@ const EditUserInfoAPI = makeFetchAction(
         summaryDescription: $summaryDescription
         fullName: $fullName
         avatar: $avatar
+        id: $id
       ) {
         id
       }
@@ -214,7 +266,8 @@ export const editUserInfo = ({
   department,
   summaryDescription,
   fullName,
-  avatar
+  avatar,
+  id
 }) => {
   return respondToSuccess(
     EditUserInfoAPI.actionCreator({
@@ -224,7 +277,8 @@ export const editUserInfo = ({
       department,
       summaryDescription,
       fullName,
-      avatar
+      avatar,
+      id
     }),
     resp => {
       if (resp.errors) {
