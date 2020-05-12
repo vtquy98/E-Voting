@@ -168,6 +168,22 @@ module.exports = {
       });
 
       return voteData;
-    })
+    }),
+
+    get_vote_history: combineResolvers(
+      checkAuthentication,
+      async (_, __, { currentUser }) => {
+        const voteHistory = await Votes.aggregate([
+          {
+            $match: { voter_id: currentUser.id }
+          },
+          {
+            $group: { _id: '$election_id', voteData: { $push: '$$ROOT' } }
+          }
+        ]);
+
+        return voteHistory;
+      }
+    )
   }
 };

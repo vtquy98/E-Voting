@@ -1,7 +1,7 @@
 import { path } from 'lodash/fp';
 import { DRAFT, CREATED, STARTED, ENDED } from '../../../enums/electionState';
 import Election from '../../libs/election';
-import { Users } from '../../../services';
+import { Users, Elections } from '../../../services';
 import {
   SELECT_TO_REMOVE,
   SELECT_TO_VOTE,
@@ -57,5 +57,13 @@ module.exports = {
     },
     isVoted: path('is_voted'),
     transactionHash: path('transaction_hash')
+  },
+
+  VoteHistory: {
+    electionName: async voteHistory => {
+      const voterData = await Elections.findOne({ id: voteHistory._id });
+      return voterData.name;
+    },
+    electionId: path('_id')
   }
 };

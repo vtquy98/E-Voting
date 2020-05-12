@@ -33,6 +33,12 @@ type VoteData {
   transactionHash: String!
 }
 
+type VoteHistory {
+  electionName: String!
+  electionId: String!
+  voteData: [VoteData]!
+}
+
 enum VotingType {
   SELECT_TO_VOTE
   SELECT_TO_REMOVE
@@ -58,6 +64,7 @@ type Query {
   get_election_result(electionId: String!): [ElectionResult!]!
   get_upcoming_election: [Election!]!
   get_vote_data(electionId: String!): [VoteData]!
+  get_vote_history: [VoteHistory]!
 }
 
 type Mutation {
