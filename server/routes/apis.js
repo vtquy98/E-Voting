@@ -63,6 +63,7 @@ router.use('/auth', async (req, res, next) => {
     if (existingUser) {
       if (existingUser.google_id) {
         doLogin(existingUser);
+        return;
       }
 
       existingUser.updateDoc({
