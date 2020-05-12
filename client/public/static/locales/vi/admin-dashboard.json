@@ -1,0 +1,8 @@
+{
+  "stats": {
+    "nextElection": "Đang diễn ra",
+    "totalElection": "Tổng số cuộc bỏ phiếu",
+    "userCount": "Tổng số người dùng",
+    "ethBalance": "Số dư Ether"
+  }
+}

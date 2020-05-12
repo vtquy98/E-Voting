@@ -9,4 +9,8 @@ const UserDashboardPage = rootProps => (
   </DashboardPageLayout>
 );
 
+UserDashboardPage.getInitialProps = async () => ({
+  namespacesRequired: ['admin-dashboard', 'table']
+});
+
 export default AuthenHOC(UserDashboardPage);

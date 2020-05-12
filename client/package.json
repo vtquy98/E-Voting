@@ -4,9 +4,9 @@
   "description": "This example features:",
   "main": "index.js",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "babel-node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production babel-node server.js"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
@@ -22,6 +22,7 @@
     "jimp": "^0.9.3",
     "moment": "^2.24.0",
     "next": "^9.3.2",
+    "next-i18next": "^4.4.2",
     "next-redux-wrapper": "^3.0.0",
     "nprogress": "^0.2.0",
     "prettier": "1.18.2",
@@ -56,6 +57,8 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/plugin-proposal-do-expressions": "7.0.0-rc.1",
-    "prettier": "1.18.2"
+    "prettier": "1.18.2",
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5"
   }
 }

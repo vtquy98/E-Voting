@@ -1,0 +1,9 @@
+{
+  "election": {
+    "name": "Cuộc bỏ phiếu",
+    "candidates": "Số ứng viên",
+    "voters": "Số cử tri",
+    "status": "Trạng thái",
+    "lastElection": "Các cuộc bỏ phiếu gần đây"
+  }
+}

@@ -3,23 +3,38 @@ import Link from 'next/link';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { toggleBarAction } from '../stores/PageState';
+import { i18n } from '../i18n';
+import { CHANGE_LANGUAGE, toggleBarAction } from '../stores/PageState';
 import { doLogout } from '../stores/UserState';
+
 const connectToRedux = connect(
   store => {
     return {
-      PageState: get('PageState', store)
+      PageState: get('PageState', store),
+      availableLanguages: get('availableLanguages', store),
+      currentLanguage: get('currentLanguage', store)
     };
   },
   dispatch => ({
     toggleBarAction: bindActionCreators(toggleBarAction, dispatch),
+    changeLanguage: payload =>
+      dispatch({
+        type: CHANGE_LANGUAGE,
+        payload
+      }),
     logout: () => dispatch(doLogout())
   })
 );
 
 let DEFAULT_VERTICAL_BAR_TOGGLE = true;
 
-const NavBarComponent = ({ currentUser, logout, toggleBarAction }) => (
+const NavBarComponent = ({
+  currentUser,
+  logout,
+  toggleBarAction,
+  currentLanguage,
+  changeLanguage
+}) => (
   <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     <button
       id="sidebarToggleTop"
@@ -33,6 +48,52 @@ const NavBarComponent = ({ currentUser, logout, toggleBarAction }) => (
       <i className="fa fa-bars"></i>
     </button>
     <ul className="navbar-nav ml-auto">
+      <li className="nav-item dropdown no-arrow mx-1 show">
+        <a
+          className="nav-link dropdown-toggle"
+          id="alertsDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+        >
+          {currentLanguage.symbol === 'vi' ? (
+            <img src="/static/assets/images/vn.svg" alt="vn" width="32px" />
+          ) : (
+            <img src="/static/assets/images/en.svg" alt="en" width="32px" />
+          )}
+        </a>
+
+        <div
+          className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+          aria-labelledby="alertsDropdown"
+        >
+          <h6 className="dropdown-header">Choose Language</h6>
+          <a
+            className="dropdown-item d-flex align-items-center"
+            onClick={() => {
+              changeLanguage(1);
+              i18n.changeLanguage('vi');
+            }}
+          >
+            <div className="mr-3">
+              <img src="/static/assets/images/vn.svg" alt="vn" width="32px" />
+            </div>
+            <div>Tiếng Việt</div>
+          </a>
+          <a
+            className="dropdown-item d-flex align-items-center"
+            onClick={() => {
+              changeLanguage(2);
+              i18n.changeLanguage('en');
+            }}
+          >
+            <div className="mr-3">
+              <img src="/static/assets/images/en.svg" alt="en" width="32px" />
+            </div>
+            <div>English</div>
+          </a>
+        </div>
+      </li>
       <div className="topbar-divider d-none d-sm-block"></div>
       <li className="nav-item dropdown no-arrow">
         <a

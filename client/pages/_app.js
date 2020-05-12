@@ -6,6 +6,7 @@ import store from '../stores/store';
 import withRedux from 'next-redux-wrapper';
 import Head from 'next/head';
 import { ToastContainer } from 'react-toastify';
+import { appWithTranslation } from '../i18n';
 
 class AppRedux extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -51,4 +52,4 @@ class AppRedux extends App {
   }
 }
 
-export default withRedux(store)(AppRedux);
+export default withRedux(store)(appWithTranslation(AppRedux));
