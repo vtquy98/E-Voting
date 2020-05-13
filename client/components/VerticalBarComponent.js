@@ -91,13 +91,22 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
       </React.Fragment>
     )}
 
-    <div className="sidebar-heading">Your menu</div>
+    <div className="sidebar-heading">Your Menu</div>
 
     <li className="nav-item">
       <Link href="/user/info">
         <a className="nav-link">
-          <i className="fas fa-fw fa-tachometer-alt"></i>
+          <i className="fas fa-user"></i>
           <span>Your profile </span>
+        </a>
+      </Link>
+    </li>
+
+    <li className="nav-item">
+      <Link href="/user/history">
+        <a className="nav-link">
+          <i className="fas fa-history"></i>
+          <span>Vote History </span>
         </a>
       </Link>
     </li>

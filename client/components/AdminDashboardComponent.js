@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose, withState } from 'recompose';
 import ElectionListComponent from './ElectionListComponent';
+import { withTranslation } from '../i18n';
 
 import {
   getAllElection,
@@ -31,6 +32,7 @@ const connectToRedux = connect(
 const withVotingName = withState('votingName', 'setVotingName', '');
 const enhance = compose(
   withVotingName,
+  withTranslation(['admin-dashboard', 'table']),
   connectToRedux
 );
 
@@ -41,14 +43,14 @@ class UserDashboardComponent extends React.Component {
   }
 
   render() {
-    const { currentUser, elections = [], users = [] } = this.props;
+    const { currentUser, elections = [], users = [], t } = this.props;
     return (
       <React.Fragment>
         <h1 className="h3 mb-4 text-gray-800">Admin Dashboard</h1>
         <div className="row">
           <div className="col-xl-3 col-md-6 mb-4">
             <SmallCardComponent
-              title="On going election"
+              title={t('stats.nextElection')}
               content={
                 elections.filter(election => election.state === 'STARTED')
                   .length
@@ -60,7 +62,7 @@ class UserDashboardComponent extends React.Component {
 
           <div className="col-xl-3 col-md-6 mb-4">
             <SmallCardComponent
-              title="Total Elections"
+              title={t('stats.totalElection')}
               content={elections.length}
               classIcon="fas fa-clipboard"
               cardType="info"
@@ -69,7 +71,7 @@ class UserDashboardComponent extends React.Component {
 
           <div className="col-xl-3 col-md-6 mb-4">
             <SmallCardComponent
-              title="Total Users"
+              title={t('stats.userCount')}
               content={users.length}
               classIcon="fas fa-users"
               cardType="primary"
@@ -78,7 +80,7 @@ class UserDashboardComponent extends React.Component {
 
           <div className="col-xl-3 col-md-6 mb-4">
             <SmallCardComponent
-              title="Ether balance"
+              title={t('stats.ethBalance')}
               content={currentUser.balance.toFixed(4)}
               classIcon="fab fa-ethereum"
               cardType="warning"

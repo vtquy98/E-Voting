@@ -7,6 +7,8 @@ import { GoogleLogin } from 'react-google-login';
 import { saveToken } from '../libs/token-libs';
 import Router from 'next/router';
 import Link from 'next/link';
+import { withTranslation } from '../i18n';
+
 const API_SERVER_URL = process.env.API_SERVER_URL || 'http://localhost:3003';
 
 const GOOGLE_CLIENT_ID =
@@ -56,6 +58,7 @@ const connectToRedux = connect(
 const enhance = compose(
   withUsernameState,
   withPasswordState,
+  withTranslation('login'),
   connectToRedux
 );
 
@@ -64,7 +67,8 @@ const UserLoginComponent = ({
   username,
   password,
   setUsername,
-  setPassword
+  setPassword,
+  t
 }) => (
   <div className="row justify-content-center">
     <div className="col-xl-10 col-lg-12 col-md-9">
@@ -80,7 +84,7 @@ const UserLoginComponent = ({
                     alt="branding logo"
                     width="50"
                   />
-                  <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  <h1 className="h4 text-gray-900 mb-4">{t('login.title')}</h1>
                 </div>
                 <form className="user">
                   <div className="form-group">

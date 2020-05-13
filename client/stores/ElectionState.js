@@ -22,6 +22,101 @@ export const MANUAL_VOTING_API = 'ManualVotingAPI';
 export const GET_USER_UP_COMING_ELECTION_API = 'GetUserUpComingElectionAPI';
 export const REPORT_PARTICIPATED_ELECTION_API = 'ReportParticipatedElectionAPI';
 export const POLL_VOTE_TRUST_TYPE_API = 'PollVoteTrustTypeAPI';
+export const GET_VOTE_DATA_API = 'GetVoteDataAPI';
+export const GET_VOTE_HISTORY_API = 'GetVoteHistoryAPI';
+
+const GetVoteHistoryAPI = makeFetchAction(
+  GET_VOTE_HISTORY_API,
+  gql`
+    query {
+      get_vote_history {
+        electionName
+        electionId
+        voteData {
+          isVoted
+          voterData {
+            fullName
+            avatar
+          }
+          candidateData {
+            fullName
+            avatar
+          }
+          transactionHash
+        }
+      }
+    }
+  `
+);
+
+export const getVoteHistory = () => {
+  return respondToSuccess(GetVoteHistoryAPI.actionCreator(), resp => {
+    if (resp.errors) {
+      console.error('Err:', resp.errors);
+      return;
+    }
+
+    return;
+  });
+};
+
+export const getVoteHistoryDataSelector = flow(
+  GetVoteHistoryAPI.dataSelector,
+  path('data.get_vote_history')
+);
+
+export const getVoteHistoryErrorSelector = flow(
+  GetVoteHistoryAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+const GetVoteDataAPI = makeFetchAction(
+  GET_VOTE_DATA_API,
+  gql`
+    query($electionId: String!) {
+      get_vote_data(electionId: $electionId) {
+        isVoted
+        transactionHash
+        voterData {
+          fullName
+          avatar
+        }
+        candidateData {
+          fullName
+          avatar
+        }
+      }
+    }
+  `
+);
+
+export const getVoteData = electionId => {
+  return respondToSuccess(
+    GetVoteDataAPI.actionCreator({ electionId }),
+    resp => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      return;
+    }
+  );
+};
+
+export const getVoteDataDataSelector = flow(
+  GetVoteDataAPI.dataSelector,
+  path('data.get_vote_data')
+);
+
+export const getVoteDataErrorSelector = flow(
+  GetVoteDataAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
 
 const PollVoteTrustTypeAPI = makeFetchAction(
   POLL_VOTE_TRUST_TYPE_API,

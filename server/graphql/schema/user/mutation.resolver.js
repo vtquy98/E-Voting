@@ -52,11 +52,11 @@ module.exports = {
           department,
           summaryDescription,
           fullName,
-          avatar
-        },
-        { currentUser }
+          avatar,
+          id
+        }
       ) => {
-        const existUser = await Users.findOne({ id: currentUser.id });
+        const existUser = await Users.findOne({ id });
         if (!existUser) {
           throw new Error('User is not exist!');
         }
