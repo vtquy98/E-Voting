@@ -202,21 +202,25 @@ class ElectionComponent extends React.Component {
                                     : 'Select to trust'}
                                 </span>
                               </p>
-                              <p>
-                                {/* HANDLE IT WHEN CHOOSE TRUST VOTE */}
-                                <FcTodoList /> At least choose:
-                                <span className="text-muted font-weight-bold">
-                                  {' '}
-                                  {election.atLeastVote}
-                                </span>
-                              </p>
-                              <p>
-                                <FcTodoList /> Most choose:
-                                <span className="text-muted font-weight-bold">
-                                  {' '}
-                                  {election.mostVote}
-                                </span>
-                              </p>
+
+                              {election.votingType !== 'SELECT_TO_TRUST' && (
+                                <div>
+                                  <p>
+                                    <FcTodoList /> At least choose:
+                                    <span className="text-muted font-weight-bold">
+                                      {' '}
+                                      {election.atLeastVote}
+                                    </span>
+                                  </p>
+                                  <p>
+                                    <FcTodoList /> Most choose:
+                                    <span className="text-muted font-weight-bold">
+                                      {' '}
+                                      {election.mostVote}
+                                    </span>
+                                  </p>
+                                </div>
+                              )}
                             </div>
                           </div>
                           <div className="col-sm">
