@@ -1,12 +1,13 @@
+import { withFilter } from 'graphql-subscriptions';
 import { path } from 'lodash/fp';
-import { DRAFT, CREATED, STARTED, ENDED } from '../../../enums/electionState';
-import Election from '../../libs/election';
-import { Users, Elections } from '../../../services';
+import { CREATED, DRAFT, ENDED, STARTED } from '../../../enums/electionState';
 import {
   SELECT_TO_REMOVE,
-  SELECT_TO_VOTE,
-  SELECT_TO_TRUST
+  SELECT_TO_TRUST,
+  SELECT_TO_VOTE
 } from '../../../enums/votingType';
+import { Elections, Users } from '../../../services';
+import Election from '../../libs/election';
 
 module.exports = {
   Election: {
@@ -65,5 +66,23 @@ module.exports = {
       return voterData.name;
     },
     electionId: path('_id')
+  },
+
+  Subscription: {
+    voteAdded: {
+      subscribe: withFilter(
+        (root, args, { pubsub }) => pubsub.asyncIterator('voteAdded'),
+        (payload, variables) => {
+          return payload.voteAdded.election.id === variables.electionId;
+        }
+      )
+    }
+  },
+
+  VoteStream: {
+    user: async data => {
+      const userData = await Users.findOne({ id: data.userId });
+      return userData;
+    }
   }
 };

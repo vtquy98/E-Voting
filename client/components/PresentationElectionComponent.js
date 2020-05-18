@@ -2,8 +2,18 @@ import dynamic from 'next/dynamic';
 import React from 'react';
 import Countdown from 'react-countdown';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { toast } from 'react-toastify';
+
 import { createStructuredSelector } from 'reselect';
+import gql from 'graphql-tag';
+import { Subscription } from 'react-apollo';
+import { ApolloClient } from 'apollo-client';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { split } from 'apollo-link';
+import { WebSocketLink } from 'apollo-link-ws';
+import { HttpLink } from 'apollo-link-http';
+
 import {
   getAllCandidates,
   getAllCandidatesDataSelector,
@@ -22,7 +32,13 @@ import {
 import QRCodeComponent from './QRCodeComponent';
 import { createVotingUrl } from '../libs';
 
-import { FaQrcode } from 'react-icons/fa';
+import { FaQrcode, FaUsers, FaRegClock } from 'react-icons/fa';
+import { TiWarning } from 'react-icons/ti';
+
+const API_SERVER_URL =
+  process.env.API_SERVER_URL || 'https://api.e-voting.tech';
+const GRAPHQL_SUBCRIPTION_API =
+  process.env.GRAPHQL_SUBCRIPTION_API || 'ws://localhost:3003/graphql';
 
 const OwlCarousel = dynamic(import('react-owl-carousel'), { ssr: false });
 
@@ -44,22 +60,13 @@ const connectToRedux = connect(
   })
 );
 
-const enhance = compose(connectToRedux);
-
 const Completionist = () => (
-  <div className="card bg-danger white">
-    <div className="card-content">
+  <div className="card bg-danger text-white shadow">
+    <div className="card-body">
       <div className="card-body">
-        <div className="text-center mb-1">
-          <i className="ft-clock font-large-3"></i>
-        </div>
-        <div className="row">
-          <div className="col-xl-12 col-lg-12 col-md-12 text-center clearfix">
-            <h2 className="pt-1">
-              <span> Time's up! Please waiting for the election result!</span>
-            </h2>
-          </div>
-        </div>
+        <h2 className="text-center">
+          <TiWarning fontSize="48" style={{ marginRight: '10px' }} /> Time's up!
+        </h2>
       </div>
     </div>
   </div>
@@ -67,16 +74,18 @@ const Completionist = () => (
 
 const renderer = ({ minutes, seconds, completed }) => {
   if (completed) {
-    // Render a completed state
     return <Completionist />;
   } else {
-    // Render a countdown
     return (
-      <div className="pt-1 h2 text-center">
-        {minutes}:{seconds}
-        <h4>
-          <span className="icon-clock"></span> Time remaining
-        </h4>
+      <div className="card bg-primary text-white shadow text-center h-100">
+        <div className="card-body">
+          <div className="card-body">
+            <FaRegClock fontSize="48" />
+            <div className="h1 text-center">
+              {minutes}:{seconds}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -95,7 +104,57 @@ class PresentationElectionComponent extends React.Component {
   }
 
   render() {
-    const { election = [], candidates = [] } = this.props;
+    const {
+      election = [],
+      candidates = [],
+      electionId,
+      voters = []
+    } = this.props;
+
+    const VOTED_SUBSCRIPTION = gql`
+      subscription onVoteAdded($electionId: String!) {
+        voteAdded(electionId: $electionId) {
+          election {
+            name
+            id
+            votedCount
+          }
+          user {
+            fullName
+          }
+        }
+      }
+    `;
+
+    const httpLink = new HttpLink({
+      uri: `${API_SERVER_URL}/graphql`
+    });
+
+    // Allow you to send/receive subscriptions over a web socket
+    const wsLink = new WebSocketLink({
+      uri: GRAPHQL_SUBCRIPTION_API,
+      options: {
+        reconnect: true
+      }
+    });
+
+    // Acts as "middleware" for directing our operations over http or via web sockets
+    const terminatingLink = split(
+      ({ query: { definitions } }) =>
+        definitions.some(node => {
+          const { kind, operation } = node;
+          return kind === 'OperationDefinition' && operation === 'subscription';
+        }),
+      wsLink,
+      httpLink
+    );
+
+    // Create a new client to make requests with, use the appropriate link returned
+    // by termintating link (either ws or http)
+    const client = new ApolloClient({
+      cache: new InMemoryCache(),
+      link: terminatingLink
+    });
 
     return (
       <React.Fragment>
@@ -107,7 +166,7 @@ class PresentationElectionComponent extends React.Component {
 
         <div className="row">
           <div className="col-lg-8">
-            <div className="card shadow border-none mb-4">
+            <div className="card shadow border-none h-100">
               <div className="card-header py-3 text-center">
                 <h6 className="m-0 font-weight-bold text-primary ">
                   {election.electionOwner}
@@ -117,40 +176,61 @@ class PresentationElectionComponent extends React.Component {
                 </h3>
               </div>
               <div className="card-body">
-                <OwlCarousel
-                  className="owl-theme"
-                  loop
-                  items={2}
-                  margin={3}
-                  autoplay
-                  autoplayTimeout={5000}
-                  responsive={{
-                    0: {
-                      items: 1
-                    },
-                    600: {
-                      items: 2
-                    }
-                  }}
-                >
-                  {candidates.length &&
-                    candidates.map((candidate, index) => (
-                      <div className="profile-card mb-4" key={index}>
+                {election.votingType !== 'SELECT_TO_TRUST' ? (
+                  <OwlCarousel
+                    className="owl-theme"
+                    loop
+                    items={2}
+                    margin={3}
+                    autoplay
+                    autoplayTimeout={5000}
+                    responsive={{
+                      0: {
+                        items: 1
+                      },
+                      600: {
+                        items: 2
+                      }
+                    }}
+                  >
+                    {candidates.length &&
+                      candidates.map((candidate, index) => (
+                        <div className="profile-card mb-4" key={index}>
+                          <div className="mask-shadow"></div>
+                          <header>
+                            <a href="#">
+                              <img src={candidate.avatar} alt="" />
+                            </a>
+                            <h1 className="mt-4">{candidate.fullName}</h1>
+                            <h2>{candidate.department}</h2>
+                          </header>
+
+                          <div className="profile-bio">
+                            <p>{candidate.summaryDescription}</p>
+                          </div>
+                        </div>
+                      ))}
+                  </OwlCarousel>
+                ) : (
+                  <div>
+                    {candidates && (
+                      <div className="profile-card mb-4">
                         <div className="mask-shadow"></div>
                         <header>
                           <a href="#">
-                            <img src={candidate.avatar} alt="" />
+                            <img src={candidates[0].avatar} alt="" />
                           </a>
-                          <h1 className="mt-4">{candidate.fullName}</h1>
-                          <h2>{candidate.department}</h2>
+                          <h1 className="mt-4">{candidates[0].fullName}</h1>
+                          <h2>{candidates[0].department}</h2>
                         </header>
 
                         <div className="profile-bio">
-                          <p>{candidate.summaryDescription}</p>
+                          <p>{candidates[0].summaryDescription}</p>
                         </div>
                       </div>
-                    ))}
-                </OwlCarousel>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -158,7 +238,56 @@ class PresentationElectionComponent extends React.Component {
           <div className="col-lg-4">
             <div className="row">
               <div className="col-xl-12 col-lg-6 col-md-12">
-                <div className="card shadow border-none mb-4">
+                <div className="row">
+                  <div className="col-lg-6">
+                    <Countdown
+                      date={Date.now() + election.votingTime * 60 * 1000}
+                      renderer={renderer}
+                    />
+                  </div>
+                  <div className="col-lg-6 text-center">
+                    <div className="card bg-primary h-100 text-white shadow">
+                      <div className="card-body">
+                        <FaUsers fontSize="48" />
+
+                        <ApolloProvider client={client}>
+                          <Subscription
+                            subscription={VOTED_SUBSCRIPTION}
+                            variables={{ electionId: electionId.id }}
+                          >
+                            {({ data }) => {
+                              data &&
+                                toast.info(
+                                  `👌 ${data.voteAdded.user.fullName} has just voted 
+                                `,
+                                  {
+                                    position: 'bottom-center',
+                                    autoClose: 5000,
+                                    hideProgressBar: false,
+                                    pauseOnHover: true
+                                  }
+                                );
+                              return (
+                                <div>
+                                  <p>Voting...</p>
+                                  <h1>
+                                    {data
+                                      ? data.voteAdded.election.votedCount
+                                      : election.votedCount}
+                                    /{voters.length}
+                                  </h1>
+                                </div>
+                              );
+                            }}
+                          </Subscription>
+                        </ApolloProvider>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-xl-12 col-lg-6 col-md-12 pt-4">
+                <div className="card shadow border-none mb-4 h-100">
                   <div className="card-header py-3 text-center">
                     <h6 className="m-0 font-weight-bold text-primary">
                       <FaQrcode /> Scan to vote now
@@ -170,17 +299,6 @@ class PresentationElectionComponent extends React.Component {
                       text={createVotingUrl({
                         electionId: election.id
                       })}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-xl-12 col-lg-6 col-md-12">
-                <div className="card bg-primary text-white shadow">
-                  <div className="card-body">
-                    <Countdown
-                      date={Date.now() + election.votingTime * 60 * 1000}
-                      renderer={renderer}
                     />
                   </div>
                 </div>
@@ -348,4 +466,4 @@ class PresentationElectionComponent extends React.Component {
     );
   }
 }
-export default enhance(PresentationElectionComponent);
+export default connectToRedux(PresentationElectionComponent);

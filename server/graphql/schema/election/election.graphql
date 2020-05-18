@@ -39,6 +39,15 @@ type VoteHistory {
   voteData: [VoteData]!
 }
 
+type VoteStream {
+  user: User!
+  election: Election!
+}
+
+type Subscription {
+  voteAdded(electionId: String!): VoteStream!
+}
+
 enum VotingType {
   SELECT_TO_VOTE
   SELECT_TO_REMOVE
