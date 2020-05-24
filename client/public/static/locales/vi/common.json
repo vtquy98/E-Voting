@@ -1,5 +1,24 @@
 {
-  "login": {
-    "title": "Dang nhap nek :3"
+  "button": {
+    "homeBtn": "Về trang chủ"
+  },
+  "message": {
+    "err": "Ôi, Lỗi: "
+  },
+
+  "navBar": {
+    "changeLang": "Chọn ngôn ngử",
+    "dashboard": "Bảng điều khiển",
+    "profile": "Hồ sơ",
+    "logout": "Đăng xuất"
+  },
+
+  "verticalBar": {
+    "forAd": "Dành cho quản trị",
+    "adminDashboard": "Bản điều khiển quản trị",
+    "create": "Tạo bỏ phiếu",
+    "userManagement": "Quản lý người dùng",
+    "forUser": "Các chức năng khác",
+    "history": "Lịch sử bỏ phiếu"
   }
 }

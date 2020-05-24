@@ -1,0 +1,27 @@
+{
+  "profile": {
+    "title": "Hồ sơ của bạn",
+    "editBtn": "Chỉnh sửa",
+    "changePwdBtn": "Đổi mật khẩu",
+    "dateOfBirth": "Ngày sinh",
+    "profession": "Chức vụ",
+    "department": "Phòng ban",
+    "description": "Mô tả tóm tắt về bạn",
+    "profileUpdated": "Hồ sơ của bạn đã được cập nhật",
+    "chooseAvatarBtn": "Chọn ảnh đại diện",
+    "backBtn": "Trở về",
+    "fullName": "Họ và tên",
+    "saveBtn": "Lưu",
+    "resetBtn": "Xoá"
+  },
+  "changePwd": {
+    "title": "Thay đổi mật khẩu",
+    "success": "Mật khẩu đã được thay đổi!",
+    "currentPassword": "Mật khẩu hiện tại",
+    "newPassword": "Mật khẩu mới",
+    "newPasswordAgain": "Nhập lại mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "cancelBtn": "Đóng",
+    "submitBtn": "Đổi mật khẩu"
+  }
+}

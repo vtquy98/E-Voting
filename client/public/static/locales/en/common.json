@@ -1,5 +1,23 @@
 {
-  "login": {
-    "title": "Login here :3"
+  "button": {
+    "homeBtn": "Go to home"
+  },
+  "message": {
+    "err": "Oh snap!"
+  },
+  "navBar": {
+    "changeLang": "Change language",
+    "dashboard": "Your Dashboard",
+    "profile": "Your Profile",
+    "logout": "Logout"
+  },
+
+  "verticalBar": {
+    "forAd": "For Administrator",
+    "adminDashboard": "Admin Dashboard",
+    "create": "Create Election",
+    "userManagement": "User Management",
+    "forUser": "Your Menu",
+    "history": "Vote History"
   }
 }

@@ -1,0 +1,27 @@
+{
+  "profile": {
+    "title": "Your Infomrmation",
+    "editBtn": "Edit info",
+    "changePwdBtn": "Change pasword",
+    "dateOfBirth": "Date of birth",
+    "profession": "Profession",
+    "department": "Department",
+    "description": "Your description",
+    "profileUpdated": "Your profile was updated!",
+    "chooseAvatarBtn": "Choose avatar",
+    "backBtn": "Back",
+    "saveBtn": "Save",
+    "fullName": "Full name",
+    "resetBtn": "Reset"
+  },
+  "changePwd": {
+    "title": "Change Password",
+    "success": "Password was changed!",
+    "currentPassword": "Current password",
+    "newPassword": "New Password",
+    "newPasswordAgain": "Current password",
+    "forgotPassword": "Forgot Password?",
+    "cancelBtn": "Close",
+    "submitBtn": "Submit"
+  }
+}

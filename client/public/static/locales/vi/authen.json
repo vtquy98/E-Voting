@@ -1,0 +1,22 @@
+{
+  "login": {
+    "title": "Chào mừng bạn trở lại !",
+    "username": "Tên người dùng",
+    "password": "Mật khẩu",
+    "lgButton": "Đăng nhập",
+    "lgGoogle": "Đăng nhập bằng google",
+    "lgFacebook": "Đăng nhập bằng facebook",
+    "forgot": "Quên mật khẩu?",
+    "create": "Tạo tài khoản",
+    "remember": "Ghi nhớ lần đăng nhập sau",
+    "commingSoon": "Đang xây dựng !"
+  },
+  "forgot": {
+    "title": "Bạn đã quên mật khẩu ?",
+    "description": "Đơn giản chỉ cần nhập email mà bạn đã tạo tài khoản, chúng tôi sẽ giúp bạn lấy lại mật khẩu một cách dể dàng :) ",
+    "email": "Email của bạn...",
+    "resetBtn": "Khôi phục tài khoản",
+    "loginInstead": "Bạn đã có tài khoản? Đăng nhập ngay",
+    "tokenMsg": "Token không hợp lệ!"
+  }
+}

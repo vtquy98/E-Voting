@@ -30,7 +30,7 @@ const VerticalBarComponent = () => (
           </Link>
         </li>
         <li className=" nav-item">
-          <Link href="/user/info">
+          <Link href="/user/profile">
             <a>
               <i className="ft-user"></i>
               <span className="menu-title">Your information</span>

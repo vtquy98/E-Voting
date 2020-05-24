@@ -16,6 +16,7 @@ import RenderTextAreaFieldComponent from './FormField/RenderTextAreaFieldCompone
 import RenderSelectedImageFieldComponent from './FormField/RenderSelectedImageFieldComponent';
 import Link from 'next/link';
 import { FaArrowLeft } from 'react-icons/fa';
+import { withTranslation } from '../i18n';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -37,10 +38,11 @@ const withForm = reduxForm({ form: 'edit_user_info' });
 
 const enhance = compose(
   connectToRedux,
+  withTranslation('profile'),
   withForm
 );
 
-class UserInforComponent extends React.Component {
+class UserEditProfileComponent extends React.Component {
   componentWillUnmount() {
     this.props.resetData();
   }
@@ -52,23 +54,24 @@ class UserInforComponent extends React.Component {
       submitting,
       reset,
       errorMessage,
-      successMessage
+      successMessage,
+      t
     } = this.props;
 
     return (
       <React.Fragment>
-        <h1 className="h3 mb-4 text-gray-800">Your Infomrmation</h1>
+        <h1 className="h3 mb-4 text-gray-800">{t('profile.title')}</h1>
 
         <div className="row">
           <div className="col-lg-12">
             <div className="card shadow border-none mb-4">
               <div className="card-header py-3 d-flex">
-                <Link href="/user/info">
+                <Link href="/user/profile">
                   <a className="btn btn-primary btn-icon-split mr-2">
                     <span className="icon text-white-50">
                       <FaArrowLeft />
                     </span>
-                    <span className="text">Back</span>
+                    <span className="text">{t('profile.backBtn')}</span>
                   </a>
                 </Link>
               </div>
@@ -76,7 +79,7 @@ class UserInforComponent extends React.Component {
                 {successMessage ? (
                   <div>
                     <h3 className="title text-center mt-2 mb-2">
-                      Your information was updated!
+                      {t('profile.profileUpdated')}
                     </h3>
                     <div className="d-flex justify-content-center">
                       <img
@@ -97,10 +100,10 @@ class UserInforComponent extends React.Component {
                           <Field
                             type="text"
                             className="form-control"
-                            placeholder="Full Name"
                             name="avatar"
                             component={RenderSelectedImageFieldComponent}
                             validate={[required]}
+                            t={t}
                           />
                         </div>
                         <div className="col-sm">
@@ -109,13 +112,12 @@ class UserInforComponent extends React.Component {
                               className="col-md-3 label-control"
                               for="projectinput1"
                             >
-                              Full Name
+                              {t('profile.fullName')}
                             </label>
                             <div className="col-md-9">
                               <Field
                                 type="text"
                                 className="form-control"
-                                placeholder="Full Name"
                                 name="fullName"
                                 component={RenderInputFieldComponent}
                                 validate={[required]}
@@ -127,13 +129,12 @@ class UserInforComponent extends React.Component {
                               className="col-md-3 label-control"
                               for="projectinput2"
                             >
-                              Profession
+                              {t('profile.profession')}
                             </label>
                             <div className="col-md-9">
                               <Field
                                 type="text"
                                 className="form-control"
-                                placeholder="Profession"
                                 name="profession"
                                 component={RenderInputFieldComponent}
                                 validate={[required]}
@@ -141,17 +142,13 @@ class UserInforComponent extends React.Component {
                             </div>
                           </div>
                           <div className="form-group row">
-                            <label
-                              className="col-md-3 label-control"
-                              for="projectinput3"
-                            >
-                              Department
+                            <label className="col-md-3 label-control">
+                              {t('profile.department')}
                             </label>
                             <div className="col-md-9">
                               <Field
                                 type="text"
                                 className="form-control"
-                                placeholder="Department"
                                 name="department"
                                 component={RenderInputFieldComponent}
                                 validate={[required]}
@@ -159,11 +156,8 @@ class UserInforComponent extends React.Component {
                             </div>
                           </div>
                           <div className="form-group row last">
-                            <label
-                              className="col-md-3 label-control"
-                              for="projectinput4"
-                            >
-                              Date of birth
+                            <label className="col-md-3 label-control">
+                              {t('profile.dateOfBirth')}
                             </label>
                             <div className="col-md-9">
                               <Field
@@ -176,17 +170,13 @@ class UserInforComponent extends React.Component {
                             </div>
                           </div>
                           <div className="form-group row last">
-                            <label
-                              className="col-md-3 label-control"
-                              for="projectinput4"
-                            >
-                              Summary Description
+                            <label className="col-md-3 label-control">
+                              {t('profile.description')}
                             </label>
                             <div className="col-md-9">
                               <Field
                                 type="text"
                                 className="form-control"
-                                placeholder="Type something about you..."
                                 name="summaryDescription"
                                 rows="5"
                                 component={RenderTextAreaFieldComponent}
@@ -203,7 +193,8 @@ class UserInforComponent extends React.Component {
                         type="submit"
                         disabled={pristine || submitting}
                       >
-                        <i className="fa fa-check-square-o"></i> Save
+                        <i className="fa fa-check-square-o"></i>{' '}
+                        {t('profile.saveBtn')}
                       </button>
                       <button
                         disabled={pristine || submitting}
@@ -211,7 +202,7 @@ class UserInforComponent extends React.Component {
                         type="button"
                         onClick={reset}
                       >
-                        <i className="ft-x"></i> Reset
+                        <i className="ft-x"></i> {t('profile.resetBtn')}
                       </button>
                       {errorMessage ? (
                         <div
@@ -234,4 +225,4 @@ class UserInforComponent extends React.Component {
   }
 }
 
-export default enhance(UserInforComponent);
+export default enhance(UserEditProfileComponent);

@@ -22,7 +22,8 @@ class RenderSelectedImageFieldComponent extends React.Component {
 
   render() {
     const {
-      input: { value }
+      input: { value },
+      t
     } = this.props;
 
     return (
@@ -42,7 +43,8 @@ class RenderSelectedImageFieldComponent extends React.Component {
               htmlFor="file-upload"
               className="custom-file-upload text-white"
             >
-              <i className="fa fa-cloud-upload text-white"></i> Choose avatar
+              <i className="fa fa-cloud-upload text-white"></i>{' '}
+              {t('profile.chooseAvatarBtn')}
             </label>
             <input
               id="file-upload"

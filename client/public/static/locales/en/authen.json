@@ -1,0 +1,22 @@
+{
+  "login": {
+    "title": "Chào mừng bạn trở lại !",
+    "username": "Tên người dùng",
+    "password": "Mật khẩu",
+    "lgButton": "Đăng nhập",
+    "lgGoogle": "Đăng nhập bằng google",
+    "lgFacebook": "Đăng nhập bằng facebook",
+    "forgot": "Quên mật khẩu?",
+    "create": "Tạo tài khoản",
+    "remember": "Ghi nhớ lần đăng nhập sau",
+    "commingSoon": "Comming soon !"
+  },
+  "forgot": {
+    "title": "Forgot Your Password?",
+    "description": "We get it, stuff happens. Just enter your email address below and we'll send you a link to reset your password!",
+    "email": "Enter email address...",
+    "resetBtn": "Reset password",
+    "loginInstead": "Already have an account? Login!",
+    "tokenMsg": "Your token is invalid!"
+  }
+}

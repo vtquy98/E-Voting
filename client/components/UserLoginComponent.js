@@ -58,7 +58,7 @@ const connectToRedux = connect(
 const enhance = compose(
   withUsernameState,
   withPasswordState,
-  withTranslation('login'),
+  withTranslation('authen'),
   connectToRedux
 );
 
@@ -91,7 +91,7 @@ const UserLoginComponent = ({
                     <input
                       type="username"
                       className="form-control form-control-user"
-                      placeholder="Enter Username..."
+                      placeholder={t('login.username')}
                       onChange={e => setUsername(e.currentTarget.value)}
                     />
                   </div>
@@ -99,7 +99,7 @@ const UserLoginComponent = ({
                     <input
                       type="password"
                       className="form-control form-control-user"
-                      placeholder="Password"
+                      placeholder={t('login.password')}
                       onChange={e => setPassword(e.currentTarget.value)}
                     />
                   </div>
@@ -111,7 +111,7 @@ const UserLoginComponent = ({
                         id="customCheck"
                       />
                       <label className="custom-control-label" for="customCheck">
-                        Remember Me
+                        {t('login.remember')}
                       </label>
                     </div>
                   </div>
@@ -122,13 +122,12 @@ const UserLoginComponent = ({
                       doLogin(username, password);
                     }}
                   >
-                    Login
+                    {t('login.lgButton')}
                   </a>
                   <hr />
 
                   <GoogleLogin
                     clientId={GOOGLE_CLIENT_ID}
-                    buttonText="Login with Google"
                     onSuccess={responseGoogle}
                     onFailure={responseError}
                     cookiePolicy={'single_host_origin'}
@@ -137,8 +136,8 @@ const UserLoginComponent = ({
                         onClick={renderProps.onClick}
                         className="btn btn-google btn-user btn-block text-white"
                       >
-                        <i className="fab fa-google fa-fw"></i> Login with
-                        Google
+                        <i className="fab fa-google fa-fw"></i>
+                        {t('login.lgGoogle')}
                       </a>
                     )}
                   />
@@ -146,25 +145,25 @@ const UserLoginComponent = ({
                   <a
                     href="#"
                     className="btn btn-facebook btn-user btn-block"
-                    onClick={() => toast.warn('Comming soon!')}
+                    onClick={() => toast.warn(t('login.commingSoon'))}
                   >
-                    <i className="fab fa-facebook-f fa-fw"></i> Login with
-                    Facebook
+                    <i className="fab fa-facebook-f fa-fw"></i>
+                    {t('login.lgFacebook')}
                   </a>
                 </form>
                 <hr />
                 <div className="text-center">
                   <Link href="/forgot-password">
-                    <a className="small">Forgot Password?</a>
+                    <a className="small">{t('login.forgot')}</a>
                   </Link>
                 </div>
                 <div className="text-center">
                   <a
                     className="small"
                     href="#"
-                    onClick={() => toast.warn('Comming soon!')}
+                    onClick={() => toast.warn(t('login.commingSoon'))}
                   >
-                    Create an Account!
+                    {t('login.create')}
                   </a>
                 </div>
               </div>
