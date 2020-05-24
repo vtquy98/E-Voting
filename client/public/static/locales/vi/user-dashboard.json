@@ -1,0 +1,26 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "upComming": "Cuộc bỏ phiếu sắp tới",
+    "noUpComming": "Không có cuộc bỏ phiếu nào sắp diễn ra",
+    "textHelper": "Bạn sẽ nhận được email thông báo nếu bạn được mời vào bất kì cuộc bỏ phiếu nào. Và chúng cũng sẽ xuất hiện ở đây."
+  },
+  "electionDetail": {
+    "electionOwner": "Đơn vị tổ chức",
+    "takePlaceOn": "Thời gian diễn ra",
+    "votingTime": "Thời gian bỏ phiếu",
+    "votingType": "Hình thức bỏ phiếu",
+    "timeCount": "phút",
+    "type": {
+      "selectToVote": "Chọn để bỏ phiếu",
+      "selectToRemove": "Chọn để loại trừ",
+      "selectToTrust": "Chọn để tín nhiệm"
+    },
+    "role": {
+      "atLeastChoose": "Chọn ít nhất",
+      "mostChoose": "Chọn nhiều nhất"
+    },
+    "voteNow": "Tham gia ngay",
+    "cancel": "Không tham gia"
+  }
+}

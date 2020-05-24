@@ -3,7 +3,7 @@ import React from 'react';
 import Countdown from 'react-countdown';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
-
+import { withTranslation } from '../i18n';
 import { createStructuredSelector } from 'reselect';
 import gql from 'graphql-tag';
 import { Subscription } from 'react-apollo';
@@ -108,7 +108,8 @@ class PresentationElectionComponent extends React.Component {
       election = [],
       candidates = [],
       electionId,
-      voters = []
+      voters = [],
+      t
     } = this.props;
 
     const VOTED_SUBSCRIPTION = gql`
@@ -258,7 +259,9 @@ class PresentationElectionComponent extends React.Component {
                             {({ data }) => {
                               data &&
                                 toast.info(
-                                  `👌 ${data.voteAdded.user.fullName} has just voted 
+                                  `👌 ${data.voteAdded.user.fullName} ${t(
+                                    'presentation.voted'
+                                  )} 
                                 `,
                                   {
                                     position: 'bottom-center',
@@ -269,7 +272,7 @@ class PresentationElectionComponent extends React.Component {
                                 );
                               return (
                                 <div>
-                                  <p>Voting...</p>
+                                  <p>{t('presentation.voting')}</p>
                                   <h1>
                                     {data
                                       ? data.voteAdded.election.votedCount
@@ -290,7 +293,7 @@ class PresentationElectionComponent extends React.Component {
                 <div className="card shadow border-none mb-4 h-100">
                   <div className="card-header py-3 text-center">
                     <h6 className="m-0 font-weight-bold text-primary">
-                      <FaQrcode /> Scan to vote now
+                      <FaQrcode /> {t('presentation.scan')}
                     </h6>
                   </div>
                   <div className="card-body">
@@ -466,4 +469,11 @@ class PresentationElectionComponent extends React.Component {
     );
   }
 }
-export default connectToRedux(PresentationElectionComponent);
+
+PresentationElectionComponent.getInitialProps = async () => ({
+  namespacesRequired: ['election']
+});
+
+export default connectToRedux(
+  withTranslation('election')(PresentationElectionComponent)
+);

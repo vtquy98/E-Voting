@@ -17,6 +17,7 @@ import {
   reportParticipatedElection
 } from '../stores/ElectionState';
 import { getCurrentUserDataSelector } from '../stores/UserState';
+import { withTranslation } from '../i18n';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -39,7 +40,8 @@ class UserDashboardComponent extends React.Component {
     const {
       currentUser,
       upComingElection = [],
-      reportParticipatedElection
+      reportParticipatedElection,
+      t
     } = this.props;
     return (
       <React.Fragment>
@@ -51,16 +53,16 @@ class UserDashboardComponent extends React.Component {
             <div className="card shadow border-none mb-4">
               <div className="card-header py-3">
                 <h6 className="m-0 font-weight-bold text-primary">
-                  Upcoming Election
+                  {t('dashboard.upComming')}
                 </h6>
               </div>
               <div className="card-body">
                 {!upComingElection.length ? (
                   <div className="text-center">
-                    <h3>No Election Upcoming</h3>
+                    <h3>{t('dashboard.noUpComming')}</h3>
 
                     <h4 className="text-muted mb-1 mt-2">
-                      You will receive mail if you was invited in any election
+                      {t('dashboard.textHelper')}
                     </h4>
 
                     <div className="d-flex justify-content-center">
@@ -93,7 +95,8 @@ class UserDashboardComponent extends React.Component {
                                 <div className="col-sm-4">
                                   <div>
                                     <p>
-                                      <FcOrganization /> Election Owner:
+                                      <FcOrganization />{' '}
+                                      {t('electionDetail.electionOwner')}:
                                       <span className="text-muted font-weight-bold">
                                         {' '}
                                         {election.electionOwner}
@@ -101,7 +104,8 @@ class UserDashboardComponent extends React.Component {
                                     </p>
                                     <p>
                                       {' '}
-                                      <FcCalendar /> Take place on:
+                                      <FcCalendar />{' '}
+                                      {t('electionDetail.takePlaceOn')}:
                                       <span className="text-muted font-weight-bold">
                                         {' '}
                                         {election.dateTakePlace}
@@ -109,23 +113,32 @@ class UserDashboardComponent extends React.Component {
                                     </p>
 
                                     <p>
-                                      <FcClock /> Voting time:
+                                      <FcClock />{' '}
+                                      {t('electionDetail.votingTime')}:
                                       <span className="text-muted font-weight-bold">
                                         {' '}
-                                        {election.votingTime} min
+                                        {election.votingTime}{' '}
+                                        {t('electionDetail.timeCount')}
                                       </span>
                                     </p>
                                     <p>
-                                      <FcEngineering /> Voting type:
+                                      <FcEngineering />{' '}
+                                      {t('electionDetail.votingType')}:
                                       <span className="text-muted font-weight-bold">
                                         {' '}
                                         {election.votingType ===
                                         'SELECT_TO_VOTE'
-                                          ? 'Select to vote'
+                                          ? t(
+                                              'electionDetail.type.selectToVote'
+                                            )
                                           : election.votingType ===
                                             'SELECT_TO_REMOVE'
-                                          ? 'Select to remove'
-                                          : 'Select to trust'}
+                                          ? t(
+                                              'electionDetail.type.selectToRemove'
+                                            )
+                                          : t(
+                                              'electionDetail.type.selectToTrust'
+                                            )}
                                       </span>
                                     </p>
 
@@ -133,14 +146,19 @@ class UserDashboardComponent extends React.Component {
                                       'SELECT_TO_TRUST' && (
                                       <div>
                                         <p>
-                                          <FcTodoList /> At least choose:
+                                          <FcTodoList />{' '}
+                                          {t(
+                                            'electionDetail.role.atLeastChoose'
+                                          )}
+                                          :
                                           <span className="text-muted font-weight-bold">
                                             {' '}
                                             {election.atLeastVote}
                                           </span>
                                         </p>
                                         <p>
-                                          <FcTodoList /> Most choose:
+                                          <FcTodoList />{' '}
+                                          {t('electionDetail.role.mostChoose')}:
                                           <span className="text-muted font-weight-bold">
                                             {' '}
                                             {election.mostVote}
@@ -162,13 +180,14 @@ class UserDashboardComponent extends React.Component {
                                         >
                                           <a>
                                             <div className="project-info-icon">
-                                              {/* <h2>{candidates.length}</h2> */}
                                               <h2>
                                                 <FaPlay />
                                               </h2>
                                             </div>
                                             <div className="project-info-text pt-1">
-                                              <h5>Vote now</h5>
+                                              <h5>
+                                                {t('electionDetail.voteNow')}
+                                              </h5>
                                             </div>
                                           </a>
                                         </Link>
@@ -189,7 +208,9 @@ class UserDashboardComponent extends React.Component {
                                             </h2>
                                           </div>
                                           <div className="project-info-text pt-1">
-                                            <h5>Cancel</h5>
+                                            <h5>
+                                              {t('electionDetail.cancel')}
+                                            </h5>
                                           </div>
                                         </a>
                                       </div>
@@ -262,4 +283,6 @@ class UserDashboardComponent extends React.Component {
   }
 }
 
-export default connectToRedux(UserDashboardComponent);
+export default connectToRedux(
+  withTranslation('user-dashboard')(UserDashboardComponent)
+);

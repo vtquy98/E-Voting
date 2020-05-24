@@ -1,0 +1,55 @@
+{
+  "title": "Election's Summary",
+  "currentStatus": {
+    "created": "CREATED",
+    "started": "STARTED",
+    "draft": "DRAFT",
+    "ended": "ENDED"
+  },
+  "electionData": {
+    "candidates": "Candidates",
+    "voters": "Voters",
+    "voted": "Voted",
+    "startBtn": "Start voting now",
+    "exploreBtn": "Explore on blockchain network",
+    "QrBtn": "Print QR for candidates",
+    "showBtn": "Show election",
+    "manualVoting": "Manual voting",
+    "stopBtn": "Stop voting",
+    "resultBtn": "View election result",
+    "voteDataBtn": "View votes data",
+    "candidatesList": "Candidates List",
+    "votersList": "Voters List"
+  },
+  "electionDetail": {
+    "electionOwner": "Election Owner",
+    "takePlaceOn": "Take place on",
+    "votingTime": "Voting time",
+    "votingType": "Voting type",
+    "timeCount": "min",
+    "createdAt": "Created at",
+    "type": {
+      "selectToVote": "Select to vote",
+      "selectToRemove": "Select to remove",
+      "selectToTrust": "Select to trust"
+    },
+    "role": {
+      "atLeastChoose": "At least choose",
+      "mostChoose": "Most choose"
+    },
+    "voteNow": "Vote now",
+    "cancel": "Cancel"
+  },
+  "manualVoting": {
+    "title": "Manual voting",
+    "successMsg": "Vote successfully",
+    "closeBtn": "Close",
+    "description": "You are going to manual vote for candidate, just select candiate in below base on the voter's ballot.",
+    "saveBtn": "Vote"
+  },
+  "presentation": {
+    "voting": "Voting...",
+    "scan": "Scan to vote now",
+    "voted": "has just voted "
+  }
+}

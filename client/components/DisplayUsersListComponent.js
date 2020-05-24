@@ -1,25 +1,6 @@
 import React from 'react';
 import TableComponent from './TableComponent';
-
-const COLUMNS = [
-  {
-    accessor: 'index',
-    Header: '#',
-    sortType: 'basic' //add sort to more field
-  },
-  {
-    accessor: 'avatar',
-    Header: 'Avatar'
-  },
-  {
-    accessor: 'fullName',
-    Header: 'Full Name'
-  },
-  {
-    accessor: 'department',
-    Header: 'Department'
-  }
-];
+import { withTranslation } from '../i18n';
 
 const mapUsersToDataField = ({ users = [] }) =>
   users.map((user, index) => ({
@@ -38,7 +19,27 @@ const mapUsersToDataField = ({ users = [] }) =>
     department: user.department
   }));
 
-const DisplayUsersListComponent = ({ users }) => {
+const DisplayUsersListComponent = ({ users, t }) => {
+  const COLUMNS = [
+    {
+      accessor: 'index',
+      Header: '#',
+      sortType: 'basic' //add sort to more field
+    },
+    {
+      accessor: 'avatar',
+      Header: t('userTable.avatar')
+    },
+    {
+      accessor: 'fullName',
+      Header: t('userTable.fullName')
+    },
+    {
+      accessor: 'department',
+      Header: t('userTable.department')
+    }
+  ];
+
   return (
     <React.Fragment>
       <div className="table-responsive">
@@ -52,4 +53,4 @@ const DisplayUsersListComponent = ({ users }) => {
     </React.Fragment>
   );
 };
-export default DisplayUsersListComponent;
+export default withTranslation('table')(DisplayUsersListComponent);

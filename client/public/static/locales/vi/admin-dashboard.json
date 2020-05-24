@@ -1,8 +1,22 @@
 {
+  "title": "Bảng quản trị viên",
   "stats": {
     "nextElection": "Đang diễn ra",
     "totalElection": "Tổng số cuộc bỏ phiếu",
     "userCount": "Tổng số người dùng",
     "ethBalance": "Số dư Ether"
+  },
+  "instruction": {
+    "title": "Hướng dẫn",
+    "1": "Cảm ơn bạn đã sử dụng hệ thống bỏ phiếu điện tử AGU E-VOTING.",
+    "2": "Hi vọng chúng tôi mang đến cho bạn những trải nghiệm tốt nhất trong việc tổ chức một cuộc bỏ phiếu.",
+    "3": "Trong trang điều khiển này, bạn có thể xem tất cả các cuộc bỏ phiếu, tạo mới cuộc bỏ phiếu, cũng như xem qua các thông số khác của hệ thống.",
+    "4": "Để tạo một cuộc bỏ phiếu mới:",
+    "5": "Click tạo cuộc bỏ phiếu, nhập tên",
+    "6": "chờ hệ thống thực hiện.",
+    "7": "Bổ sung thông tin để người khác biết chi tiết hơn về cuộc bỏ phiếu.",
+    "8": "Tại sao mọi hành động đều diễn ra khá lâu ?",
+    "9": "Mọi hành động diễn ra trên hệ thống AGU E-Voting đều được ghi lên mạng blockchain, vì thế ta phải chờ đợi cơ chế đồng thuận để block có thể được ghi vào sổ cái.",
+    "10": "Thông thường mọi hành động cần khoảng 1 phút để hoàn tất."
   }
 }

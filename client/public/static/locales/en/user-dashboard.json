@@ -1,0 +1,27 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "upComming": "Upcoming Election",
+    "noUpComming": "No Election Upcoming",
+    "textHelper": "You will receive mail if you was invited in any election"
+  },
+  "electionDetail": {
+    "electionOwner": "Election Owner",
+    "takePlaceOn": "Take place on",
+    "votingTime": "Voting time",
+    "votingType": "Voting type",
+    "timeCount": "min",
+    "createdAt": "Created at",
+    "type": {
+      "selectToVote": "Select to vote",
+      "selectToRemove": "Select to remove",
+      "selectToTrust": "Select to trust"
+    },
+    "role": {
+      "atLeastChoose": "At least choose",
+      "mostChoose": "Most choose"
+    },
+    "voteNow": "Vote now",
+    "cancel": "Cancel"
+  }
+}

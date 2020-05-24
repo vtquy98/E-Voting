@@ -1,9 +1,20 @@
 {
   "election": {
-    "name": "Cuộc bỏ phiếu",
-    "candidates": "Số ứng viên",
-    "voters": "Số cử tri",
-    "status": "Trạng thái",
-    "lastElection": "Các cuộc bỏ phiếu gần đây"
+    "name": "Election name",
+    "candidates": "Candidates",
+    "voters": "Voters",
+    "status": "Status",
+    "lastElection": "Lasted elections",
+    "currentStatus": {
+      "created": "CREATED",
+      "started": "STARTED",
+      "draft": "DRAFT",
+      "ended": "ENDED"
+    }
+  },
+  "userTable": {
+    "avatar": "Avatar",
+    "fullName": "FullName",
+    "department": "Department"
   }
 }

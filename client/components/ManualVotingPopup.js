@@ -49,7 +49,8 @@ class ManualVotingPopup extends React.Component {
       submitting,
       errorMessage,
       electionId,
-      successMessage
+      successMessage,
+      t
     } = this.props;
     const submit = (values, dispatch) => {
       const candidateList = values.listUserId.map(candidate => candidate.value);
@@ -65,7 +66,7 @@ class ManualVotingPopup extends React.Component {
         <div className="card shadow border-none">
           <div className="card-header py-3 text-center">
             <h6 className="m-0 font-weight-bold text-primary ">
-              <i className="fa fa-plus-circle"></i> Manual voting
+              <i className="fa fa-plus-circle"></i> {t('manualVoting.title')}
             </h6>
           </div>
           <div className="card-content">
@@ -79,24 +80,23 @@ class ManualVotingPopup extends React.Component {
                       width="50%"
                     />
                   </div>
-                  <h3 className="text-center mt-2">Vote successfully</h3>
+                  <h3 className="text-center mt-2">
+                    {t('manualVoting.successMsg')}
+                  </h3>
                   <div className="d-flex justify-content-center">
                     <button
                       type="button"
                       className="btn btn-primary mt-2"
                       onClick={onClick}
                     >
-                      <i className="ft-x"></i> Close
+                      <i className="ft-x"></i> {t('manualVoting.closeBtn')}
                     </button>
                   </div>
                 </div>
               ) : (
                 <div>
                   <div className="card-text">
-                    <p>
-                      You are going to <code>manual vote</code> for candidate,
-                      just select candiate in below base on the voter's ballot.
-                    </p>
+                    <p>{t('manualVoting.description')}</p>
                   </div>
                   <form className="form" onSubmit={handleSubmit(submit)}>
                     <div className="form-actions center">
@@ -120,14 +120,15 @@ class ManualVotingPopup extends React.Component {
                         className="btn btn-primary mr-1"
                         disabled={pristine || submitting}
                       >
-                        <i className="fa fa-check-square-o"></i> Save
+                        <i className="fa fa-check-square-o"></i>{' '}
+                        {t('manualVoting.saveBtn')}
                       </button>
                       <button
                         type="button"
                         className="btn btn-warning"
                         onClick={onClick}
                       >
-                        <i className="ft-x"></i> Cancel
+                        <i className="ft-x"></i> {t('manualVoting.closeBtn')}
                       </button>
                     </div>
                     {errorMessage ? (

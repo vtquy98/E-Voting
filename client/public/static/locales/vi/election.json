@@ -1,0 +1,55 @@
+{
+  "title": "Chi tiết cuộc bỏ phiếu",
+  "currentStatus": {
+    "created": "ĐÃ TẠO",
+    "started": "ĐÃ BẮT ĐẦU",
+    "draft": "NHÁP",
+    "ended": "ĐÃ KẾT THÚC"
+  },
+  "electionData": {
+    "candidates": "Các ứng viên",
+    "voters": "Các cử tri",
+    "voted": "Đã bỏ phiếu",
+    "startBtn": "Bắt đầu bỏ phiếu",
+    "exploreBtn": "Xem trên blockchain",
+    "QrBtn": "In mã QR",
+    "showBtn": "Trình diễn bỏ phiếu",
+    "manualVoting": "Bỏ phiếu giấy",
+    "stopBtn": "Dừng bỏ phiếu",
+    "resultBtn": "Kết quả bỏ phiếu",
+    "voteDataBtn": "Dữ liệu bỏ phiếu",
+    "candidatesList": "Danh sách ứng viên",
+    "votersList": "Danh sách cử tri"
+  },
+  "electionDetail": {
+    "electionOwner": "Đơn vị tổ chức",
+    "takePlaceOn": "Thời gian diễn ra",
+    "votingTime": "Thời gian bỏ phiếu",
+    "votingType": "Hình thức bỏ phiếu",
+    "timeCount": "phút",
+    "createdAt": "Ngày tạo",
+    "type": {
+      "selectToVote": "Chọn để bỏ phiếu",
+      "selectToRemove": "Chọn để loại trừ",
+      "selectToTrust": "Chọn để tín nhiệm"
+    },
+    "role": {
+      "atLeastChoose": "Chọn ít nhất",
+      "mostChoose": "Chọn nhiều nhất"
+    },
+    "voteNow": "Tham gia ngay",
+    "cancel": "Không tham gia"
+  },
+  "manualVoting": {
+    "title": "Bỏ phiếu thủ công",
+    "successMsg": "Thực hiện bỏ phiếu thủ công hoàn tất!",
+    "closeBtn": "Đóng",
+    "description": "Bạn đang chuẩn bị thực hiện bỏ phiếu thủ công giúp cho các cử tri không có thiết bị điện tử cho bỏ phiếu. Đơn giản chỉ việc chọn ứng cử viên tương ứng trên giấy của cử tri và thực hiện bỏ phiếu.",
+    "saveBtn": "Bỏ phiếu"
+  },
+  "presentation": {
+    "voting": "Đang bỏ phiếu...",
+    "scan": "Quét để bỏ phiếu ngay",
+    "voted": "vừa bỏ phiếu xong"
+  }
+}
