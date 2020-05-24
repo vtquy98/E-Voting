@@ -196,7 +196,7 @@ module.exports = {
 
     poll_vote: combineResolvers(
       checkAuthentication,
-      async (_, { listUserId, electionId }, { currentUser }) => {
+      async (_, { listUserId, electionId }, { pubsub, currentUser }) => {
         const electionStored = await Elections.findOne({
           id: electionId
         });
@@ -248,7 +248,7 @@ module.exports = {
             })
           ));
 
-        //auto remove them on list voter, TODO: handle it on manual voting type
+        // auto remove them on list voter, TODO: handle it on manual voting type
         await ElectionNotify.removeElection({
           voterId: currentUser.id,
           electionId
@@ -256,12 +256,17 @@ module.exports = {
 
         electionStored.voted_count += 1;
         await electionStored.save();
+
+        pubsub.publish('voteAdded', {
+          voteAdded: { election: electionStored, userId: currentUser.id }
+        });
+
         return electionStored;
       }
     ),
     manual_poll_vote: combineResolvers(
       isAdmin,
-      async (_, { listUserId, electionId }) => {
+      async (_, { listUserId, electionId }, { pubsub, currentUser }) => {
         const electionStored = await Elections.findOne({
           id: electionId
         });
@@ -279,6 +284,11 @@ module.exports = {
 
         //handle remove user from upcoming list !!!!!
         electionStored.voted_count += 1;
+
+        pubsub.publish('voteAdded', {
+          voteAdded: { election: electionStored, userId: currentUser.id }
+        });
+
         await electionStored.save();
         return electionStored;
       }
@@ -286,7 +296,7 @@ module.exports = {
 
     poll_vote_trust: combineResolvers(
       checkAuthentication,
-      async (_, { userId, electionId, choice }, { currentUser }) => {
+      async (_, { userId, electionId, choice }, { currentUser, pubsub }) => {
         //handle it with manual vote
         const electionStored = await Elections.findOne({
           id: electionId
@@ -306,6 +316,11 @@ module.exports = {
         });
 
         electionStored.voted_count += 1;
+
+        pubsub.publish('voteAdded', {
+          voteAdded: { election: electionStored, userId: currentUser.id }
+        });
+
         await electionStored.save();
         return electionStored;
       }
