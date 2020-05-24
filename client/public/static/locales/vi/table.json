@@ -15,6 +15,7 @@
   "userTable": {
     "avatar": "Ảnh đại diện",
     "fullName": "Họ và tên",
-    "department": "Phòng ban"
+    "department": "Phòng ban",
+    "actions": "Hành động"
   }
 }

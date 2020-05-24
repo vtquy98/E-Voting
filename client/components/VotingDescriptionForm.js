@@ -30,20 +30,19 @@ const enhance = compose(
 
 class VotingDescriptionForm extends React.Component {
   render() {
-    const { handleSubmit, votingTypeValue } = this.props;
+    const { handleSubmit, votingTypeValue, t } = this.props;
     return (
       <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-md-12 mt-2">
             <h5 className="card-title">
-              Election's <code>description</code>
+              {t('finishedCreate.votingDescriptionForm.description')}
             </h5>
             <Field
               name="description"
               type="text"
               component={RenderTextAreaFieldComponent}
               rows="11"
-              placeholder="type something..."
               validate={[required]}
             />
           </div>
@@ -54,36 +53,34 @@ class VotingDescriptionForm extends React.Component {
               name="votingType"
               component={RenderVotingTypeFieldComponent}
               validate={[required]}
+              t={t}
             />
           </div>
         </div>
 
         <div className="row">
           <div className="col-md-6 mt-2">
-            <h5 className="card-title">
-              Election <code>Owner</code>
-            </h5>
+            <h5 className="card-title">{t('electionDetail.electionOwner')}</h5>
 
             <Field
               icon="ft-user"
               name="electionOwner"
               type="text"
               component={RenderInputFieldWithIcon}
-              placeholder="Who's a owner of the election?"
               validate={[required]}
             />
           </div>
           <div className="col-md-6 mt-2">
-            <h5 className="card-title">
-              Voting's <code>time</code>
-            </h5>
+            <h5 className="card-title">{t('electionDetail.votingTime')}</h5>
 
             <Field
               icon="ft-clock"
               name="votingTime"
               type="text"
               component={RenderInputFieldWithIcon}
-              placeholder="Number of voting time (minute)"
+              placeholder={t(
+                'finishedCreate.votingDescriptionForm.votingTime_placeholder'
+              )}
               validate={[required, isNumber]}
             />
           </div>
@@ -93,7 +90,7 @@ class VotingDescriptionForm extends React.Component {
           <div className="row">
             <div className="col-md-6 mt-2">
               <h5 className="card-title">
-                Vote <code>at least</code> (option)
+                {t('electionDetail.role.atLeastChoose')}
               </h5>
 
               <Field
@@ -101,13 +98,12 @@ class VotingDescriptionForm extends React.Component {
                 name="atLeastVote"
                 type="number"
                 component={RenderInputFieldWithIcon}
-                placeholder="Minimum vote for candidates"
                 validate={[isNumber]}
               />
             </div>
             <div className="col-md-6 mt-2">
               <h5 className="card-title">
-                Vote <code>the most</code> (option)
+                {t('electionDetail.role.mostChoose')}
               </h5>
 
               <Field
@@ -115,7 +111,6 @@ class VotingDescriptionForm extends React.Component {
                 name="mostVote"
                 type="number"
                 component={RenderInputFieldWithIcon}
-                placeholder="Maximum vote for candidates"
                 validate={[isNumber]}
               />
             </div>
@@ -124,9 +119,7 @@ class VotingDescriptionForm extends React.Component {
 
         <div className="row">
           <div className="col-md-6 mt-2">
-            <h5 className="card-title">
-              Time to <code>take place</code> (option)
-            </h5>
+            <h5 className="card-title">{t('electionDetail.takePlaceOn')}</h5>
             <Field
               type="date"
               icon="fa fa-calendar-check-o"
@@ -140,7 +133,8 @@ class VotingDescriptionForm extends React.Component {
         <div className="d-flex justify-content-end">
           <div className="form-actions">
             <button type="submit" className="btn btn-success" value="Next">
-              <i className="fa fa-check-square-o"></i> Next
+              <i className="fa fa-check-square-o"></i>{' '}
+              {t('finishedCreate.votingDescriptionForm.nextBtn')}
             </button>
           </div>
         </div>

@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'recompose';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-
+import { withTranslation } from '../i18n';
 import {
   getElectionTemp,
   getElectionTempDataSelector,
@@ -57,7 +57,10 @@ const connectToRedux = connect(
   })
 );
 
-const enhance = compose(connectToRedux);
+const enhance = compose(
+  withTranslation('election'),
+  connectToRedux
+);
 
 class FinishCreateElectionComponent extends React.Component {
   constructor(props) {
@@ -92,7 +95,8 @@ class FinishCreateElectionComponent extends React.Component {
       electionId,
       finishElectionCreation,
       finishCreationSuccessMessage,
-      finishCreationErrorMessage
+      finishCreationErrorMessage,
+      t
     } = this.props;
 
     const userData =
@@ -105,10 +109,8 @@ class FinishCreateElectionComponent extends React.Component {
       });
     return (
       <React.Fragment>
-        <h1 class="h3 mb-2 text-gray-800">Finish election creation</h1>
-        <p class="mb-4">
-          Complete some information to people know more about the election.
-        </p>
+        <h1 class="h3 mb-2 text-gray-800">{t('finishedCreate.title')}</h1>
+        <p class="mb-4">{t('finishedCreate.textHelper')}</p>
 
         <div class="row">
           <div class="col-sm">
@@ -122,7 +124,7 @@ class FinishCreateElectionComponent extends React.Component {
                 {electionTemp.state === 'CREATED' ? (
                   <div className="col-lg-12">
                     <h3 className="text-center">
-                      The election look like created successfully yet
+                      {t('finishedCreate.electionCreated')}
                     </h3>
                     <div className="text-center">
                       <Link href={`/election?id=${electionTemp.id}`}>
@@ -130,7 +132,8 @@ class FinishCreateElectionComponent extends React.Component {
                           type="button"
                           className="btn btn-outline-info btn-min-width mr-1 mb-1"
                         >
-                          <i className="fa fa-heart"></i> View Election
+                          <i className="fa fa-heart"></i>{' '}
+                          {t('finishedCreate.viewBtn')}
                         </a>
                       </Link>
                     </div>
@@ -155,8 +158,8 @@ class FinishCreateElectionComponent extends React.Component {
                           />
                         </div>
                         <h3 className="text-center mt-2">
-                          {electionTemp && electionTemp.name} has been created
-                          successfully!
+                          {electionTemp && electionTemp.name}{' '}
+                          {t('finishedCreate.successMsg')}
                         </h3>
 
                         <div className="form-group text-center mt-2">
@@ -173,8 +176,8 @@ class FinishCreateElectionComponent extends React.Component {
                             target="_blank"
                             role="button"
                           >
-                            <i class="fas fa-cubes"></i> Explore on blockchain
-                            network
+                            <i class="fas fa-cubes"></i>{' '}
+                            {t('electionData.exploreBtn')}
                           </a>
 
                           <Link
@@ -184,7 +187,8 @@ class FinishCreateElectionComponent extends React.Component {
                               className="btn mr-1 mb-1 btn-outline-success btn-lg"
                               role="button"
                             >
-                              <i className="fa fa-eye"></i> View Election
+                              <i className="fa fa-eye"></i>{' '}
+                              {t('finishedCreate.viewBtn')}
                             </a>
                           </Link>
                         </div>
@@ -197,6 +201,7 @@ class FinishCreateElectionComponent extends React.Component {
                               {page === 1 && (
                                 <VotingDescriptionForm
                                   onSubmit={this.nextPage}
+                                  t={t}
                                 />
                               )}
                               {page === 2 && (
@@ -204,6 +209,7 @@ class FinishCreateElectionComponent extends React.Component {
                                   previousPage={this.previousPage}
                                   options={userData}
                                   onSubmit={this.nextPage}
+                                  t={t}
                                 />
                               )}
                               {page === 3 && (
@@ -225,6 +231,7 @@ class FinishCreateElectionComponent extends React.Component {
                                       electionId: electionId.id
                                     })
                                   }
+                                  t={t}
                                 />
                               )}
                             </div>
@@ -253,5 +260,9 @@ class FinishCreateElectionComponent extends React.Component {
 FinishCreateElectionComponent.propTypes = {
   onSubmit: PropTypes.func.isRequired
 };
+
+FinishCreateElectionComponent.getInitialProps = async () => ({
+  namespacesRequired: ['election']
+});
 
 export default enhance(FinishCreateElectionComponent);

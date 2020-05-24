@@ -1,0 +1,26 @@
+{
+  "errorTime": "Sorry, this is not time to vote!",
+  "resultBtn": "View result",
+  "dashboardBtn": "Go to dashboard",
+  "caution": {
+    "title": "Before you vote",
+    "textHelper": "Thank you for going there and voting. The type of this election is",
+    "type": {
+      "selectToVote": "Select to vote",
+      "selectToRemove": "Select to remove",
+      "selectToTrust": "Select to trust"
+    },
+    "textHelper_trust": "So you must be choose one of selection to vote",
+    "textHepler_at_least": "So you must be choose at least",
+    "textHepler_at_least_1": "and max",
+    "textHepler_at_least_2": "that you trust to vote for them",
+    "textHelper_remove": "that you do not trust to remove them",
+    "candidates": "candidate(s)",
+    "blockchain_caution": "Note that all your voting actions will be recorded on the blockchain network, and will not be able to change your decision."
+  },
+  "successMsg": "Thank you for your participation!",
+  "homeBtn": "Back To Home",
+  "title": "Who will you vote for?",
+  "submitBtn": "Submit",
+  "reset": "Reset"
+}

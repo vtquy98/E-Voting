@@ -1,0 +1,15 @@
+{
+  "title": "Quản lý người dùng",
+  "inviteBtn": "Mời người dùng",
+  "total": "Tổng cộng có",
+  "users": "người dùng",
+  "addUser": {
+    "title": "Thêm người dùng mới",
+    "successMsg": "Thêm người dùng thành công!",
+    "textHelper": "Họ sẽ nhận được email chứa thông tin đăng nhập để sử dụng hệ thống!",
+    "closeBtn": "Close",
+    "textHelper2": "Bạn đang chuẩn bị mời người dùng mới, sau khi mời thành công bạn có thể thêm họ vào bất kì cuộc bỏ phiếu sắp tới nào.",
+    "textHelper3": "Nhập email, cách nhau bởi phím 'enter'",
+    "saveBtn": "Mời"
+  }
+}

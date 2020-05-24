@@ -51,5 +51,26 @@
     "voting": "Đang bỏ phiếu...",
     "scan": "Quét để bỏ phiếu ngay",
     "voted": "vừa bỏ phiếu xong"
+  },
+  "finishedCreate": {
+    "title": "Bổ sung thông tin cuộc bỏ phiếu",
+    "textHelper": "Hoàn tất các thông tin cơ bản để người khác biết rõ cuộc bỏ phiếu của bạn hơn!",
+    "electionCreated": "Dường như cuộc bỏ phiếu đã được thiết lập hoàn tất!",
+    "viewBtn": "Xem cuộc bỏ phiếu",
+    "successMsg": "đã được tạo thành công!",
+    "votingDescriptionForm": {
+      "description": "Mô tả cuộc bỏ phiếu",
+      "votingType": "Hình thức bỏ phiếu",
+      "votingTime_placeholder": "Thời gian bỏ phiếu (đơn vị: phút)",
+      "nextBtn": "Tiếp theo"
+    },
+    "votingCandidateForm": {
+      "title": "Thêm các ứng viên cho cuộc bỏ phiếu",
+      "previousBtn": "Trở về"
+    },
+    "voterForm": {
+      "title": "Thêm các cử tri cho cuộc bỏ phiếu",
+      "finishBtn": "Kết thúc"
+    }
   }
 }

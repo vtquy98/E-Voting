@@ -51,5 +51,26 @@
     "voting": "Voting...",
     "scan": "Scan to vote now",
     "voted": "has just voted "
+  },
+  "finishedCreate": {
+    "title": "Finish election creation",
+    "textHelper": "Complete some information to people know more about the election.",
+    "electionCreated": "The election look like created already!",
+    "viewBtn": "View Election",
+    "successMsg": "has been created successfully!",
+    "votingDescriptionForm": {
+      "description": "Election's description",
+      "votingType": "What is the voting type?",
+      "votingTime_placeholder": "Number of voting time (minute)",
+      "nextBtn": "Next"
+    },
+    "votingCandidateForm": {
+      "title": "Let's add some candidates to add into the election",
+      "previousBtn": "Previous"
+    },
+    "voterForm": {
+      "title": "Who is the voters?",
+      "finishBtn": "Finish"
+    }
   }
 }

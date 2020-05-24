@@ -11,7 +11,7 @@ import {
 } from '../stores/UserState';
 import AddUserPopup from './AddUserPopup';
 import AllUsersListComponent from './AllUsersListComponent';
-
+import { withTranslation } from '../i18n';
 import { FaPlus } from 'react-icons/fa';
 
 const withVotingName = withState('votingName', 'setVotingName', '');
@@ -28,6 +28,7 @@ const connectToRedux = connect(
 
 const enhance = compose(
   withVotingName,
+  withTranslation('user-management'),
   connectToRedux
 );
 
@@ -36,10 +37,10 @@ class UserDashboardComponent extends React.Component {
     this.props.getAllUsers();
   }
   render() {
-    const { users = [], deleteUser } = this.props;
+    const { users = [], deleteUser, t } = this.props;
     return (
       <React.Fragment>
-        <h1 className="h3 mb-4 text-gray-800">Users Management</h1>
+        <h1 className="h3 mb-4 text-gray-800">{t('title')}</h1>
         <div className="row">
           <div className="col-lg-12">
             <div className="card shadow border-none mb-4">
@@ -50,14 +51,14 @@ class UserDashboardComponent extends React.Component {
                       <span className="icon text-white-50">
                         <FaPlus />
                       </span>
-                      <span className="text">Invite user</span>
+                      <span className="text">{t('inviteBtn')}</span>
                     </a>
                   }
                   modal
                 >
                   {close => (
                     <div className="hi">
-                      <AddUserPopup onClick={() => close()} />
+                      <AddUserPopup onClick={() => close()} t={t} />
                     </div>
                   )}
                 </Popup>
@@ -66,13 +67,14 @@ class UserDashboardComponent extends React.Component {
                 <AllUsersListComponent
                   users={users}
                   deleteUserAction={deleteUser}
+                  t={t}
                 />
                 <div class="row text-right">
                   <div class="col-sm-12">
                     <div class="dataTables_info">
-                      Total{' '}
+                      {t('total')}{' '}
                       <span className="font-weight-bold">{users.length}</span>{' '}
-                      Users
+                      {t('users')}
                     </div>
                   </div>
                 </div>

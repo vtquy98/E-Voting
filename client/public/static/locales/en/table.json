@@ -15,6 +15,7 @@
   "userTable": {
     "avatar": "Avatar",
     "fullName": "FullName",
-    "department": "Department"
+    "department": "Department",
+    "actions": "Actions"
   }
 }
