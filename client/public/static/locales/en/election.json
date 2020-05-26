@@ -72,5 +72,16 @@
       "title": "Who is the voters?",
       "finishBtn": "Finish"
     }
+  },
+  "createModal": {
+    "title": "New Election",
+    "electionName": "Election name",
+    "createBtn": "Create",
+    "closeBtn": "Cancel"
+  },
+  "history": {
+    "title": "Votes History",
+    "total": "Total",
+    "textHelper": "Elections that you participated."
   }
 }

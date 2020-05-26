@@ -10,7 +10,10 @@
       "started": "ĐÃ BẮT ĐẦU",
       "draft": "NHÁP",
       "ended": "ĐÃ KẾT THÚC"
-    }
+    },
+    "exploreBtn": "Xem trên Blockchain",
+    "voter": "Cử tri",
+    "candidate": "Ứng viên"
   },
   "userTable": {
     "avatar": "Ảnh đại diện",

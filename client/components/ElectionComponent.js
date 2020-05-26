@@ -194,7 +194,8 @@ class ElectionComponent extends React.Component {
                                 <FcClock /> {t('electionDetail.votingTime')}:
                                 <span className="text-muted font-weight-bold">
                                   {' '}
-                                  {election.votingTime} min
+                                  {election.votingTime}{' '}
+                                  {t('electionDetail.timeCount')}
                                 </span>
                               </p>
                               <p>

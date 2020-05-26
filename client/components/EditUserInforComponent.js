@@ -18,6 +18,7 @@ import { required } from '../utils/validation';
 import RenderInputFieldComponent from './FormField/RenderInputFieldComponent';
 import RenderSelectedImageFieldComponent from './FormField/RenderSelectedImageFieldComponent';
 import RenderTextAreaFieldComponent from './FormField/RenderTextAreaFieldComponent';
+import { withTranslation } from '../i18n';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -43,10 +44,11 @@ const withForm = reduxForm({ form: 'edit_user_info' });
 
 const enhance = compose(
   connectToRedux,
-  withForm
+  withForm,
+  withTranslation('profile')
 );
 
-class UserInforComponent extends React.Component {
+class EditUserInforComponent extends React.Component {
   componentDidMount() {
     const { getUserProfile, userData } = this.props;
     getUserProfile(userData.id);
@@ -63,7 +65,8 @@ class UserInforComponent extends React.Component {
       submitting,
       reset,
       errorMessage,
-      successMessage
+      successMessage,
+      t
     } = this.props;
 
     return (
@@ -112,6 +115,7 @@ class UserInforComponent extends React.Component {
                             name="avatar"
                             component={RenderSelectedImageFieldComponent}
                             validate={[required]}
+                            t={t}
                           />
                         </div>
                         <div className="col-sm">
@@ -255,4 +259,8 @@ class UserInforComponent extends React.Component {
   }
 }
 
-export default enhance(UserInforComponent);
+EditUserInforComponent.getInitialProps = async () => ({
+  namespacesRequired: ['profile']
+});
+
+export default enhance(EditUserInforComponent);

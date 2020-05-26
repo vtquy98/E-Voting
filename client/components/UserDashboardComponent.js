@@ -61,9 +61,9 @@ class UserDashboardComponent extends React.Component {
                   <div className="text-center">
                     <h3>{t('dashboard.noUpComming')}</h3>
 
-                    <h4 className="text-muted mb-1 mt-2">
+                    <h6 className="text-muted mb-1 mt-2">
                       {t('dashboard.textHelper')}
-                    </h4>
+                    </h6>
 
                     <div className="d-flex justify-content-center">
                       <img

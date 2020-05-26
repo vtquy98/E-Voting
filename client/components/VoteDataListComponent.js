@@ -2,31 +2,8 @@ import React from 'react';
 import { FaEye } from 'react-icons/fa';
 import { FcCheckmark, FcCancel } from 'react-icons/fc';
 import TableComponent from './TableComponent';
+import { withTranslation } from '../i18n';
 const ENV_DEPLOY = process.env.ENV_DEPLOY || 'ropsten';
-
-const COLUMNS = [
-  {
-    accessor: 'index',
-    Header: '#',
-    sortType: 'basic' //add sort to more field
-  },
-  {
-    accessor: 'voter',
-    Header: 'Voter'
-  },
-  {
-    accessor: 'isVoted',
-    Header: ''
-  },
-  {
-    accessor: 'candidate',
-    Header: 'Candidate'
-  },
-  {
-    accessor: 'viewMore',
-    Header: 'View on blockchain'
-  }
-];
 
 const mapVoteDataToDataField = ({ voteData = [] }) =>
   voteData.map((data, index) => ({
@@ -78,7 +55,30 @@ const mapVoteDataToDataField = ({ voteData = [] }) =>
 
 class VoteDataListComponent extends React.Component {
   render() {
-    const { voteData } = this.props;
+    const { voteData, t } = this.props;
+    const COLUMNS = [
+      {
+        accessor: 'index',
+        Header: '#',
+        sortType: 'basic' //add sort to more field
+      },
+      {
+        accessor: 'voter',
+        Header: t('election.voters')
+      },
+      {
+        accessor: 'isVoted',
+        Header: ''
+      },
+      {
+        accessor: 'candidate',
+        Header: t('election.candidates')
+      },
+      {
+        accessor: 'viewMore',
+        Header: t('election.exploreBtn')
+      }
+    ];
     return (
       <div className="table-responsive">
         <TableComponent
@@ -92,4 +92,4 @@ class VoteDataListComponent extends React.Component {
   }
 }
 
-export default VoteDataListComponent;
+export default withTranslation('table')(VoteDataListComponent);

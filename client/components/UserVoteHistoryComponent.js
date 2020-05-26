@@ -14,6 +14,7 @@ import {
   getCurrentUserDataSelector
 } from '../stores/UserState';
 import VoteDataListComponent from './VoteDataListComponent';
+import { withTranslation } from '../i18n';
 
 const withVotingName = withState('votingName', 'setVotingName', '');
 const connectToRedux = connect(
@@ -31,7 +32,8 @@ const connectToRedux = connect(
 
 const enhance = compose(
   withVotingName,
-  connectToRedux
+  connectToRedux,
+  withTranslation('election')
 );
 
 class UserVoteHistoryComponent extends React.Component {
@@ -40,10 +42,10 @@ class UserVoteHistoryComponent extends React.Component {
   }
 
   render() {
-    const { voteHistory = [] } = this.props;
+    const { voteHistory = [], t } = this.props;
     return (
       <React.Fragment>
-        <h1 className="h3 mb-4 text-gray-800">Votes History</h1>
+        <h1 className="h3 mb-4 text-gray-800">{t('history.title')}</h1>
         <div className="row">
           <div className="col-lg-12">
             <div className="card shadow border-none mb-4">
@@ -58,7 +60,10 @@ class UserVoteHistoryComponent extends React.Component {
                             <Link href={`/result?id=${vote.electionId}`}>
                               <a className="h5">{vote.electionName}</a>
                             </Link>
-                            <VoteDataListComponent voteData={vote.voteData} />
+                            <VoteDataListComponent
+                              voteData={vote.voteData}
+                              t={t}
+                            />
                           </div>
                         );
                       })}
@@ -68,11 +73,11 @@ class UserVoteHistoryComponent extends React.Component {
                 <div class="row text-right">
                   <div class="col-sm-12">
                     <div class="dataTables_info">
-                      Total{' '}
+                      {t('history.total')}{' '}
                       <span className="font-weight-bold">
                         {voteHistory && voteHistory.length}
                       </span>{' '}
-                      Elections that you participated.
+                      {t('history.textHelper')}
                     </div>
                   </div>
                 </div>

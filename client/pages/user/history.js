@@ -9,4 +9,8 @@ const VoteHistoryPage = ({ ...rootProps }) => (
   </DashboardPageLayout>
 );
 
+VoteHistoryPage.getInitialProps = async () => ({
+  namespacesRequired: ['election']
+});
+
 export default AuthenHOC(VoteHistoryPage);

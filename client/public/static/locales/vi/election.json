@@ -72,5 +72,16 @@
       "title": "Thêm các cử tri cho cuộc bỏ phiếu",
       "finishBtn": "Kết thúc"
     }
+  },
+  "createModal": {
+    "title": "Tạo bỏ phiếu",
+    "electionName": "Tên cuộc bỏ phiếu",
+    "createBtn": "Tạo",
+    "closeBtn": "Huỷ"
+  },
+  "history": {
+    "title": "Lịch sử bỏ phiếu",
+    "total": "Tổng cộng có ",
+    "textHelper": "cuộc bỏ phiếu mà bạn đã tham gia."
   }
 }
