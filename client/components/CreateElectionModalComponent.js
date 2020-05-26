@@ -9,6 +9,7 @@ import {
   resetDataCreateNewElection
 } from '../stores/ElectionState';
 import { toast } from 'react-toastify';
+import { withTranslation } from '../i18n';
 
 const withElectionNameState = withState('electionName', 'setElectionName', '');
 
@@ -29,6 +30,7 @@ const connectToRedux = connect(
 );
 const enhance = compose(
   withElectionNameState,
+  withTranslation('election'),
   connectToRedux
 );
 
@@ -38,7 +40,7 @@ class CreateElectionModalComponent extends React.Component {
   }
 
   render() {
-    const { electionName, setElectionName, createNewElection } = this.props;
+    const { electionName, setElectionName, createNewElection, t } = this.props;
     return (
       <div
         className="modal fade text-left"
@@ -52,7 +54,7 @@ class CreateElectionModalComponent extends React.Component {
           <div className="modal-content">
             <div className="modal-header">
               <h4 className="modal-title" id="myModalLabel6">
-                <i className="fa fa-plus-circle"></i> New Election
+                <i className="fa fa-plus-circle"></i> {t('createModal.title')}
               </h4>
               <button
                 type="button"
@@ -66,12 +68,11 @@ class CreateElectionModalComponent extends React.Component {
             <form>
               <div className="modal-body">
                 <fieldset className="form-group floating-label-form-group">
-                  <label htmlFor="email">Election name</label>
+                  <label htmlFor="email">{t('createModal.electionName')}</label>
                   <input
                     type="text"
                     className="form-control"
                     id="electionName"
-                    placeholder="type something...."
                     onChange={e => setElectionName(e.currentTarget.value)}
                   />
                 </fieldset>
@@ -85,13 +86,13 @@ class CreateElectionModalComponent extends React.Component {
                     createNewElection(electionName);
                   }}
                 >
-                  Create
+                  {t('createModal.createBtn')}
                 </button>
                 <button
                   className="btn btn-secondary btn-lg"
                   data-dismiss="modal"
                 >
-                  Cancel
+                  {t('createModal.closeBtn')}
                 </button>
               </div>
             </form>
@@ -101,5 +102,9 @@ class CreateElectionModalComponent extends React.Component {
     );
   }
 }
+
+CreateElectionModalComponent.getInitialProps = async () => ({
+  namespacesRequired: ['profile']
+});
 
 export default enhance(CreateElectionModalComponent);

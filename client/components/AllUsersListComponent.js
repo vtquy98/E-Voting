@@ -1,34 +1,7 @@
 import React from 'react';
 import TableComponent from './TableComponent';
 import Link from 'next/link';
-
-const COLUMNS = [
-  {
-    accessor: 'index',
-    Header: '#',
-    sortType: 'basic' //add sort to more field
-  },
-  {
-    accessor: 'avatar',
-    Header: 'Avatar'
-  },
-  {
-    accessor: 'fullName',
-    Header: 'Full name'
-  },
-  {
-    accessor: 'department',
-    Header: 'Department'
-  },
-  {
-    accessor: 'email',
-    Header: 'Email'
-  },
-  {
-    accessor: 'actions',
-    Header: 'Actions'
-  }
-];
+import { withTranslation } from '../i18n';
 
 const mapUsersToDataField = ({ users = [], deleteUserAction }) =>
   users.map((user, index) => ({
@@ -69,7 +42,35 @@ const mapUsersToDataField = ({ users = [], deleteUserAction }) =>
 
 class AllUsersListComponent extends React.Component {
   render() {
-    const { users, deleteUserAction } = this.props;
+    const { users, deleteUserAction, t } = this.props;
+
+    const COLUMNS = [
+      {
+        accessor: 'index',
+        Header: '#',
+        sortType: 'basic' //add sort to more field
+      },
+      {
+        accessor: 'avatar',
+        Header: t('userTable.avatar')
+      },
+      {
+        accessor: 'fullName',
+        Header: t('userTable.fullName')
+      },
+      {
+        accessor: 'department',
+        Header: t('userTable.department')
+      },
+      {
+        accessor: 'email',
+        Header: 'Email'
+      },
+      {
+        accessor: 'actions',
+        Header: t('userTable.actions')
+      }
+    ];
     return (
       <div className="table-responsive">
         <TableComponent
@@ -84,4 +85,4 @@ class AllUsersListComponent extends React.Component {
   }
 }
 
-export default AllUsersListComponent;
+export default withTranslation('table')(AllUsersListComponent);

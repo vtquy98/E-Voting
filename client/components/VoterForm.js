@@ -9,12 +9,17 @@ const withForm = reduxForm({
 });
 
 const VoterForm = props => {
-  const { handleSubmit, pristine, previousPage, submitting, options } = props;
+  const {
+    handleSubmit,
+    pristine,
+    previousPage,
+    submitting,
+    options,
+    t
+  } = props;
   return (
     <form onSubmit={handleSubmit}>
-      <h5 className="card-title">
-        Who is the <code>voters</code>?
-      </h5>
+      <h5 className="card-title">{t('finishedCreate.voterForm.title')}</h5>
       <Field
         name="voters"
         component={RenderCandidateSelectionField}
@@ -30,7 +35,8 @@ const VoterForm = props => {
             value="Previous"
             onClick={previousPage}
           >
-            <i className="fa fa-chevron-circle-left"></i> Previous
+            <i className="fa fa-chevron-circle-left"></i>{' '}
+            {t('finishedCreate.votingCandidateForm.previousBtn')}
           </button>
           <button
             type="submit"
@@ -38,7 +44,8 @@ const VoterForm = props => {
             disabled={pristine || submitting}
             value="Complete"
           >
-            <i className="fa fa-check-square-o"></i> Finish
+            <i className="fa fa-check-square-o"></i>{' '}
+            {t('finishedCreate.voterForm.finishBtn')}
           </button>
         </div>
       </div>

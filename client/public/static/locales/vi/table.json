@@ -4,6 +4,21 @@
     "candidates": "Số ứng viên",
     "voters": "Số cử tri",
     "status": "Trạng thái",
-    "lastElection": "Các cuộc bỏ phiếu gần đây"
+    "lastElection": "Các cuộc bỏ phiếu gần đây",
+    "currentStatus": {
+      "created": "ĐÃ TẠO",
+      "started": "ĐÃ BẮT ĐẦU",
+      "draft": "NHÁP",
+      "ended": "ĐÃ KẾT THÚC"
+    },
+    "exploreBtn": "Xem trên Blockchain",
+    "voter": "Cử tri",
+    "candidate": "Ứng viên"
+  },
+  "userTable": {
+    "avatar": "Ảnh đại diện",
+    "fullName": "Họ và tên",
+    "department": "Phòng ban",
+    "actions": "Hành động"
   }
 }

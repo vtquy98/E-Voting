@@ -3,7 +3,7 @@ import React from 'react';
 import TableComponent from './TableComponent';
 import { withTranslation } from '../i18n';
 
-const mapElectionsToDataField = ({ elections = [] }) =>
+const mapElectionsToDataField = ({ elections = [], t }) =>
   elections.map((election, index) => ({
     index: index + 1,
     name: (
@@ -22,19 +22,19 @@ const mapElectionsToDataField = ({ elections = [] }) =>
     status:
       election.state === 'CREATED' ? (
         <span className="badge badge-default badge-warning">
-          {election.state}
+          {t('election.currentStatus.created')}
         </span>
       ) : election.state === 'STARTED' ? (
         <span className="badge badge-default badge-success">
-          {election.state}
+          {t('election.currentStatus.started')}
         </span>
       ) : election.state === 'DRAFT' ? (
         <span className="badge badge-default badge-secondary">
-          {election.state}
+          {t('election.currentStatus.draft')}
         </span>
       ) : (
         <span className="badge badge-default badge-danger">
-          {election.state}
+          {t('election.currentStatus.ended')}
         </span>
       )
   }));
@@ -80,7 +80,8 @@ class ElectionListComponent extends React.Component {
             <TableComponent
               columns={COLUMNS}
               data={mapElectionsToDataField({
-                elections
+                elections,
+                t
               })}
             />
           </div>

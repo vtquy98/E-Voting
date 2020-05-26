@@ -1,0 +1,26 @@
+{
+  "errorTime": "Ngoài thời gian bỏ phiếu!",
+  "resultBtn": "Xem kết quả",
+  "dashboardBtn": "Về bảng điều khiển",
+  "caution": {
+    "title": "Lưu ý trước khi bỏ phiếu",
+    "textHelper": "Cảm ơn bạn đã tham gia bỏ phiếu tại AGU E-Voting! cuộc bỏ phiếu này với hình thức",
+    "type": {
+      "selectToVote": "Chọn để bỏ phiếu",
+      "selectToRemove": "Chọn để loại trừ",
+      "selectToTrust": "Chọn để tín nhiệm"
+    },
+    "textHelper_trust": "vì thế bạn phải chọn một trong hai sự lựa chọn là \"tín nhiệm\" hoặc \"không tín nhiệm\" để bỏ phiếu",
+    "textHepler_at_least": "vì vậy bạn phải chọn ít nhất",
+    "textHepler_at_least_1": "và tối đa là",
+    "textHepler_at_least_2": "mà bạn tín nhiệm để bỏ phiếu cho họ.",
+    "textHelper_remove": "mà bạn không tín nhiệm để không bỏ phiếu cho họ.",
+    "candidates": "(các) ứng viên",
+    "blockchain_caution": "Lưu ý rằng mọi hành động bỏ phiếu của bạn sẽ được ghi lên mạng blockchain, và sẽ không thể thay đổi quyết định của mình."
+  },
+  "successMsg": "Bỏ phiếu thành công, cảm ơn bạn đã tham gia!",
+  "homeBtn": "Về trang chính",
+  "title": "Bạn sẽ bỏ phiếu cho ai?",
+  "submitBtn": "Bỏ phiếu",
+  "reset": "Xoá lựa chọn"
+}

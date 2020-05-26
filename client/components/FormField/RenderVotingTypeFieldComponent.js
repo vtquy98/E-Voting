@@ -8,11 +8,12 @@ import {
 const RenderVotingTypeFieldComponent = ({
   input,
   label,
-  meta: { touched, error }
+  meta: { touched, error },
+  t
 }) => (
   <div>
     <h5 className="card-title mt-2">
-      What is the voting <code>type</code>?{' '}
+      {t('finishedCreate.votingDescriptionForm.votingType')}
     </h5>
     <div className="middle">
       <label>
@@ -24,7 +25,7 @@ const RenderVotingTypeFieldComponent = ({
           onChange={input.onChange}
         />
         <div className="choose-to-vote box">
-          <span>Choose to vote</span>
+          <span>{t('electionDetail.type.selectToVote')}</span>
         </div>
       </label>
 
@@ -37,7 +38,7 @@ const RenderVotingTypeFieldComponent = ({
           onChange={input.onChange}
         />
         <div className="choose-to-remove box">
-          <span>Choose to remove</span>
+          <span>{t('electionDetail.type.selectToRemove')}</span>
         </div>
       </label>
 
@@ -50,7 +51,7 @@ const RenderVotingTypeFieldComponent = ({
           onChange={input.onChange}
         />
         <div className="choose-to-trust box">
-          <span>Choose to trust</span>
+          <span>{t('electionDetail.type.selectToTrust')}</span>
         </div>
       </label>
 

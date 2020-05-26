@@ -167,7 +167,9 @@ class ShowElectionComponent extends React.Component {
                   <div className="card shadow border-none mb-4 table-responsive">
                     <div className="card-body">
                       <DisplayUserVoteResultComponent
-                        result={electionResult}
+                        result={electionResult.sort(
+                          (a, b) => b.voteCount - a.voteCount
+                        )}
                         election={election}
                       />
                     </div>

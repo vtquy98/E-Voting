@@ -5,7 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 import { createStructuredSelector } from 'reselect';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-
+import { withTranslation } from '../i18n';
 import {
   getAllCandidates,
   getAllCandidatesDataSelector,
@@ -51,10 +51,11 @@ const withForm = reduxForm({
 
 const enhance = compose(
   connectToRedux,
+  withTranslation('voting'),
   withForm
 );
 
-class ShowElectionComponent extends React.Component {
+class VotingComponent extends React.Component {
   componentDidMount() {
     const { electionId } = this.props;
     this.props.getElection(electionId.id);
@@ -76,7 +77,8 @@ class ShowElectionComponent extends React.Component {
       errorMessage,
       errorMessageTrustTypeVote,
       successMessageTrustTypeVote,
-      election = []
+      election = [],
+      t
     } = this.props;
 
     const submit = (values, dispatch, props) => {
@@ -130,9 +132,7 @@ class ShowElectionComponent extends React.Component {
                   </h3>
                 </div>
                 <div className="card-body">
-                  <h3 className="text-center">
-                    Sorry, this is not time to vote!
-                  </h3>
+                  <h3 className="text-center">{t('errorTime')}</h3>
 
                   <div className="text-center">
                     {election.state === 'ENDED' && (
@@ -141,7 +141,7 @@ class ShowElectionComponent extends React.Component {
                           type="button"
                           className="btn btn-outline-info btn-min-width mr-1 mb-1"
                         >
-                          <i className="fa fa-heart"></i> View result
+                          <i className="fa fa-heart"></i> {t('resultBtn')}
                         </a>
                       </Link>
                     )}
@@ -151,7 +151,7 @@ class ShowElectionComponent extends React.Component {
                         type="button"
                         className="btn btn-outline-secondary btn-min-width mr-1 mb-1"
                       >
-                        <i className="fa fa-home"></i> Go to dashboard
+                        <i className="fa fa-home"></i> {t('dashboardBtn')}
                       </a>
                     </Link>
                   </div>
@@ -172,19 +172,37 @@ class ShowElectionComponent extends React.Component {
                 <div className="card shadow border-none mb-4">
                   <div className="card-header py-3">
                     <h6 className="m-0 font-weight-bold text-primary">
-                      Before you vote
+                      {t('caution.title')}
                     </h6>
                   </div>
                   <div className="card-body">
                     <p className="card-text">
-                      Thank you for going there and voting. The type of this
-                      election is
+                      {t('caution.textHelper')}
                       {election.votingType === 'SELECT_TO_TRUST'
-                        ? ` Trust or Do not trust . So you must be choose one of selection to vote.`
+                        ? ` ${t('caution.type.selectToTrust')}. ${t(
+                            'caution.type.textHelper_trust'
+                          )}`
                         : election.votingType === 'SELECT_TO_VOTE'
-                        ? ` Select to vote . So you must be choose at least ${election.atLeastVote} candidate(s) and max ${election.mostVote} that you trust to vote for them.`
-                        : ` Select to remove . So you must be choose at least ${election.atLeastVote} candidate(s) and max ${election.mostVote} that you do not trust to remove them.`}
+                        ? ` ${t('caution.type.selectToVote')} . ${t(
+                            'caution.textHepler_at_least'
+                          )} ${election.atLeastVote} ${t(
+                            'caution.candidates'
+                          )} ${t('caution.textHepler_at_least_1')} ${
+                            election.mostVote
+                          } ${t('caution.candidates')} ${t(
+                            'caution.textHepler_at_least_2'
+                          )}.`
+                        : ` ${t('caution.type.selectToRemove')} . ${t(
+                            'caution.textHepler_at_least'
+                          )} ${election.atLeastVote} ${t(
+                            'caution.candidates'
+                          )} ${t('caution.textHepler_at_least_1')} ${
+                            election.mostVote
+                          } ${t('caution.candidates')} ${t(
+                            'caution.textHelper_remove'
+                          )}.`}
                     </p>
+                    <p>{t('caution.blockchain_caution')}</p>
                   </div>
                 </div>
               </div>
@@ -196,7 +214,7 @@ class ShowElectionComponent extends React.Component {
                       {successMessage || successMessageTrustTypeVote ? (
                         <div>
                           <h1 className="title font-weight-bold text-primary text-center mt-2 mb-2">
-                            Thank you for your participation!
+                            {t('successMsg')}
                           </h1>
                           <div className="d-flex justify-content-center">
                             <img
@@ -211,7 +229,7 @@ class ShowElectionComponent extends React.Component {
                                 type="button"
                                 className="btn btn-outline-primary btn-min-width mr-1 mb-1"
                               >
-                                <i className="fa fa-home"></i> Back To Home
+                                <i className="fa fa-home"></i> {t('homeBtn')}
                               </a>
                             </Link>
                           </div>
@@ -219,7 +237,7 @@ class ShowElectionComponent extends React.Component {
                       ) : (
                         <div>
                           <h1 className="title font-weight-bold text-primary text-center mt-2 mb-2">
-                            Who will you vote for?
+                            {t('title')}
                           </h1>
                           <div className="col-lg-12 col-md-6 col-sm-12">
                             <form onSubmit={handleSubmit(submit)}>
@@ -245,7 +263,7 @@ class ShowElectionComponent extends React.Component {
                                     disabled={pristine || submitting}
                                   >
                                     <i className="fa fa-check-circle"></i>{' '}
-                                    Submit
+                                    {t('submitBtn')}
                                   </button>
                                   <button
                                     type="button"
@@ -253,7 +271,7 @@ class ShowElectionComponent extends React.Component {
                                     onClick={reset}
                                     className="btn mr-1 mb-1 btn-danger btn-lg"
                                   >
-                                    <i className="fa fa-times"></i> Reset
+                                    <i className="fa fa-times"></i> {t('reset')}
                                   </button>
                                 </div>
                                 {errorMessage || errorMessageTrustTypeVote ? (
@@ -291,4 +309,9 @@ class ShowElectionComponent extends React.Component {
     );
   }
 }
-export default enhance(ShowElectionComponent);
+
+VotingComponent.getInitialProps = async () => ({
+  namespacesRequired: ['voting']
+});
+
+export default enhance(VotingComponent);

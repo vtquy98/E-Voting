@@ -43,7 +43,8 @@ class AddUserPopup extends React.Component {
       successMessage,
       listUserEmails,
       setEmail,
-      addUsers
+      addUsers,
+      t
     } = this.props;
     return (
       <React.Fragment>
@@ -55,7 +56,7 @@ class AddUserPopup extends React.Component {
         <div className="card shadow border-none">
           <div className="card-header py-3 text-center">
             <h6 className="m-0 font-weight-bold text-primary ">
-              <i className="fa fa-plus-circle"></i> Add new user
+              <i className="fa fa-plus-circle"></i> {t('addUser.title')}
             </h6>
           </div>
           <div className="card-body">
@@ -69,11 +70,10 @@ class AddUserPopup extends React.Component {
                       width="50%"
                     />
                   </div>
-                  <h3 className="text-center mt-2">Invite successfully!</h3>
-                  <p className="text-center mt-2">
-                    They will review an email include
-                    <code> Username, password</code> to using E-Voting system
-                  </p>
+                  <h3 className="text-center mt-2">
+                    {t('addUser.successMsg')}
+                  </h3>
+                  <p className="text-center mt-2">{t('addUser.textHelper')}</p>
 
                   <div className="d-flex justify-content-center">
                     <button
@@ -81,22 +81,15 @@ class AddUserPopup extends React.Component {
                       className="btn btn-primary mt-2"
                       onClick={onClick}
                     >
-                      <i className="ft-x"></i> Close
+                      <i className="ft-x"></i> {t('addUser.closeBtn')}
                     </button>
                   </div>
                 </div>
               ) : (
                 <div>
                   <div className="card-text">
-                    <p>
-                      You are going to <code>Add new user</code>. They will
-                      receive an invitation mail to login. After adding user,
-                      you can add them into any election.
-                    </p>
-                    <p>
-                      Type each <code>user's email</code> then press{' '}
-                      <code>enter</code>.
-                    </p>
+                    <p>{t('addUser.textHelper2')}</p>
+                    <p>{t('addUser.textHelper3')}</p>
                   </div>
 
                   <div className="form-actions center">
@@ -114,14 +107,15 @@ class AddUserPopup extends React.Component {
                           addUsers(listUserEmails);
                         }}
                       >
-                        <i className="fa fa-check-square-o"></i> Save
+                        <i className="fa fa-check-square-o"></i>{' '}
+                        {t('addUser.saveBtn')}
                       </button>
                       <button
                         type="button"
                         className="btn btn-warning"
                         onClick={onClick}
                       >
-                        <i className="ft-x"></i> Cancel
+                        <i className="ft-x"></i> {t('addUser.closeBtn')}
                       </button>
                     </div>
                   </div>

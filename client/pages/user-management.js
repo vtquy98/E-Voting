@@ -3,10 +3,14 @@ import UserManagementComponent from '../components/UserManagementComponent';
 import DashboardPageLayout from '../layouts/DashboardPageLayout';
 import AuthenHOC from '../components/HOC/AuthenHOC';
 
-const UserDashboardPage = rootProps => (
+const UserManagementPage = rootProps => (
   <DashboardPageLayout {...rootProps} title="not config">
     <UserManagementComponent />
   </DashboardPageLayout>
 );
 
-export default AuthenHOC(UserDashboardPage);
+UserManagementPage.getInitialProps = async () => ({
+  namespacesRequired: ['user-management']
+});
+
+export default AuthenHOC(UserManagementPage);

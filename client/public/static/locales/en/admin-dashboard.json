@@ -1,8 +1,22 @@
 {
+  "title": "Admin Dashboard",
   "stats": {
     "nextElection": "ON GOING ELECTION",
     "totalElection": "TOTAL ELECTIONS",
     "userCount": "TOTAL USERS",
     "ethBalance": "ETHER BALANCE"
+  },
+  "instruction": {
+    "title": "Instructions",
+    "1": "Thank you for using our system.",
+    "2": "We hope we can bring you good experience.",
+    "3": "In this dashboard, you can view all elections, create new election, view your ethereum wallet address also current balance.",
+    "4": "To Create new Election:",
+    "5": "Click create new eleciton, type Election's name",
+    "6": "Wating for success.",
+    "7": "Finish some election's information for anyone know more that.",
+    "8": "Why any action take so long ?",
+    "9": "Well, any action on AGU E-Voting will be write on blockchain, so we must be waitting for Consensus Mechanism",
+    "10": "Usually, each action takes about one minute."
   }
 }

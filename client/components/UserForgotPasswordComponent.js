@@ -8,6 +8,7 @@ import {
   userForgotPasswordSuccessMessageSelector
 } from '../stores/UserState';
 import Link from 'next/link';
+import { withTranslation } from '../i18n';
 
 const withEmailState = withState('email', 'setEmail', '');
 
@@ -23,10 +24,17 @@ const connectToRedux = connect(
 
 const enhance = compose(
   withEmailState,
-  connectToRedux
+  connectToRedux,
+  withTranslation('authen')
 );
 
-const UserLoginComponent = ({ setEmail, email, doGetEmail, errorMessage }) => (
+const UserLoginComponent = ({
+  setEmail,
+  email,
+  doGetEmail,
+  errorMessage,
+  t
+}) => (
   <div className="row justify-content-center">
     <div className="col-xl-10 col-lg-12 col-md-9">
       <div className="card o-hidden border-0 shadow-lg my-5">
@@ -44,20 +52,15 @@ const UserLoginComponent = ({ setEmail, email, doGetEmail, errorMessage }) => (
 
               <div className="p-5">
                 <div className="text-center">
-                  <h1 className="h4 text-gray-900 mb-2">
-                    Forgot Your Password?
-                  </h1>
-                  <p className="mb-4">
-                    We get it, stuff happens. Just enter your email address
-                    below and we'll send you a link to reset your password!
-                  </p>
+                  <h1 className="h4 text-gray-900 mb-2">{t('forgot.title')}</h1>
+                  <p className="mb-4">{t('forgot.description')} </p>
                 </div>
                 <form className="user">
                   <div className="form-group">
                     <input
                       type="email"
                       className="form-control form-control-user"
-                      placeholder="Enter Email Address..."
+                      placeholder={t('forgot.email')}
                       onChange={e => setEmail(e.target.value)}
                     />
                   </div>
@@ -69,7 +72,7 @@ const UserLoginComponent = ({ setEmail, email, doGetEmail, errorMessage }) => (
                       doGetEmail(email);
                     }}
                   >
-                    Reset Password
+                    {t('forgot.resetBtn')}
                   </button>
                 </form>
                 <hr />
@@ -83,12 +86,12 @@ const UserLoginComponent = ({ setEmail, email, doGetEmail, errorMessage }) => (
 
                 <div className="text-center">
                   <a className="small" href="#">
-                    Create an Account!
+                    {t('login.create')}
                   </a>
                 </div>
                 <div className="text-center">
                   <Link href="/login">
-                    <a className="small">Already have an account? Login!</a>
+                    <a className="small"> {t('forgot.loginInstead')}</a>
                   </Link>
                 </div>
               </div>

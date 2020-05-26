@@ -8,4 +8,8 @@ const UserForgotPasswordPage = rootProps => (
   </AuthenPageLayout>
 );
 
+UserForgotPasswordPage.getInitialProps = async () => ({
+  namespacesRequired: ['authen']
+});
+
 export default UserForgotPasswordPage;

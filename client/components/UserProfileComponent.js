@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { getCurrentUserDataSelector } from '../stores/UserState';
 import ChangePasswordPopupComponent from './ChangePasswordPopupComponent';
 import Popup from 'reactjs-popup';
-
+import { withTranslation } from '../i18n';
 import { FaLock, FaPen } from 'react-icons/fa';
 
 const connectToRedux = connect(
@@ -14,24 +14,24 @@ const connectToRedux = connect(
   })
 );
 
-class UserInforComponent extends React.Component {
+class UserProfileComponent extends React.Component {
   render() {
-    const { currentUser } = this.props;
+    const { currentUser, t } = this.props;
 
     return (
       <React.Fragment>
         <React.Fragment>
-          <h1 className="h3 mb-4 text-gray-800">Your Infomrmation</h1>
+          <h1 className="h3 mb-4 text-gray-800">{t('profile.title')}</h1>
           <div className="row">
             <div className="col-lg-12">
               <div className="card shadow border-none mb-4">
                 <div className="card-header py-3 d-flex">
-                  <Link href="/user/edit-info">
+                  <Link href="/user/edit-profile">
                     <a className="btn btn-primary btn-icon-split mr-2">
                       <span className="icon text-white-50">
                         <FaPen />
                       </span>
-                      <span className="text">Edit info</span>
+                      <span className="text">{t('profile.editBtn')}</span>
                     </a>
                   </Link>
                   <Popup
@@ -43,14 +43,19 @@ class UserInforComponent extends React.Component {
                         <span className="icon text-white-50">
                           <FaLock />
                         </span>
-                        <span className="text">Change pasword</span>
+                        <span className="text">
+                          {t('profile.changePwdBtn')}
+                        </span>
                       </a>
                     }
                     modal
                   >
                     {close => (
                       <div className="hi">
-                        <ChangePasswordPopupComponent onClick={() => close()} />
+                        <ChangePasswordPopupComponent
+                          onClick={() => close()}
+                          t={t}
+                        />
                       </div>
                     )}
                   </Popup>
@@ -78,19 +83,27 @@ class UserInforComponent extends React.Component {
                           <dd className="col-sm-9">{currentUser.email}</dd>
                         </dl>
                         <dl className="row">
-                          <dt className="col-sm-3">Date of birth: </dt>
+                          <dt className="col-sm-3">
+                            {t('profile.dateOfBirth')}:{' '}
+                          </dt>
                           <dd className="col-sm-9">{currentUser.birthDate}</dd>
                         </dl>
                         <dl className="row">
-                          <dt className="col-sm-3">Profession: </dt>
+                          <dt className="col-sm-3">
+                            {t('profile.profession')}:{' '}
+                          </dt>
                           <dd className="col-sm-9">{currentUser.profession}</dd>
                         </dl>
                         <dl className="row">
-                          <dt className="col-sm-3">Department: </dt>
+                          <dt className="col-sm-3">
+                            {t('profile.department')}:{' '}
+                          </dt>
                           <dd className="col-sm-9">{currentUser.department}</dd>
                         </dl>
                         <dl className="row">
-                          <dt className="col-sm-3">Your description: </dt>
+                          <dt className="col-sm-3">
+                            {t('profile.description')}:{' '}
+                          </dt>
                           <dd className="col-sm-9">
                             {currentUser.summaryDescription}
                           </dd>
@@ -108,4 +121,4 @@ class UserInforComponent extends React.Component {
   }
 }
 
-export default connectToRedux(UserInforComponent);
+export default connectToRedux(withTranslation('profile')(UserProfileComponent));

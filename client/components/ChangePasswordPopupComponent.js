@@ -66,13 +66,15 @@ class AddUserPopup extends React.Component {
       reInputNewPassword,
       setReInputNewPassword,
       changePassword,
-      successMessage
+      successMessage,
+      t
     } = this.props;
     return (
       <div className="card shadow border-none">
         <div className="card-header py-3 text-center">
           <h6 className="m-0 font-weight-bold text-primary ">
-            <i className="fa fa-plus-circle"></i> Change Password
+            <i className="fa fa-plus-circle"></i>
+            {t('changePwd.title')}
           </h6>
         </div>
         <div className="card-content">
@@ -86,7 +88,7 @@ class AddUserPopup extends React.Component {
                     width="50%"
                   />
                 </div>
-                <h3 className="text-center mt-2">Password was changed!</h3>
+                <h3 className="text-center mt-2">{t('changePwd.success')}</h3>
 
                 <div className="d-flex justify-content-center">
                   <button
@@ -94,7 +96,8 @@ class AddUserPopup extends React.Component {
                     className="btn btn-primary mt-2"
                     onClick={onClick}
                   >
-                    <i className="ft-x"></i> Close
+                    <i className="ft-x"></i>
+                    {t('changePwd.cancelBtn')}
                   </button>
                 </div>
               </div>
@@ -102,20 +105,18 @@ class AddUserPopup extends React.Component {
               <div>
                 <form className="form-horizontal text-left" action="index.html">
                   <fieldset className="form-group floating-label-form-group">
-                    <label>Current password</label>
+                    <label>{t('changePwd.currentPassword')}</label>
                     <input
                       type="password"
                       className="form-control"
-                      placeholder="Current Password"
                       onChange={e => setCurrentPassword(e.currentTarget.value)}
                     />
                   </fieldset>
                   <fieldset className="form-group floating-label-form-group mb-1">
-                    <label>Enter new Password</label>
+                    <label>{t('changePwd.newPassword')}</label>
                     <input
                       type="password"
                       className="form-control"
-                      placeholder="New Password"
                       onChange={e => {
                         setNewPassword(e.currentTarget.value);
                         setIsMatch(e.password === reInputNewPassword);
@@ -123,11 +124,10 @@ class AddUserPopup extends React.Component {
                     />
                   </fieldset>
                   <fieldset className="form-group floating-label-form-group mb-1">
-                    <label>Type again</label>
+                    <label>{t('changePwd.newPasswordAgain')}</label>
                     <input
                       type="password"
                       className="form-control"
-                      placeholder="Re-input new password"
                       onChange={e => {
                         setReInputNewPassword(e.currentTarget.value);
                         setIsMatch(e.currentTarget.value === newPassword);
@@ -138,7 +138,7 @@ class AddUserPopup extends React.Component {
                     <div className="col-md-6 col-12 text-center text-sm-left"></div>
                     <div className="col-md-6 col-12 float-sm-left text-center text-sm-right">
                       <a href="recover-password.html" className="card-link">
-                        Forgot Password?
+                        {t('changePwd.forgotPassword')}
                       </a>
                     </div>
                   </div>
@@ -149,7 +149,7 @@ class AddUserPopup extends React.Component {
                       className="btn btn-warning"
                       onClick={onClick}
                     >
-                      <i className="ft-x"></i> Cancel
+                      <i className="ft-x"></i> {t('changePwd.cancelBtn')}
                     </button>
                     <button
                       type="submit"
@@ -163,7 +163,7 @@ class AddUserPopup extends React.Component {
                         });
                       }}
                     >
-                      <i className="ft-unlock"></i> Submit
+                      <i className="ft-unlock"></i> {t('changePwd.submitBtn')}
                     </button>
                   </div>
                 </form>

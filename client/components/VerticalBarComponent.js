@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { toggleBarAction } from '../stores/PageState';
+import { withTranslation } from '../i18n';
 
 const connectToRedux = connect(
   store => {
@@ -18,7 +19,7 @@ const connectToRedux = connect(
 
 let DEFAULT_VERTICAL_BAR_TOGGLE = true;
 
-const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
+const VerticalBarComponent = ({ role, PageState, toggleBarAction, t }) => (
   <ul
     className={`navbar-nav bg-gradient-primary sidebar sidebar-dark accordion ${PageState.isToggledBar &&
       'toggled'}`}
@@ -48,7 +49,7 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
       <Link href="/user/dashboard">
         <a className="nav-link">
           <i className="fas fa-fw fa-tachometer-alt"></i>
-          <span>Your Dashboard</span>
+          <span>{t('navBar.dashboard')}</span>
         </a>
       </Link>
       <hr className="sidebar-divider" />
@@ -56,13 +57,13 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
 
     {role === 'ADMIN' && (
       <React.Fragment>
-        <div className="sidebar-heading">For Admin</div>
+        <div className="sidebar-heading">{t('verticalBar.forAd')}</div>
 
         <li className="nav-item">
           <Link href="/admin-dashboard">
             <a className="nav-link">
               <i className="fas fa-fw fa-tachometer-alt"></i>
-              <span>Admin Dashboard</span>
+              <span>{t('verticalBar.adminDashboard')}</span>
             </a>
           </Link>
         </li>
@@ -75,7 +76,7 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
             className="nav-link"
           >
             <i className="fas fa-plus-circle"></i>
-            <span>Create Election</span>
+            <span>{t('verticalBar.create')}</span>
           </a>
         </li>
 
@@ -83,7 +84,7 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
           <Link href="/user-management">
             <a className="nav-link">
               <i className="fas fa-users"></i>
-              <span>User Management</span>
+              <span>{t('verticalBar.userManagement')}</span>
             </a>
           </Link>
           <hr className="sidebar-divider" />
@@ -91,13 +92,13 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
       </React.Fragment>
     )}
 
-    <div className="sidebar-heading">Your Menu</div>
+    <div className="sidebar-heading">{t('verticalBar.forUser')}</div>
 
     <li className="nav-item">
-      <Link href="/user/info">
+      <Link href="/user/profile">
         <a className="nav-link">
           <i className="fas fa-user"></i>
-          <span>Your profile </span>
+          <span>{t('navBar.profile')} </span>
         </a>
       </Link>
     </li>
@@ -106,7 +107,7 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
       <Link href="/user/history">
         <a className="nav-link">
           <i className="fas fa-history"></i>
-          <span>Vote History </span>
+          <span>{t('verticalBar.history')} </span>
         </a>
       </Link>
     </li>
@@ -126,4 +127,8 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction }) => (
   </ul>
 );
 
-export default connectToRedux(VerticalBarComponent);
+VerticalBarComponent.getInitialProps = async () => ({
+  namespacesRequired: ['common']
+});
+
+export default connectToRedux(withTranslation('common')(VerticalBarComponent));

@@ -1,17 +1,15 @@
 import React from 'react';
-import AuthenPageLayout from '../layouts/AuthenPageLayout';
 import UserLoginComponent from '../components/UserLoginComponent';
-import { withTranslation } from '../i18n';
+import AuthenPageLayout from '../layouts/AuthenPageLayout';
 
 const UserLoginPage = rootProps => (
   <AuthenPageLayout {...rootProps}>
-    {console.log(rootProps.t('login.title'))}
     <UserLoginComponent />
   </AuthenPageLayout>
 );
 
 UserLoginPage.getInitialProps = async () => ({
-  namespacesRequired: ['common', 'login']
+  namespacesRequired: ['authen']
 });
 
-export default withTranslation('login')(UserLoginPage);
+export default UserLoginPage;

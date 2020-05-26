@@ -1,9 +1,11 @@
 import React from 'react';
 
-const DashboardInstructionComponent = () => (
+const DashboardInstructionComponent = ({ t }) => (
   <div className="card shadow mb-4 border-none">
     <div className="card-header py-3">
-      <h6 className="m-0 font-weight-bold text-primary">Instructions</h6>
+      <h6 className="m-0 font-weight-bold text-primary">
+        {t('instruction.title')}
+      </h6>
     </div>
     <div className="card-body">
       <div className="row">
@@ -18,38 +20,25 @@ const DashboardInstructionComponent = () => (
         </div>
         <div className="col-sm">
           <p>
-            <strong>Thank you for using our system.</strong>
-            <br /> We hope we can bring you good experience.
+            <strong> {t('instruction.1')}</strong>
+            <br /> {t('instruction.2')}
             <br />
           </p>
-          <p>
-            In this dashboard, you can view all elections, create new election,
-            view your ethereum wallet address also current balance.
-          </p>
+          <p>{t('instruction.3')}</p>
           <div className="mt-2">
-            <strong>To Create new Election:</strong>
+            <strong>{t('instruction.4')}</strong>
           </div>
           <div className="ml-2 mt-1">
-            <li>
-              Click <code>create new eleciton</code>, type Election's name
-            </li>
-            <li>Wating for success</li>
-            <li>
-              Finish some election's information for anyone know more that.
-            </li>
+            <li>{t('instruction.5')}</li>
+            <li>{t('instruction.6')}</li>
+            <li>{t('instruction.7')}</li>
           </div>
           <div className="mt-2">
-            <strong>Why any action take so long ?</strong>
+            <strong>{t('instruction.8')}</strong>
           </div>
           <div className="ml-2 mt-1">
-            <li>
-              Well, any action on AGU E-Voting will be write on
-              <code> blockchain</code>, so we must be waitting for
-              <code> Consensus Mechanism</code>
-            </li>
-            <li className="mt-1">
-              Usually, each action takes about one minute
-            </li>
+            <li>{t('instruction.9')}</li>
+            <li className="mt-1">{t('instruction.10')}</li>
           </div>
         </div>
       </div>

@@ -46,7 +46,7 @@ class UserDashboardComponent extends React.Component {
     const { currentUser, elections = [], users = [], t } = this.props;
     return (
       <React.Fragment>
-        <h1 className="h3 mb-4 text-gray-800">Admin Dashboard</h1>
+        <h1 className="h3 mb-4 text-gray-800">{t('title')}</h1>
         <div className="row">
           <div className="col-xl-3 col-md-6 mb-4">
             <SmallCardComponent
@@ -94,7 +94,7 @@ class UserDashboardComponent extends React.Component {
         </div>
         <div className="row">
           <div className="col-lg-12 mb-4">
-            <DashboardInstructionComponent />
+            <DashboardInstructionComponent t={t} />
           </div>
         </div>
       </React.Fragment>

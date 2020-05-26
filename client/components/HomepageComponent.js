@@ -1,5 +1,4 @@
 import React from 'react';
-
 const HomepageComponent = () => (
   <React.Fragment>
     <header className="header-area">
@@ -72,21 +71,14 @@ const HomepageComponent = () => (
                   <b>Online </b>
                   <span>Voting</span> For any candidate <b>You trust.</b>
                 </h1>
-                <p
-                  className="text wow fadeInUp"
-                  data-wow-duration="1s"
-                  data-wow-delay="0.5s"
-                >
-                  Phasellus vel elit efficitur, gravida libero sit amet,
-                  scelerisque tortor arcu, commodo sit amet nulla sed.
-                </p>
                 <div
-                  className="header-singup wow fadeInUp"
+                  className="wow fadeInUp"
                   data-wow-duration="1s"
                   data-wow-delay="0.8s"
                 >
-                  <input type="text" placeholder="Your voting code" />
-                  <button className="main-btn">Vote now</button>
+                  <a href="/login" className="main-btn text-white">
+                    Vote now
+                  </a>
                 </div>
               </div>
             </div>
@@ -139,18 +131,6 @@ const HomepageComponent = () => (
         <div className="row justify-content-center">
           <div className="col-lg-10">
             <div className="about-content pt-45">
-              <p
-                className="text wow fadeInUp"
-                data-wow-duration="1s"
-                data-wow-delay="0.4s"
-              >
-                Duis et metus et massa tempus lacinia. className aptent taciti
-                sociosqu ad litora torquent per conubia nostra, per inceptos
-                himenaeos. Maecenas ultricies, orci molestie blandit interdum.
-                ipsum ante pellentesque nisl, eget mollis turpis quam nec eros.
-                ultricies, orci molestie blandit interdum.
-              </p>
-
               <div className="about-counter pt-60">
                 <div className="row">
                   <div className="col-sm-4">

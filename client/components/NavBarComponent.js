@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { i18n } from '../i18n';
 import { CHANGE_LANGUAGE, toggleBarAction } from '../stores/PageState';
 import { doLogout } from '../stores/UserState';
+import { withTranslation } from '../i18n';
 
 const connectToRedux = connect(
   store => {
@@ -33,7 +34,8 @@ const NavBarComponent = ({
   logout,
   toggleBarAction,
   currentLanguage,
-  changeLanguage
+  changeLanguage,
+  t
 }) => (
   <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     <button
@@ -67,7 +69,7 @@ const NavBarComponent = ({
           className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
           aria-labelledby="alertsDropdown"
         >
-          <h6 className="dropdown-header">Choose Language</h6>
+          <h6 className="dropdown-header">{t('navBar.changeLang')}</h6>
           <a
             className="dropdown-item d-flex align-items-center"
             onClick={() => {
@@ -122,13 +124,13 @@ const NavBarComponent = ({
           <Link href="/user/dashboard">
             <a className="dropdown-item">
               <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-              Your Dashboard
+              {t('navBar.dashboard')}
             </a>
           </Link>
-          <Link href="/user/info">
+          <Link href="/user/profile">
             <a className="dropdown-item">
               <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-              Your Profile
+              {t('navBar.profile')}
             </a>
           </Link>
 
@@ -136,7 +138,7 @@ const NavBarComponent = ({
 
           <a href="#" className="dropdown-item" onClick={logout}>
             <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-            Logout
+            {t('navBar.logout')}
           </a>
         </div>
       </li>
@@ -144,4 +146,8 @@ const NavBarComponent = ({
   </nav>
 );
 
-export default connectToRedux(NavBarComponent);
+NavBarComponent.getInitialProps = async () => ({
+  namespacesRequired: ['common']
+});
+
+export default connectToRedux(withTranslation('common')(NavBarComponent));

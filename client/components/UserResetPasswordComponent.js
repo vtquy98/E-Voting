@@ -10,6 +10,7 @@ import {
   userResetPasswordSuccessMessageSelector,
   userResetPasswordErrorMessageSelector
 } from '../stores/UserState';
+import { withTranslation } from '../i18n';
 
 const withNewPasswordState = withState('newPassword', 'setNewPassword', '');
 const withReNewPasswordState = withState(
@@ -34,6 +35,7 @@ const connectToRedux = connect(
 const enhance = compose(
   withNewPasswordState,
   withReNewPasswordState,
+  withTranslation(['authen', 'common']),
   connectToRedux
 );
 
@@ -52,7 +54,8 @@ class UserResetPasswordComponent extends React.Component {
       doResetPassword,
       errorMessage,
       initialValues,
-      tokenError
+      tokenError,
+      t
     } = this.props;
     return (
       <div className="row justify-content-center">
@@ -72,12 +75,14 @@ class UserResetPasswordComponent extends React.Component {
                   {tokenError && tokenError.length ? (
                     <div>
                       <h1 className="h4 text-gray-900 mb-2 mt-2 text-center">
-                        Your token is invalid!
+                        {t('forgot.tokenMsg')}
                       </h1>
 
                       <div className="d-flex justify-content-center">
                         <Link href="/login">
-                          <a className="btn btn-primary btn-user">Go to home</a>
+                          <a className="btn btn-primary btn-user">
+                            {t('button.homeBtn')}
+                          </a>
                         </Link>
                       </div>
                     </div>
@@ -86,13 +91,9 @@ class UserResetPasswordComponent extends React.Component {
                       <div className="p-5">
                         <div className="text-center">
                           <h1 className="h4 text-gray-900 mb-2">
-                            Forgot Your Password?
+                            {t('forgot.title')}
                           </h1>
-                          <p className="mb-4">
-                            We get it, stuff happens. Just enter your email
-                            address below and we'll send you a link to reset
-                            your password!
-                          </p>
+                          <p className="mb-4">{t('forgot.description')}</p>
                         </div>
                         <form className="user">
                           <div className="form-group">

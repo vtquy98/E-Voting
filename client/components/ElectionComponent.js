@@ -7,6 +7,7 @@ import ReactToPrint from 'react-to-print';
 import QRToPrintComponent from './QRToPrintComponent';
 import Popup from 'reactjs-popup';
 import { toast } from 'react-toastify';
+import { withTranslation } from '../i18n';
 
 import {
   FcAbout,
@@ -87,7 +88,10 @@ const connectToRedux = connect(
   })
 );
 
-const enhance = compose(connectToRedux);
+const enhance = compose(
+  withTranslation(['election', 'table']),
+  connectToRedux
+);
 
 class ElectionComponent extends React.Component {
   componentDidMount() {
@@ -109,7 +113,8 @@ class ElectionComponent extends React.Component {
       voters = [],
       // getTotalVotesCount,
       startVoting,
-      stopVoting
+      stopVoting,
+      t
     } = this.props;
 
     return (
@@ -129,20 +134,20 @@ class ElectionComponent extends React.Component {
             <div className="card shadow mb-4">
               <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 className="m-0 font-weight-bold text-primary">
-                  Election's Summary
+                  {t('title')}
                 </h6>
 
                 {election.state === 'CREATED' ? (
                   <span className="badge badge-default badge-warning">
-                    {election.state}
+                    {t('currentStatus.created')}
                   </span>
                 ) : election.state === 'STARTED' ? (
                   <span className="badge badge-default badge-success">
-                    {election.state}
+                    {t('currentStatus.started')}
                   </span>
                 ) : (
                   <span className="badge badge-default badge-danger">
-                    {election.state}
+                    {t('currentStatus.ended')}
                   </span>
                 )}
               </div>
@@ -170,7 +175,8 @@ class ElectionComponent extends React.Component {
                           <div className="col-sm-4">
                             <div>
                               <p>
-                                <FcOrganization /> Election Owner:
+                                <FcOrganization />{' '}
+                                {t('electionDetail.electionOwner')}:
                                 <span className="text-muted font-weight-bold">
                                   {' '}
                                   {election.electionOwner}
@@ -178,42 +184,46 @@ class ElectionComponent extends React.Component {
                               </p>
                               <p>
                                 {' '}
-                                <FcCalendar /> Created at:
+                                <FcCalendar /> {t('electionDetail.createdAt')}:
                                 <span className="text-muted font-weight-bold">
                                   {' '}
                                   {election.createdAt}
                                 </span>
                               </p>
                               <p>
-                                <FcClock /> Voting time:
+                                <FcClock /> {t('electionDetail.votingTime')}:
                                 <span className="text-muted font-weight-bold">
                                   {' '}
-                                  {election.votingTime} min
+                                  {election.votingTime}{' '}
+                                  {t('electionDetail.timeCount')}
                                 </span>
                               </p>
                               <p>
-                                <FcEngineering /> Voting type:
+                                <FcEngineering />{' '}
+                                {t('electionDetail.votingType')}:
                                 <span className="text-muted font-weight-bold">
                                   {' '}
                                   {election.votingType === 'SELECT_TO_VOTE'
-                                    ? 'Select to vote'
+                                    ? t('electionDetail.type.selectToVote')
                                     : election.votingType === 'SELECT_TO_REMOVE'
-                                    ? 'Select to remove'
-                                    : 'Select to trust'}
+                                    ? t('electionDetail.type.selectToRemove')
+                                    : t('electionDetail.type.selectToTrust')}
                                 </span>
                               </p>
 
                               {election.votingType !== 'SELECT_TO_TRUST' && (
                                 <div>
                                   <p>
-                                    <FcTodoList /> At least choose:
+                                    <FcTodoList />{' '}
+                                    {t('electionDetail.role.atLeastChoose')}:
                                     <span className="text-muted font-weight-bold">
                                       {' '}
                                       {election.atLeastVote}
                                     </span>
                                   </p>
                                   <p>
-                                    <FcTodoList /> Most choose:
+                                    <FcTodoList />{' '}
+                                    {t('electionDetail.role.mostChoose')}:
                                     <span className="text-muted font-weight-bold">
                                       {' '}
                                       {election.mostVote}
@@ -237,7 +247,7 @@ class ElectionComponent extends React.Component {
                                     </div>
                                   </div>
                                   <div className="project-info-text pt-1">
-                                    <h5>Candidates</h5>
+                                    <h5>{t('electionData.candidates')}</h5>
                                   </div>
                                 </div>
                                 <div className="project-info-count col-lg-4 col-md-12">
@@ -250,7 +260,7 @@ class ElectionComponent extends React.Component {
                                     </div>
                                   </div>
                                   <div className="project-info-text pt-1">
-                                    <h5>Voters</h5>
+                                    <h5>{t('electionData.voters')}</h5>
                                   </div>
                                 </div>
                                 <div className="project-info-count col-lg-4 col-md-12">
@@ -265,7 +275,7 @@ class ElectionComponent extends React.Component {
                                     </div>
                                   </div>
                                   <div className="project-info-text pt-1">
-                                    <h5>Voted</h5>
+                                    <h5>{t('electionData.voted')}</h5>
                                   </div>
                                 </div>
                               </div>
@@ -286,8 +296,8 @@ class ElectionComponent extends React.Component {
                               startVoting(election.id);
                             }}
                           >
-                            <i className="fa fa-hourglass-start"></i> Start
-                            voting now
+                            <i className="fa fa-hourglass-start"></i>{' '}
+                            {t('electionData.startBtn')}
                           </button>
 
                           <a
@@ -303,14 +313,14 @@ class ElectionComponent extends React.Component {
                             }`}
                             role="button"
                           >
-                            <FaEthereum /> Explore on blockchain network
+                            <FaEthereum /> {t('electionData.exploreBtn')}
                           </a>
 
                           <ReactToPrint
                             trigger={() => (
                               <button className="btn mr-1 mb-1 btn-warning">
-                                <i className="fa fa-print"></i> Print QR for
-                                candidates
+                                <i className="fa fa-print"></i>{' '}
+                                {t('electionData.QrBtn')}
                               </button>
                             )}
                             content={() => this.componentRef}
@@ -323,7 +333,7 @@ class ElectionComponent extends React.Component {
                               type="button"
                               className="btn mr-1 mb-1 btn-success"
                             >
-                              <FaPlay /> Show election
+                              <FaPlay /> {t('electionData.showBtn')}
                             </a>
                           </Link>
                           <Popup
@@ -332,7 +342,8 @@ class ElectionComponent extends React.Component {
                                 type="button"
                                 className="btn mr-1 mb-1 btn-info text-white"
                               >
-                                <FaHandLizard /> Manual voting
+                                <FaHandLizard />{' '}
+                                {t('electionData.manualVoting')}
                               </a>
                             }
                             modal
@@ -343,6 +354,7 @@ class ElectionComponent extends React.Component {
                                   candidates={candidates}
                                   electionId={election.id}
                                   onClick={() => close()}
+                                  t={t}
                                 />
                               </div>
                             )}
@@ -356,7 +368,7 @@ class ElectionComponent extends React.Component {
                               stopVoting(election.id);
                             }}
                           >
-                            <FaStop /> Stop voting
+                            <FaStop /> {t('electionData.stopBtn')}
                           </button>
                         </div>
                       ) : (
@@ -366,12 +378,12 @@ class ElectionComponent extends React.Component {
                               type="button"
                               className="btn mr-1 mb-1 btn-success"
                             >
-                              <FaPoll /> View election result
+                              <FaPoll /> {t('electionData.resultBtn')}
                             </a>
                           </Link>
                           <Link href={`/vote-data?id=${election.id}`}>
                             <a type="button" className="btn mr-1 mb-1 btn-info">
-                              <FaVoteYea /> View votes data
+                              <FaVoteYea /> {t('electionData.voteDataBtn')}
                             </a>
                           </Link>
                         </div>
@@ -389,12 +401,12 @@ class ElectionComponent extends React.Component {
             <div className="card shadow mb-4" style={{ height: '400px' }}>
               <div className="card-header py-3">
                 <h6 className="m-0 font-weight-bold text-primary">
-                  Candidates List
+                  {t('electionData.candidatesList')}
                 </h6>
               </div>
 
               <div className="card-body overflow-auto">
-                <DisplayUsersListComponent users={candidates} />
+                <DisplayUsersListComponent users={candidates} t={t} />
               </div>
             </div>
           </div>
@@ -403,13 +415,13 @@ class ElectionComponent extends React.Component {
             <div className="card shadow mb-4" style={{ height: '400px' }}>
               <div className="card-header py-3">
                 <h6 className="m-0 font-weight-bold text-primary">
-                  Voters List
+                  {t('electionData.votersList')}
                 </h6>
               </div>
 
               <div className="card-body overflow-auto">
                 {' '}
-                <DisplayUsersListComponent users={voters} />
+                <DisplayUsersListComponent users={voters} t={t} />
               </div>
             </div>
           </div>
@@ -467,4 +479,9 @@ class ElectionComponent extends React.Component {
     );
   }
 }
+
+ElectionComponent.getInitialProps = async () => ({
+  namespacesRequired: ['election', 'table']
+});
+
 export default enhance(ElectionComponent);

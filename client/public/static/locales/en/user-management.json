@@ -1,0 +1,15 @@
+{
+  "title": "Users Management",
+  "inviteBtn": "Invite user",
+  "total": "Total",
+  "users": "users",
+  "addUser": {
+    "title": "Add new user",
+    "successMsg": "Invite successfully!",
+    "textHelper": "They will receive an email include username, password to using E-Voting system",
+    "closeBtn": "Close",
+    "textHelper2": "You are going to add new user. They will receive an invitation mail to login. After adding user, you can add them into any election.",
+    "textHelper3": "Type each user's email then press enter.",
+    "saveBtn": "Invite"
+  }
+}

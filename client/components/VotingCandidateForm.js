@@ -26,11 +26,11 @@ const enhance = compose(
 );
 
 const VotingCandidateForm = props => {
-  const { handleSubmit, previousPage, options, votingTypeValue } = props;
+  const { handleSubmit, previousPage, options, votingTypeValue, t } = props;
   return (
     <form onSubmit={handleSubmit}>
       <h5 className="card-title">
-        Let's add some <code>candidates</code> to add into the election
+        {t('finishedCreate.votingCandidateForm.title')}
       </h5>
 
       <Field
@@ -49,11 +49,13 @@ const VotingCandidateForm = props => {
             value="Previous"
             onClick={previousPage}
           >
-            <i className="fa fa-chevron-circle-left"></i> Previous
+            <i className="fa fa-chevron-circle-left"></i>{' '}
+            {t('finishedCreate.votingCandidateForm.previousBtn')}
           </button>
 
           <button type="submit" className="btn btn-success" value="Next">
-            <i className="fa fa-check-square-o"></i> Next
+            <i className="fa fa-check-square-o"></i>{' '}
+            {t('finishedCreate.votingDescriptionForm.nextBtn')}
           </button>
         </div>
       </div>
