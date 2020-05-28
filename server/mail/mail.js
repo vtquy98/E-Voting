@@ -2,6 +2,7 @@ import InviteMailTemplate from './InviteMailTemplate';
 import GrettingMailTemplate from './GrettingMailTemplate';
 import InviteVotingMailTemplate from './InviteVotingMailTemplate';
 import ForgotPasswordTemplate from './ForgotPasswordTemplate';
+import ElectionResultMailTemplate from './ElectionResultMailTemplate';
 
 require('dotenv').config({
   path: './.env'
@@ -86,6 +87,27 @@ export const sendForgotPasswordMail = (recipient, { name, linkToReset }) => {
     to: recipient,
     subject: 'Reset Your Password On AGU E-Voting!',
     html: replaceMailContent(ForgotPasswordTemplate, mapObj),
+    from: 'agu@e-voting.tech'
+  };
+
+  return mg.messages().send(mailObj);
+};
+
+export const sendElectionResultMail = (
+  recipient,
+  { electionName, name, department, resultLink }
+) => {
+  const mapObj = {
+    '{{name}}': name,
+    '{{department}}': department,
+    '{{electionName}}': electionName,
+    '{{resultLink}}': resultLink
+  };
+
+  const mailObj = {
+    to: recipient,
+    subject: `Election Result For ${electionName}!`,
+    html: replaceMailContent(ElectionResultMailTemplate, mapObj),
     from: 'agu@e-voting.tech'
   };
 

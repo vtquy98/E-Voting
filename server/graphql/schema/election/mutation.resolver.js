@@ -5,7 +5,10 @@ import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
 import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
-import { sendInviteVotingMail } from '../../../mail/mail';
+import {
+  sendInviteVotingMail,
+  sendElectionResultMail
+} from '../../../mail/mail';
 
 const ADMIN_WALLET =
   process.env.ADMIN_WALLET_ADDRESS ||
@@ -179,16 +182,26 @@ module.exports = {
         id: electionId
       });
       const election = Election(electionStored.election_address);
+      const voterAddress = await election.methods.allVoters().call();
 
       await election.methods
         .endVote()
         .send({ from: ADMIN_WALLET, gas: '6721975' });
 
-      // if (!endVoting.events.voteEnd) {
-      //   throw new Error('Faild to end the election!');
-      // }
-
       electionStored.state = ENDED;
+
+      await Promise.all(
+        voterAddress.map(async voter => {
+          const userData = await Users.findOne({ wallet_address: voter }); //got user
+
+          sendElectionResultMail(userData.email, {
+            name: userData.full_name,
+            department: electionStored.election_owner,
+            electionName: electionStored.name,
+            resultLink: `${DOMAIN_NAME}/result?id=${electionId}`
+          });
+        })
+      );
 
       await electionStored.save();
       return electionStored;
