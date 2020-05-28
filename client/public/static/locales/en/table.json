@@ -20,5 +20,14 @@
     "fullName": "FullName",
     "department": "Department",
     "actions": "Actions"
+  },
+  "result": {
+    "candidate": "Candiate name",
+    "votedCount": "Votes Count",
+    "rate": "Rate",
+    "trust": "Trust",
+    "doNotTrust": "Don't Trust",
+    "errMsg": "Sorry, this election has being happening. So, just keep calm!",
+    "homeBtn": "Go to home"
   }
 }

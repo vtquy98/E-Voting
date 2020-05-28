@@ -22,5 +22,9 @@
   "homeBtn": "Về trang chính",
   "title": "Bạn sẽ bỏ phiếu cho ai?",
   "submitBtn": "Bỏ phiếu",
-  "reset": "Xoá lựa chọn"
+  "reset": "Xoá lựa chọn",
+  "trustVote": {
+    "trust": "Tín nhiệm",
+    "dontTrust": "Không tín nhiệm"
+  }
 }

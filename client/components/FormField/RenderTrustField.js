@@ -1,5 +1,5 @@
 import React from 'react';
-const RenderTrustField = ({ input, label, meta: { touched, error } }) => (
+const RenderTrustField = ({ input, label, meta: { touched, error }, t }) => (
   <div className="tab-pane" id="account">
     <div className="row">
       <div className="option-group">
@@ -24,14 +24,14 @@ const RenderTrustField = ({ input, label, meta: { touched, error } }) => (
           <label className="option" htmlFor="option-1">
             <span className="option__indicator"></span>
             <span className="option__label">
-              <i className="ft-thumbs-up"></i> TRUST
+              <i className="ft-thumbs-up"></i> {t('trustVote.trust')}
             </span>
           </label>
 
           <label className="option" htmlFor="option-2">
             <span className="option__indicator"></span>
             <span className="option__label">
-              <i className="ft-thumbs-down"></i> DON'T TRUST
+              <i className="ft-thumbs-down"></i> {t('trustVote.dontTrust')}
             </span>
           </label>
         </div>

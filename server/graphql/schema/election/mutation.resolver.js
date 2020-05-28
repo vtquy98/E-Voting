@@ -305,9 +305,19 @@ module.exports = {
 
         const userData = await Users.findOne({ id: userId });
 
-        await election.methods
+        const voteAction = await election.methods
           .pollVote(userData.wallet_address, currentUser.wallet_address, choice)
           .send({ from: ADMIN_WALLET, gas: '6721975' });
+
+        const voteData = new Votes({
+          election_id: electionId,
+          voter_id: currentUser.id,
+          candidate_id: userId,
+          is_voted: choice,
+          transaction_hash: voteAction.transactionHash
+        });
+
+        await voteData.save();
 
         //auto remove them on list voter
         await ElectionNotify.removeElection({

@@ -608,6 +608,7 @@ const GetElectionResultAPI = makeFetchAction(
           fullName
         }
         voteCount
+        doNotVoteCount
         percentage
       }
     }

@@ -22,5 +22,9 @@
   "homeBtn": "Back To Home",
   "title": "Who will you vote for?",
   "submitBtn": "Submit",
-  "reset": "Reset"
+  "reset": "Reset",
+  "trustVote": {
+    "trust": "Trust",
+    "dontTrust": "Don't Trust"
+  }
 }
