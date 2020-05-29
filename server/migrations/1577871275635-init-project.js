@@ -16,8 +16,8 @@ const adminWalletAddress =
 const systemUser = {
   username: 'admin',
   password: '123456',
-  full_name: 'ADMIN AGU E-VOTING',
-  email: 'agu-evoting.admin@gmail.com',
+  full_name: 'administrator',
+  email: 'agu-evoting@gmail.com',
   wallet_address: adminWalletAddress,
   role: ADMIN,
   google_id: 'undefined'

@@ -18,7 +18,6 @@ const {
   ADMIN_WALLET_ADDRESS
 } = process.env;
 
-console.log(ADMIN_WALLET_ADDRESS);
 const builPath = resolve('contract-build');
 
 const createBuildFolder = () => {
@@ -104,6 +103,8 @@ const connectDb = () => {
 const deploy = async () => {
   const db = await connectDb();
   console.log('---Deploying e-voting contract---');
+  console.log(`---Deploying with address: ${adminWalletAddress}---`);
+
   const contractData = await deployContract();
   const contract = new Contracts({
     contract_address: contractData.options.address

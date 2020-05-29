@@ -52,7 +52,6 @@ class UserVoteHistoryComponent extends React.Component {
               <div className="card-body">
                 <div className="row">
                   <div className="col-lg-12">
-                    {console.log(voteHistory)}
                     {voteHistory &&
                       voteHistory.map((vote, index) => {
                         return (
