@@ -8,6 +8,7 @@ import {
   resetDataChangeUserPassword,
   changeUserPasswordDataSelector
 } from '../stores/UserState';
+import Link from 'next/link';
 
 const withCurrentPassword = withState(
   'currentPassword',
@@ -137,9 +138,11 @@ class AddUserPopup extends React.Component {
                   <div className="form-group row">
                     <div className="col-md-6 col-12 text-center text-sm-left"></div>
                     <div className="col-md-6 col-12 float-sm-left text-center text-sm-right">
-                      <a href="recover-password.html" className="card-link">
-                        {t('changePwd.forgotPassword')}
-                      </a>
+                      <Link href="/forgot-password">
+                        <a className="card-link">
+                          {t('changePwd.forgotPassword')}
+                        </a>
+                      </Link>
                     </div>
                   </div>
 
