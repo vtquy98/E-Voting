@@ -1,26 +1,6 @@
 import React from 'react';
 import TableComponent from './TableComponent';
 
-const COLUMNS = [
-  {
-    accessor: 'index',
-    Header: '#',
-    sortType: 'basic' //add sort to more field
-  },
-  {
-    accessor: 'fullName',
-    Header: 'Full Name'
-  },
-  {
-    accessor: 'voteCount',
-    Header: 'Votes Count'
-  },
-  {
-    accessor: 'rate',
-    Header: 'Rate'
-  }
-];
-
 const displayProcessBarColor = percentage =>
   percentage > 60
     ? 'bg-success'
@@ -66,7 +46,26 @@ const mapResultToDataField = ({ result = [], election = [] }) =>
     )
   }));
 
-const DisplayUserVoteResultComponent = ({ result, election }) => {
+const DisplayUserVoteResultComponent = ({ result, election, t }) => {
+  const COLUMNS = [
+    {
+      accessor: 'index',
+      Header: '#',
+      sortType: 'basic' //add sort to more field
+    },
+    {
+      accessor: 'fullName',
+      Header: t('result.candidate')
+    },
+    {
+      accessor: 'voteCount',
+      Header: t('result.votedCount')
+    },
+    {
+      accessor: 'rate',
+      Header: t('result.rate')
+    }
+  ];
   return (
     <React.Fragment>
       <div className="table-responsive">

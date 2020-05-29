@@ -170,4 +170,8 @@ class UserResetPasswordComponent extends React.Component {
   }
 }
 
+UserResetPasswordComponent.getInitialProps = async () => ({
+  namespacesRequired: ['authen', 'common']
+});
+
 export default enhance(UserResetPasswordComponent);

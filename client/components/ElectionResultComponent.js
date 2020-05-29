@@ -13,6 +13,7 @@ import {
 } from '../stores/ElectionState';
 import { getCurrentUserDataSelector } from '../stores/UserState';
 import DisplayUserVoteResultComponent from './DisplayUserVoteResultComponent';
+import { withTranslation } from '../i18n';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -27,9 +28,12 @@ const connectToRedux = connect(
   })
 );
 
-const enhance = compose(connectToRedux);
+const enhance = compose(
+  withTranslation('table'),
+  connectToRedux
+);
 
-const chartDonutOption = electionResult => {
+const chartDonutOption = ({ electionResult, votingType, t, electionName }) => {
   return {
     title: {
       left: 'center'
@@ -40,19 +44,31 @@ const chartDonutOption = electionResult => {
     },
     series: [
       {
-        name: 'Statistic chart',
+        name: electionName,
         type: 'pie',
         radius: [30, 120],
         roseType: 'area',
-        data: electionResult.map(result => {
-          return { value: result.voteCount, name: result.userData.fullName };
-        })
+        data:
+          votingType === 'SELECT_TO_TRUST'
+            ? [
+                { value: electionResult[0].voteCount, name: t('result.trust') },
+                {
+                  value: electionResult[0].doNotVoteCount,
+                  name: t('result.doNotTrust')
+                }
+              ]
+            : electionResult.map(result => {
+                return {
+                  value: result.voteCount,
+                  name: result.userData.fullName
+                };
+              })
       }
     ]
   };
 };
 
-const chartBarOption = electionResult => {
+const chartBarOption = ({ electionResult, votingType, t }) => {
   return {
     tooltip: {
       trigger: 'axis',
@@ -62,7 +78,10 @@ const chartBarOption = electionResult => {
     },
     xAxis: {
       type: 'category',
-      data: electionResult.map(result => result.userData.fullName)
+      data:
+        votingType === 'SELECT_TO_TRUST'
+          ? [t('result.trust'), t('result.doNotTrust')]
+          : electionResult.map(result => result.userData.fullName)
     },
     yAxis: {
       type: 'value',
@@ -70,14 +89,17 @@ const chartBarOption = electionResult => {
     },
     series: [
       {
-        data: electionResult.map(result => result.voteCount),
+        data:
+          votingType === 'SELECT_TO_TRUST'
+            ? [electionResult[0].voteCount, electionResult[0].doNotVoteCount]
+            : electionResult.map(result => result.voteCount),
         type: 'bar'
       }
     ]
   };
 };
 
-class ShowElectionComponent extends React.Component {
+class ElectionResultComponent extends React.Component {
   componentDidMount() {
     const { electionId } = this.props;
     this.props.getElection(electionId.id);
@@ -89,7 +111,7 @@ class ShowElectionComponent extends React.Component {
   }
 
   render() {
-    const { election = [], electionResult = [], currentUser } = this.props;
+    const { election = [], electionResult = [], currentUser, t } = this.props;
     return (
       <React.Fragment>
         <div className="row">
@@ -104,7 +126,7 @@ class ShowElectionComponent extends React.Component {
                 />
               </div>
               <h2 className="text-center">
-                Sorry, this election has being happening. So, just keep calm!{' '}
+                {t('result.errMsg')}
                 <i className="fa fa-smile-o"></i>
               </h2>
               <div className="text-center">
@@ -119,7 +141,7 @@ class ShowElectionComponent extends React.Component {
                     type="button"
                     className="btn btn-outline-secondary btn-min-width mr-1 mb-1"
                   >
-                    <i className="fa fa-home"></i> Go to home
+                    <i className="fa fa-home"></i> {t('result.homeBtn')}
                   </a>
                 </Link>
               </div>
@@ -140,27 +162,38 @@ class ShowElectionComponent extends React.Component {
                           </h3>
                         </div>
                         <div className="card-body">
-                          <ReactEcharts
-                            option={chartDonutOption(electionResult)}
-                            opts={{ renderer: 'svg' }}
-                            theme={'light'}
-                          />
+                          {electionResult && electionResult.length && (
+                            <ReactEcharts
+                              option={chartDonutOption({
+                                electionResult,
+                                votingType: election.votingType,
+                                electionName: election.name,
+                                t
+                              })}
+                              opts={{ renderer: 'svg' }}
+                              theme={'light'}
+                            />
+                          )}
                         </div>
                       </div>
                     </div>
-                    <div className="col-lg-12">
-                      <div className="card shadow border-none mb-4">
-                        <div className="card-body">
-                          <ReactEcharts
-                            option={chartBarOption(electionResult)}
-                            style={{ height: '400px', width: '100%' }}
-                            opts={{ renderer: 'svg' }}
-                            className="react_for_echarts"
-                            theme={'light'}
-                          />
+                    {election && election.votingType !== 'SELECT_TO_TRUST' && (
+                      <div className="col-lg-12">
+                        <div className="card shadow border-none mb-4">
+                          <div className="card-body">
+                            {electionResult && electionResult.length && (
+                              <ReactEcharts
+                                option={chartBarOption({ electionResult })}
+                                style={{ height: '400px', width: '100%' }}
+                                opts={{ renderer: 'svg' }}
+                                className="react_for_echarts"
+                                theme={'light'}
+                              />
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
                 <div className="col-lg-7">
@@ -171,9 +204,30 @@ class ShowElectionComponent extends React.Component {
                           (a, b) => b.voteCount - a.voteCount
                         )}
                         election={election}
+                        t={t}
                       />
                     </div>
                   </div>
+                  {election && election.votingType === 'SELECT_TO_TRUST' && (
+                    <div className="col-lg-12">
+                      <div className="card shadow border-none mb-4">
+                        <div className="card-body">
+                          <ReactEcharts
+                            option={chartBarOption({
+                              electionResult,
+                              votingType: election.votingType,
+                              electionName: election.name,
+                              t
+                            })}
+                            style={{ height: '400px', width: '100%' }}
+                            opts={{ renderer: 'svg' }}
+                            className="react_for_echarts"
+                            theme={'light'}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -183,4 +237,9 @@ class ShowElectionComponent extends React.Component {
     );
   }
 }
-export default enhance(ShowElectionComponent);
+
+ElectionResultComponent.getInitialProps = async () => ({
+  namespacesRequired: ['table']
+});
+
+export default enhance(ElectionResultComponent);

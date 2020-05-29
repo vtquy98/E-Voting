@@ -20,5 +20,14 @@
     "fullName": "Họ và tên",
     "department": "Phòng ban",
     "actions": "Hành động"
+  },
+  "result": {
+    "candidate": "Ứng cử viên",
+    "votedCount": "Số phiếu bầu",
+    "rate": "Tỉ lệ",
+    "trust": "Tín nhiệm",
+    "doNotTrust": "Không tín nhiệm",
+    "errMsg": "Cuộc bỏ phiếu vẫn còn đang diễn ra...!",
+    "homeBtn": "Về trang chủ"
   }
 }

@@ -180,7 +180,7 @@ class VotingComponent extends React.Component {
                       {t('caution.textHelper')}
                       {election.votingType === 'SELECT_TO_TRUST'
                         ? ` ${t('caution.type.selectToTrust')}. ${t(
-                            'caution.type.textHelper_trust'
+                            'caution.textHelper_trust'
                           )}`
                         : election.votingType === 'SELECT_TO_VOTE'
                         ? ` ${t('caution.type.selectToVote')} . ${t(
@@ -245,6 +245,7 @@ class VotingComponent extends React.Component {
                                 <Field
                                   name="voterChoice"
                                   component={RenderTrustField}
+                                  t={t}
                                 />
                               ) : (
                                 <Field

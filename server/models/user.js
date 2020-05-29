@@ -70,12 +70,16 @@ const UserSchema = Schema({
     default: Date.now,
     required: true
   },
-  profession: { type: String, required: true, default: 'Member of AGU' },
-  department: { type: String, required: true, default: 'An Giang University' },
+  profession: { type: String, required: true, default: 'Sinh Viên' },
+  department: {
+    type: String,
+    required: true,
+    default: 'Trường đại học An Giang'
+  },
   summary_description: {
     type: String,
     required: true,
-    default: 'Death is like a wind, always by my side :)'
+    default: ''
   },
   birth_date: { type: String, required: true, default: '01/01/1989' }
 });

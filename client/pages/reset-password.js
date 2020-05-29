@@ -17,8 +17,4 @@ UserResetPasswordPage.getInitialProps = ctx => {
   };
 };
 
-UserResetPasswordPage.getInitialProps = async () => ({
-  namespacesRequired: ['authen', 'common']
-});
-
 export default UserResetPasswordPage;

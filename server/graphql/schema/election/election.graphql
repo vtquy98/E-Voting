@@ -23,6 +23,7 @@ type ElectionResult {
   voteCount: Int!
   percentage: Float!
   totalUserVoted: Int!
+  doNotVoteCount: Int!
 }
 
 type VoteData {
