@@ -19,6 +19,7 @@
     "create": "Tạo bỏ phiếu",
     "userManagement": "Quản lý người dùng",
     "forUser": "Các chức năng khác",
-    "history": "Lịch sử bỏ phiếu"
+    "history": "Lịch sử bỏ phiếu",
+    "blockchainInfo": "Thông tin mạng Ethereum"
   }
 }

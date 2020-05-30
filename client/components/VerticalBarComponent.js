@@ -87,6 +87,15 @@ const VerticalBarComponent = ({ role, PageState, toggleBarAction, t }) => (
               <span>{t('verticalBar.userManagement')}</span>
             </a>
           </Link>
+        </li>
+
+        <li className="nav-item">
+          <Link href="/blockchain-info">
+            <a className="nav-link">
+              <i className="fab fa-ethereum"></i>
+              <span>{t('verticalBar.blockchainInfo')}</span>
+            </a>
+          </Link>
           <hr className="sidebar-divider" />
         </li>
       </React.Fragment>

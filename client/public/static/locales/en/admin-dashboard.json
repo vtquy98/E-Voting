@@ -18,5 +18,14 @@
     "8": "Why any action take so long ?",
     "9": "Well, any action on AGU E-Voting will be write on blockchain, so we must be waitting for Consensus Mechanism",
     "10": "Usually, each action takes about one minute."
+  },
+  "blockchainInfo": {
+    "title": "Ethereum Blockchain information",
+    "coppyToastMsg": "Your wallet address was copied",
+    "yourEthereumWallet": "Your ethereum wallet",
+    "yourBalance": "Your balance",
+    "smartContractAddress": "Smart contract address",
+    "textHelper1": "In this page, you can see your wallet address, your balance and the voting system's smart contract.",
+    "textHelper2": "Any action write data to Blockchain network must has a litle of ether. so, if you out of ether, you must deposit for continue using system."
   }
 }

@@ -18,5 +18,14 @@
     "8": "Tại sao mọi hành động đều diễn ra khá lâu ?",
     "9": "Mọi hành động diễn ra trên hệ thống AGU E-Voting đều được ghi lên mạng blockchain, vì thế ta phải chờ đợi cơ chế đồng thuận để block có thể được ghi vào sổ cái.",
     "10": "Thông thường mọi hành động cần khoảng 1 phút để hoàn tất."
+  },
+  "blockchainInfo": {
+    "title": "Thông tin mạng Ethereum Blockchain",
+    "coppyToastMsg": "Đã copy địa chỉ ví!",
+    "yourEthereumWallet": "Địa chỉ ví Ethereum",
+    "yourBalance": "Số dư Ether",
+    "smartContractAddress": "Địa chỉ hợp đồng thông minh",
+    "textHelper1": "Ở trang này, bạn có thể xem địa chỉ ví, số dư ví của bạn cũng như địa chỉ hợp đồng thông minh của mạng Ethereum Blockchain mà hệ thống đang sử dụng",
+    "textHelper2": "Mọi hành động ghi dữ liệu trên hệ thống đều được ghi vào Blockchain. Vì thế sẽ tiêu tốn một lượng nhỏ Ether. Nếu số dư bạn không đủ để thực hiện, bạn phải nạp tiền từ các nguồn bên ngoài vào để có thể tiếp tục sử dụng hệ thống."
   }
 }

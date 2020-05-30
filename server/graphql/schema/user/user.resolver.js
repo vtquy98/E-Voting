@@ -4,6 +4,10 @@ import { saveSession } from '../../../middlewares/session';
 import auth from '../../../authentication';
 import web3 from '../../libs/web3';
 
+const ADMIN_WALLET =
+  process.env.ADMIN_WALLET_ADDRESS ||
+  '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
+
 module.exports = {
   User: {
     googleId: path('google_id'),
@@ -18,8 +22,8 @@ module.exports = {
       saveSession(req.session, jwt);
       return 'bearer ' + jwt;
     },
-    balance: async user => {
-      const balance = await web3.eth.getBalance(user.wallet_address);
+    balance: async () => {
+      const balance = await web3.eth.getBalance(ADMIN_WALLET);
       return web3.utils.fromWei(balance, 'ether');
     }
   },

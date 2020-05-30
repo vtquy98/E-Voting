@@ -1,7 +1,18 @@
-import { Users, Elections, ElectionNotify, Votes } from '../../../services';
+import {
+  Users,
+  Elections,
+  ElectionNotify,
+  Votes,
+  Contracts
+} from '../../../services';
 import { combineResolvers } from 'graphql-resolvers';
 import { isAdmin, checkAuthentication } from '../../libs';
 import Election from '../../libs/election';
+import web3 from '../../libs/web3';
+
+const ADMIN_WALLET =
+  process.env.ADMIN_WALLET_ADDRESS ||
+  '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
 
 module.exports = {
   Query: {
@@ -186,6 +197,34 @@ module.exports = {
 
         return voteHistory;
       }
-    )
+    ),
+
+    get_system_stats: async () => {
+      const electionCount = await Elections.find({});
+      const userCount = await Users.find({});
+      const voteCount = await Votes.find({});
+
+      const systemStats = {
+        electionCount: electionCount.length,
+        userCount: userCount.length,
+        voteCount: voteCount.length
+      };
+
+      return systemStats;
+    },
+
+    get_blockchain_data: combineResolvers(isAdmin, async () => {
+      const contractData = await Contracts.find({});
+
+      const balance = await web3.eth.getBalance(ADMIN_WALLET);
+
+      const blockchainData = {
+        adminWallet: ADMIN_WALLET,
+        balance: web3.utils.fromWei(balance, 'ether'),
+        contractAddress: contractData[0].contract_address
+      };
+
+      return blockchainData;
+    })
   }
 };

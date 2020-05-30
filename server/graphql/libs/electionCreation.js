@@ -1,5 +1,8 @@
 import web3 from './web3';
 import ElectionCreation from '../../contract-build/ElectionCreation.json';
+require('dotenv').config({
+  path: './.env'
+});
 
 const instance = new web3.eth.Contract(
   ElectionCreation.abi,

@@ -18,6 +18,7 @@
     "create": "Create Election",
     "userManagement": "User Management",
     "forUser": "Your Menu",
-    "history": "Vote History"
+    "history": "Vote History",
+    "blockchainInfo": "Ethereum Network Info"
   }
 }

@@ -24,6 +24,66 @@ export const REPORT_PARTICIPATED_ELECTION_API = 'ReportParticipatedElectionAPI';
 export const POLL_VOTE_TRUST_TYPE_API = 'PollVoteTrustTypeAPI';
 export const GET_VOTE_DATA_API = 'GetVoteDataAPI';
 export const GET_VOTE_HISTORY_API = 'GetVoteHistoryAPI';
+export const GET_SYSTEM_STATS_API = 'GetSystemStatsAPI';
+export const GET_BLOCKCHAIN_DATA_API = 'GetBlockchainDataAPI';
+
+const GetBlockchainDataAPI = makeFetchAction(
+  GET_BLOCKCHAIN_DATA_API,
+  gql`
+    query {
+      get_blockchain_data {
+        contractAddress
+        balance
+        adminWallet
+      }
+    }
+  `
+);
+
+export const getBlockchainData = () => {
+  return respondToSuccess(GetBlockchainDataAPI.actionCreator(), resp => {
+    if (resp.errors) {
+      console.error('Err:', resp.errors);
+      return;
+    }
+
+    return;
+  });
+};
+
+export const getBlockchainDataDataSelector = flow(
+  GetBlockchainDataAPI.dataSelector,
+  path('data.get_blockchain_data')
+);
+
+const GetSystemStatsAPI = makeFetchAction(
+  GET_SYSTEM_STATS_API,
+  gql`
+    query {
+      get_system_stats {
+        electionCount
+        voteCount
+        userCount
+      }
+    }
+  `
+);
+
+export const getSystemStats = () => {
+  return respondToSuccess(GetSystemStatsAPI.actionCreator(), resp => {
+    if (resp.errors) {
+      console.error('Err:', resp.errors);
+      return;
+    }
+
+    return;
+  });
+};
+
+export const getSystemStatsDataSelector = flow(
+  GetSystemStatsAPI.dataSelector,
+  path('data.get_system_stats')
+);
 
 const GetVoteHistoryAPI = makeFetchAction(
   GET_VOTE_HISTORY_API,

@@ -1,6 +1,6 @@
 type Election {
-  id: ID!
   name: String!
+  id: ID!
   description: String!
   electionAddress: String!
   createdAt: Date!
@@ -49,6 +49,18 @@ type Subscription {
   voteAdded(electionId: String!): VoteStream!
 }
 
+type SystemStats {
+  electionCount: Int!
+  userCount: Int!
+  voteCount: Int!
+}
+
+type BlockchainData {
+  adminWallet: String!
+  balance: Float! #for check admin balance
+  contractAddress: String!
+}
+
 enum VotingType {
   SELECT_TO_VOTE
   SELECT_TO_REMOVE
@@ -75,6 +87,8 @@ type Query {
   get_upcoming_election: [Election!]!
   get_vote_data(electionId: String!): [VoteData]!
   get_vote_history: [VoteHistory]!
+  get_system_stats: SystemStats!
+  get_blockchain_data: BlockchainData!
 }
 
 type Mutation {

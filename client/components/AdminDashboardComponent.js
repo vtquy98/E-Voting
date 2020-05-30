@@ -16,6 +16,7 @@ import {
   getCurrentUserDataSelector
 } from '../stores/UserState';
 import DashboardInstructionComponent from './DashboardInstructionComponent';
+import Link from 'next/link';
 
 const connectToRedux = connect(
   createStructuredSelector({
@@ -79,12 +80,16 @@ class UserDashboardComponent extends React.Component {
           </div>
 
           <div className="col-xl-3 col-md-6 mb-4">
-            <SmallCardComponent
-              title={t('stats.ethBalance')}
-              content={currentUser.balance.toFixed(4)}
-              classIcon="fab fa-ethereum"
-              cardType="warning"
-            />
+            <Link href="/blockchain-info">
+              <a style={{ textDecoration: 'none' }}>
+                <SmallCardComponent
+                  title={t('stats.ethBalance')}
+                  content={currentUser.balance.toFixed(4)}
+                  classIcon="fab fa-ethereum"
+                  cardType="warning"
+                />
+              </a>
+            </Link>
           </div>
         </div>
         <div className="row">
