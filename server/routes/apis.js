@@ -39,7 +39,7 @@ router.use('/auth', async (req, res, next) => {
     );
 
     const createNewUser = async () => {
-      const generateDefaultPassword = generatePassword(8);
+      const generateDefaultPassword = generatePassword();
 
       const user = new Users({
         username,

@@ -30,7 +30,7 @@ export const sendInviteMail = (recipient, { name, password }) => {
 
   const mailObj = {
     to: recipient,
-    subject: '[AGU E-Voting] Invite Using AGU E-voting System',
+    subject: 'Thư mời sử dụng hệ thống bỏ phiếu điện tử AGU E-Voting',
     html: replaceMailContent(InviteMailTemplate, mapObj),
     from: 'agu@e-voting.tech'
   };
@@ -46,7 +46,7 @@ export const sendGrettingMail = (recipient, { name, password }) => {
 
   const mailObj = {
     to: recipient,
-    subject: 'Welcome To AGU E-voting System!',
+    subject: 'Chào mừng đến với AGU E-Voting!',
     html: replaceMailContent(GrettingMailTemplate, mapObj),
     from: 'agu@e-voting.tech'
   };
@@ -69,7 +69,7 @@ export const sendInviteVotingMail = (
 
   const mailObj = {
     to: recipient,
-    subject: 'Invite Voting Letter',
+    subject: 'Thư mời bỏ phiếu tại AGU E-Voting',
     html: replaceMailContent(InviteVotingMailTemplate, mapObj),
     from: 'agu@e-voting.tech'
   };
@@ -85,7 +85,7 @@ export const sendForgotPasswordMail = (recipient, { name, linkToReset }) => {
 
   const mailObj = {
     to: recipient,
-    subject: 'Reset Your Password On AGU E-Voting!',
+    subject: 'Khôi Phục mật khẩu tại AGU E-Voting!',
     html: replaceMailContent(ForgotPasswordTemplate, mapObj),
     from: 'agu@e-voting.tech'
   };
@@ -106,7 +106,7 @@ export const sendElectionResultMail = (
 
   const mailObj = {
     to: recipient,
-    subject: `Election Result For ${electionName}!`,
+    subject: `Kết quả bỏ phiếu của ${electionName}!`,
     html: replaceMailContent(ElectionResultMailTemplate, mapObj),
     from: 'agu@e-voting.tech'
   };

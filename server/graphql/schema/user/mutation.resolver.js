@@ -14,7 +14,7 @@ module.exports = {
         const existUser = await Users.findOne({ email: user });
         if (!existUser) {
           const username = user.substring(0, user.lastIndexOf('@'));
-          const password = generatePassword(8);
+          const password = generatePassword();
           const userData = {
             wallet_address: userWalletAdress,
             email: user,
