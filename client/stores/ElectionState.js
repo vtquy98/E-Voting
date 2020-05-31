@@ -786,6 +786,8 @@ const GetAllCandidatesAPI = makeFetchAction(
         avatar
         summaryDescription
         department
+        profession
+        birthDate
       }
     }
   `

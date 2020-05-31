@@ -6,6 +6,7 @@ import { createStructuredSelector } from 'reselect';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
 import { withTranslation } from '../i18n';
+import CandidateInfoComponent from './CandidateInfoComponent';
 import {
   getAllCandidates,
   getAllCandidatesDataSelector,
@@ -236,9 +237,34 @@ class VotingComponent extends React.Component {
                         </div>
                       ) : (
                         <div>
-                          <h1 className="title font-weight-bold text-primary text-center mt-2 mb-2">
-                            {t('title')}
+                          <h1 className="title font-weight-bold text-primary text-center mt-2 mb-4">
+                            {election.votingType === 'SELECT_TO_TRUST'
+                              ? t('title2')
+                              : t('title')}
                           </h1>
+
+                          {/* Candidate description */}
+                          {election.votingType === 'SELECT_TO_TRUST' && (
+                            <div className="row d-flex justify-content-center">
+                              <div className="col-xl-12 col-md-12 mb-4">
+                                <div className="card border-left-primary h-100 py-2">
+                                  <div className="card-body">
+                                    {candidates && candidates.length && (
+                                      <div className="row no-gutters align-items-center">
+                                        <CandidateInfoComponent
+                                          candidate={candidates[0]}
+                                          hasCandidateName
+                                          title
+                                          t={t}
+                                        />
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+
                           <div className="col-lg-12 col-md-6 col-sm-12">
                             <form onSubmit={handleSubmit(submit)}>
                               {election.votingType === 'SELECT_TO_TRUST' ? (
@@ -253,6 +279,7 @@ class VotingComponent extends React.Component {
                                   options={candidates}
                                   component={RenderVoteCheckFieldComponent}
                                   votingType={election.votingType}
+                                  t={t}
                                 />
                               )}
 

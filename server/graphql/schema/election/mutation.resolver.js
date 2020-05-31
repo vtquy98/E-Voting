@@ -216,6 +216,12 @@ module.exports = {
         const election = Election(electionStored.election_address);
         const candidateList = await election.methods.allCandidates().call();
 
+        const hasVoted = Votes.find({
+          $and: [{ voter_id: currentUser.id }, { election_id: electionId }]
+        });
+
+        if (hasVoted && hasVoted.length) throw new Error('You already voted!');
+
         if (
           (electionStored.voting_type === SELECT_TO_VOTE &&
             listUserId.length < electionStored.at_least_vote) ||

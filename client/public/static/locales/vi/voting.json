@@ -21,10 +21,18 @@
   "successMsg": "Bỏ phiếu thành công, cảm ơn bạn đã tham gia!",
   "homeBtn": "Về trang chính",
   "title": "Bạn sẽ bỏ phiếu cho ai?",
+  "title2": "Bạn tín nhiệm hay không tín nhiệm?",
   "submitBtn": "Bỏ phiếu",
   "reset": "Xoá lựa chọn",
   "trustVote": {
     "trust": "Tín nhiệm",
     "dontTrust": "Không tín nhiệm"
+  },
+  "candidateInfo": {
+    "fullName": "Họ tên",
+    "department": "Phòng ban",
+    "profession": "Chức vụ",
+    "birthDate": "Ngày sinh",
+    "summaryDescription": "Mô tả bản thân"
   }
 }

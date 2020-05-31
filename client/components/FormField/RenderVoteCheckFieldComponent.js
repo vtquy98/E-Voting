@@ -1,10 +1,11 @@
 import React from 'react';
-// import { SELECT_TO_VOTE } from '../../enums/votingType';
+import CandidateInfoComponent from '../CandidateInfoComponent';
 const RenderVoteCheckFieldComponent = ({
   input,
   label,
   options,
-  votingType
+  votingType,
+  t
 }) => (
   <React.Fragment>
     {options.map((item, index) => (
@@ -31,7 +32,11 @@ const RenderVoteCheckFieldComponent = ({
           <div className="checkbox-text">
             <h3 className="text-bold-400">{item.fullName}</h3>
             <p className="checkbox-text--description">
-              {item.summaryDescription}
+              <CandidateInfoComponent
+                candidate={item}
+                hasCandidateName={false}
+                t={t}
+              />
             </p>
           </div>
         </label>

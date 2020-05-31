@@ -21,10 +21,18 @@
   "successMsg": "Thank you for your participation!",
   "homeBtn": "Back To Home",
   "title": "Who will you vote for?",
+  "title2": "You trust or do not trust?",
   "submitBtn": "Submit",
   "reset": "Reset",
   "trustVote": {
     "trust": "Trust",
     "dontTrust": "Don't Trust"
+  },
+  "candidateInfo": {
+    "fullName": "Full name",
+    "department": "Department",
+    "profession": "Profession",
+    "birthDate": "Date of birth",
+    "summaryDescription": "Summary description"
   }
 }

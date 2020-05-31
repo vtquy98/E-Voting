@@ -1,10 +1,4 @@
-import {
-  Users,
-  Elections,
-  ElectionNotify,
-  Votes,
-  Contracts
-} from '../../../services';
+import { Users, Elections, ElectionNotify, Votes } from '../../../services';
 import { combineResolvers } from 'graphql-resolvers';
 import { isAdmin, checkAuthentication } from '../../libs';
 import Election from '../../libs/election';
@@ -13,6 +7,9 @@ import web3 from '../../libs/web3';
 const ADMIN_WALLET =
   process.env.ADMIN_WALLET_ADDRESS ||
   '0xc248515c28a64dFc462Df0301f0D12cF942dae2F';
+
+const CONTRACT_ADDRESS =
+  process.env.CONTRACT_ADDRESS || '0x47b9B5438E6e0de8412a63146b77a9d9E245DC7D';
 
 module.exports = {
   Query: {
@@ -214,14 +211,11 @@ module.exports = {
     },
 
     get_blockchain_data: combineResolvers(isAdmin, async () => {
-      const contractData = await Contracts.find({});
-
       const balance = await web3.eth.getBalance(ADMIN_WALLET);
-
       const blockchainData = {
         adminWallet: ADMIN_WALLET,
         balance: web3.utils.fromWei(balance, 'ether'),
-        contractAddress: contractData[0].contract_address
+        contractAddress: CONTRACT_ADDRESS
       };
 
       return blockchainData;

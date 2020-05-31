@@ -1,6 +1,6 @@
 import React from 'react';
 const RenderTrustField = ({ input, label, meta: { touched, error }, t }) => (
-  <div className="tab-pane" id="account">
+  <div className="mb-4">
     <div className="row">
       <div className="option-group">
         <div className="option-container">
@@ -159,7 +159,7 @@ const RenderTrustField = ({ input, label, meta: { touched, error }, t }) => (
         flex: 1;
         display: block;
         padding: 0.5em;
-        background-color: #ff9800;
+        background-color: #4e73df;
         position: relative;
         margin: 0em;
         margin-right: 0.2em;
@@ -220,7 +220,7 @@ const RenderTrustField = ({ input, label, meta: { touched, error }, t }) => (
         display: block;
         width: 100%;
         text-transform: uppercase;
-        font-size: 0.5em;
+        font-size: 24px;
         font-weight: bold;
         -webkit-transform-origin: left bottom;
         transform-origin: left bottom;
