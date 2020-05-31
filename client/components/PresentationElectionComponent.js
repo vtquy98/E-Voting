@@ -38,7 +38,7 @@ import { TiWarning } from 'react-icons/ti';
 const API_SERVER_URL =
   process.env.API_SERVER_URL || 'https://api.e-voting.tech';
 const GRAPHQL_SUBCRIPTION_API =
-  process.env.GRAPHQL_SUBCRIPTION_API || 'ws://localhost:3003/graphql';
+  process.env.GRAPHQL_SUBCRIPTION_API || 'wss://api.e-voting.tech/graphql';
 
 const OwlCarousel = dynamic(import('react-owl-carousel'), { ssr: false });
 
@@ -214,7 +214,7 @@ class PresentationElectionComponent extends React.Component {
                   </OwlCarousel>
                 ) : (
                   <div>
-                    {candidates && (
+                    {candidates && candidates.length && (
                       <div className="profile-card mb-4">
                         <div className="mask-shadow"></div>
                         <header>
@@ -261,7 +261,7 @@ class PresentationElectionComponent extends React.Component {
                                 toast.info(
                                   `👌 ${data.voteAdded.user.fullName} ${t(
                                     'presentation.voted'
-                                  )} 
+                                  )} 
                                 `,
                                   {
                                     position: 'bottom-center',
