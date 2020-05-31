@@ -8,6 +8,7 @@ import apiPrefix from '../middlewares/api-prefix';
 import rootReducer from './rootReducer'; //view
 import { isServer } from '../libs';
 import nprogress from '../middlewares/nprogress';
+import apiRefreshToken from '../middlewares/refresh-token';
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -31,6 +32,7 @@ const makeStore = initialState => {
       apiPrefix(base),
       apiMiddlewares,
       apiReactionMiddleware,
+      apiRefreshToken,
       nprogress
     ),
     typeof window !== 'undefined' &&

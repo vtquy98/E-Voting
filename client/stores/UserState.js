@@ -20,6 +20,25 @@ export const CHECK_TOKEN_RESET_USER_PASSWORD_API =
   'CheckTokenResetUserPasswordAPI';
 export const USER_RESET_PASSWORD_API = 'UserResetPasswordAPI';
 export const GET_USER_PROFILE_API = 'GetUserProfileAPI';
+export const REFRESH_TOKEN_API = 'RefreshTokenAPI';
+
+export const RefreshTokenAPI = makeFetchAction(
+  REFRESH_TOKEN_API,
+  nfetch({
+    endpoint: '/refresh-token'
+  })
+);
+
+export const refreshToken = () =>
+  respondToSuccess(RefreshTokenAPI.actionCreator(), resp => {
+    if (resp.error) {
+      return;
+    }
+
+    if (resp.success) {
+      saveToken(resp.token);
+    }
+  });
 
 const GetUserProfileAPI = makeFetchAction(
   GET_USER_PROFILE_API,

@@ -95,4 +95,28 @@ router.use('/signout', async (req, res, next) => {
   }
 });
 
+router.post('/refresh-token', async (req, res, next) => {
+  try {
+    //"bearer "  length = 7
+    const currentToken = (req.headers.authorization || '').substr(7);
+    const payload = await auth.verify(currentToken, {
+      ignoreExpiration: true
+    });
+
+    const newToken = await auth.refresh(payload);
+
+    if (!currentToken || !payload || !newToken) {
+      return res.json({ success: false, message: `the token isn't valid` });
+    }
+
+    // jwtBlacklist.revoke(payload);
+
+    saveSession(req.session, newToken);
+
+    return res.json({ success: true, token: 'bearer ' + newToken });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

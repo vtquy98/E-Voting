@@ -7,7 +7,7 @@
  * I create this gist just to help those who want to auto-refresh JWTs.
  */
 
-import { sign, verify } from 'jsonwebtoken';
+import { sign } from 'jsonwebtoken';
 import { pick } from 'lodash/fp';
 import jwt from 'jsonwebtoken';
 
@@ -29,17 +29,33 @@ TokenGenerator.prototype.sign = function(payload, signOptions) {
 
 // refreshOptions.verify = options you would use with verify function
 // refreshOptions.jwtid = contains the id for the new token
-TokenGenerator.prototype.refresh = function(token, refreshOptions) {
-  const payload = verify(token, this.secretOrPublicKey, refreshOptions.verify);
-  delete payload.iat;
-  delete payload.exp;
-  delete payload.nbf;
-  delete payload.jti; //We are generating a new token, if you are using jwtid during signing, pass it in refreshOptions
-  const jwtSignOptions = Object.assign({}, this.options, {
-    jwtid: refreshOptions.jwtid
-  });
-  // The first signing converted all needed options into claims, they are already in the payload
-  return sign(payload, this.secretOrPrivateKey, jwtSignOptions);
+// TokenGenerator.prototype.refresh = function(token, refreshOptions) {
+//   const payload = verify(token, this.secretOrPublicKey, refreshOptions.verify);
+//   delete payload.iat;
+//   delete payload.exp;
+//   delete payload.nbf;
+//   delete payload.jti; //We are generating a new token, if you are using jwtid during signing, pass it in refreshOptions
+//   const jwtSignOptions = Object.assign({}, this.options, {
+//     jwtid: refreshOptions.jwtid
+//   });
+//   // The first signing converted all needed options into claims, they are already in the payload
+//   return sign(payload, this.secretOrPrivateKey, jwtSignOptions);
+// };
+
+TokenGenerator.prototype.refresh = async function(payload) {
+  if (!payload) {
+    return null;
+  }
+  const refreshPayload = Object.assign({}, payload);
+
+  delete refreshPayload.iat;
+  delete refreshPayload.exp;
+  delete refreshPayload.nbf;
+  delete refreshPayload.jti; //We are generating a new token, if you are using jwtid during signing, pass it in refreshOptions
+  const jwtSignOptions = { ...this.options };
+  // The first signing converted all needed options into claims, they are already in the refreshPayload
+
+  return sign(refreshPayload, this.secretOrPrivateKey, jwtSignOptions);
 };
 
 TokenGenerator.prototype.verify = async function(token, verifyOptions = {}) {
