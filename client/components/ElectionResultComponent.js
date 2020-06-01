@@ -212,18 +212,20 @@ class ElectionResultComponent extends React.Component {
                     <div className="col-lg-12">
                       <div className="card shadow border-none mb-4">
                         <div className="card-body">
-                          <ReactEcharts
-                            option={chartBarOption({
-                              electionResult,
-                              votingType: election.votingType,
-                              electionName: election.name,
-                              t
-                            })}
-                            style={{ height: '400px', width: '100%' }}
-                            opts={{ renderer: 'svg' }}
-                            className="react_for_echarts"
-                            theme={'light'}
-                          />
+                          {electionResult && electionResult.length && (
+                            <ReactEcharts
+                              option={chartBarOption({
+                                electionResult,
+                                votingType: election.votingType,
+                                electionName: election.name,
+                                t
+                              })}
+                              style={{ height: '400px', width: '100%' }}
+                              opts={{ renderer: 'svg' }}
+                              className="react_for_echarts"
+                              theme={'light'}
+                            />
+                          )}
                         </div>
                       </div>
                     </div>
