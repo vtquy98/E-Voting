@@ -134,8 +134,6 @@ module.exports = {
         });
         const election = Election(electionStored.election_address);
         const candidateAddress = await election.methods.allCandidates().call();
-        const voterAddress = await election.methods.allVoters().call();
-
         const electionResult = await Promise.all(
           candidateAddress.map(async candidate => {
             const userData = await Users.findOne({ wallet_address: candidate });
@@ -149,7 +147,7 @@ module.exports = {
                     parseInt(electionStored.voted_count)
                   ).toFixed(2)
                 : 0;
-            const doNotVoteCount = voterAddress.length - voteCount;
+            const doNotVoteCount = electionStored.voted_count - voteCount;
             return { userData, voteCount, percentage, doNotVoteCount };
           })
         );
