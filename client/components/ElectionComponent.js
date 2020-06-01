@@ -426,7 +426,7 @@ class ElectionComponent extends React.Component {
                   {t('electionData.candidatesList')}
                 </span>
 
-                {election.state !== 'STARTED' && (
+                {election.state === 'CREATED' && (
                   <Popup
                     trigger={
                       <button className="btn btn-primary btn-circle btn-sm ml-2">
@@ -463,7 +463,7 @@ class ElectionComponent extends React.Component {
                 <span className="m-0 font-weight-bold text-primary">
                   {t('electionData.votersList')}
                 </span>
-                {election.state !== 'STARTED' && (
+                {election.state === 'CREATED' && (
                   <Popup
                     trigger={
                       <button className="btn btn-primary btn-circle btn-sm ml-2">
