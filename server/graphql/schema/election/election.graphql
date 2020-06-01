@@ -107,13 +107,8 @@ type Mutation {
     dateTakePlace: String!
   ): Election!
 
-  add_candidate(
-    userId: String!
-    description: String!
-    ElectionAddress: String!
-  ): User!
-
-  add_voter(userId: String!, ElectionAddress: String!): User!
+  add_candidates(candidates: [String!]!, electionId: String!): Election!
+  add_voters(voters: [String!]!, electionId: String!): Election!
   start_voting(electionId: String!): Election!
   end_voting(electionId: String!): Election!
   poll_vote(listUserId: [String!]!, electionId: String!): Election!

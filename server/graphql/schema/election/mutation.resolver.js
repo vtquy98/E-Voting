@@ -118,45 +118,6 @@ module.exports = {
       }
     ),
 
-    add_candidate: combineResolvers(
-      isAdmin,
-      async (_, { userId, description, ElectionAddress }) => {
-        const userData = await Users.findOne({ id: userId });
-        const election = Election(ElectionAddress);
-
-        await election.methods
-          .registerCandidate(
-            userData.wallet_address,
-            userData.full_name,
-            description
-          )
-          .send({ from: ADMIN_WALLET, gas: '6721975' });
-
-        // if (!addCandidate.events) {
-        //   throw new Error('Faild to add candidate!');
-        // }
-
-        return userData;
-      }
-    ),
-
-    add_voter: combineResolvers(
-      isAdmin,
-      async (_, { userId, ElectionAddress }) => {
-        const userData = await Users.findOne({ id: userId });
-
-        const election = Election(ElectionAddress);
-        await election.methods
-          .registerVoter(userData.wallet_address, userData.full_name)
-          .send({ from: ADMIN_WALLET, gas: '6721975' });
-
-        // if (!addVoter.events) {
-        //   throw new Error('Faild to add candidate!');
-        // }
-        return userData;
-      }
-    ),
-
     start_voting: combineResolvers(isAdmin, async (_, { electionId }) => {
       const electionStored = await Elections.findOne({
         id: electionId
@@ -373,6 +334,72 @@ module.exports = {
 
         return upComingElection;
       }
-    )
+    ),
+
+    add_candidates: combineResolvers(
+      isAdmin,
+      async (_, { electionId, candidates }) => {
+        const electionStored = await Elections.findOne({ id: electionId });
+
+        if (electionStored.state !== CREATED) {
+          throw new Error('Can not add candidates at the moment!');
+        }
+
+        const election = Election(electionStored.election_address);
+
+        //add candidate process
+        await Promise.all(
+          candidates.map(async candidate => {
+            const userData = await Users.findOne({ id: candidate }); //got user
+            await election.methods
+              .registerCandidate(
+                userData.wallet_address,
+                userData.full_name,
+                'this is a candidate description' //refactor later!
+              )
+              .send({ from: ADMIN_WALLET, gas: '6721975' });
+          })
+        );
+
+        return electionStored;
+      }
+    ),
+
+    add_voters: combineResolvers(isAdmin, async (_, { electionId, voters }) => {
+      const electionStored = await Elections.findOne({ id: electionId });
+
+      if (electionStored.state !== CREATED) {
+        throw new Error('Can not add voters at the moment!');
+      }
+
+      const election = Election(electionStored.election_address);
+
+      //add voter process
+      await Promise.all(
+        voters.map(async voter => {
+          const userData = await Users.findOne({ id: voter }); //got user
+
+          await ElectionNotify.addElectionForUser({
+            voterId: voter,
+            electionId
+          });
+
+          await election.methods
+            .registerVoter(userData.wallet_address, userData.full_name)
+            .send({ from: ADMIN_WALLET, gas: '6721975' });
+
+          sendInviteVotingMail(userData.email, {
+            name: userData.full_name,
+            department: electionStored.election_owner,
+            electionName: electionStored.name,
+            date: electionStored.date_take_place,
+            linkToVote: `${DOMAIN_NAME}/voting?id=${electionId}`,
+            description: electionStored.description
+          });
+        })
+      );
+
+      return electionStored;
+    })
   }
 };

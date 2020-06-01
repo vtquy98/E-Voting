@@ -1,33 +1,35 @@
 import Link from 'next/link';
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
-import { createStructuredSelector } from 'reselect';
-import ReactToPrint from 'react-to-print';
-import QRToPrintComponent from './QRToPrintComponent';
-import Popup from 'reactjs-popup';
-import { toast } from 'react-toastify';
-import { withTranslation } from '../i18n';
-
-import {
-  FcAbout,
-  FcOrganization,
-  FcCalendar,
-  FcClock,
-  FcEngineering,
-  FcTodoList
-} from 'react-icons/fc';
-
 import {
   FaEthereum,
-  FaPoll,
-  FaPlay,
   FaHandLizard,
+  FaPlay,
+  FaPoll,
   FaStop,
   FaVoteYea
 } from 'react-icons/fa';
-
 import {
+  FcAbout,
+  FcCalendar,
+  FcClock,
+  FcEngineering,
+  FcOrganization,
+  FcTodoList
+} from 'react-icons/fc';
+import { connect } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { toast } from 'react-toastify';
+import Popup from 'reactjs-popup';
+import { compose } from 'recompose';
+import { createStructuredSelector } from 'reselect';
+import { withTranslation } from '../i18n';
+import {
+  addCandidates,
+  addCandidatesDataSelector,
+  addCandidatesErrorSelector,
+  addVoters,
+  addVotersDataSelector,
+  addVotersErrorSelector,
   // resetDataGetElection,
   getAllCandidates,
   getAllCandidatesDataSelector,
@@ -42,19 +44,18 @@ import {
   getTotalVotesCountDataSelector,
   // resetDatagetTotalVotesCount
   startVoting,
+  startVotingDataSelector,
   startVotingErrorSelector,
   stopVoting,
-  stopVotingErrorSelector,
-  startVotingDataSelector,
-  stopVotingDataSelector
+  stopVotingDataSelector,
+  stopVotingErrorSelector
 } from '../stores/ElectionState';
-import {
-  getAllUsersDataSelector,
-  getCurrentUserDataSelector
-} from '../stores/UserState';
+import { getCurrentUserDataSelector } from '../stores/UserState';
+import AddCandidateOrUserPopupComponent from './AddCandidateOrUserPopupComponent';
+import DisplayUsersListComponent from './DisplayUsersListComponent';
 // import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../enums/votingType';
 import ManualVotingPopup from './ManualVotingPopup';
-import DisplayUsersListComponent from './DisplayUsersListComponent';
+import QRToPrintComponent from './QRToPrintComponent';
 
 const ENV_DEPLOY = process.env.ENV_DEPLOY || 'ropsten';
 
@@ -66,11 +67,14 @@ const connectToRedux = connect(
     voters: getAllVotersDataSelector,
     totalVoteCount: getTotalVotesCountDataSelector,
     currentUser: getCurrentUserDataSelector,
-    users: getAllUsersDataSelector,
     startVotingErrorMessage: startVotingErrorSelector,
     stopVotingErrorMessage: stopVotingErrorSelector,
     startVotingSuccessMessage: startVotingDataSelector,
-    stopVotingSuccessMessage: stopVotingDataSelector
+    stopVotingSuccessMessage: stopVotingDataSelector,
+    candidatesAddedSuccessMessage: addCandidatesDataSelector,
+    votersAddedSuccessMessage: addVotersDataSelector,
+    candidatesAddedErrorMessage: addCandidatesErrorSelector,
+    votersAddedErrorMessage: addVotersErrorSelector
   }),
   dispatch => ({
     getElection: id => dispatch(getElection(id)),
@@ -84,6 +88,22 @@ const connectToRedux = connect(
     stopVoting: electionId => {
       dispatch(stopVoting(electionId));
       toast(`Stoping election ...`, { autoClose: false, toastId: electionId });
+    },
+    addCandidates: values => {
+      dispatch(
+        addCandidates({
+          electionId: values.electionId,
+          candidates: values.listUser
+        })
+      );
+    },
+    addVoters: values => {
+      dispatch(
+        addVoters({
+          electionId: values.electionId,
+          voters: values.listUser
+        })
+      );
     }
   })
 );
@@ -114,7 +134,9 @@ class ElectionComponent extends React.Component {
       // getTotalVotesCount,
       startVoting,
       stopVoting,
-      t
+      t,
+      addCandidates,
+      addVoters
     } = this.props;
 
     return (
@@ -400,9 +422,33 @@ class ElectionComponent extends React.Component {
           <div className="col-sm">
             <div className="card shadow mb-4" style={{ height: '400px' }}>
               <div className="card-header py-3">
-                <h6 className="m-0 font-weight-bold text-primary">
+                <span className="m-0 font-weight-bold text-primary">
                   {t('electionData.candidatesList')}
-                </h6>
+                </span>
+
+                {election.state !== 'STARTED' && (
+                  <Popup
+                    trigger={
+                      <button className="btn btn-primary btn-circle btn-sm ml-2">
+                        <i className="fa fa-plus"></i>
+                      </button>
+                    }
+                    modal
+                  >
+                    {close => (
+                      <div className="hi">
+                        <AddCandidateOrUserPopupComponent
+                          onClick={() => close()}
+                          listUserExist={candidates}
+                          t={t}
+                          action={values => addCandidates(values)}
+                          electionId={election.id}
+                          title={t('addCandidateAndVoter.addCandidates')}
+                        />
+                      </div>
+                    )}
+                  </Popup>
+                )}
               </div>
 
               <div className="card-body overflow-auto">
@@ -414,13 +460,35 @@ class ElectionComponent extends React.Component {
           <div className="col-sm">
             <div className="card shadow mb-4" style={{ height: '400px' }}>
               <div className="card-header py-3">
-                <h6 className="m-0 font-weight-bold text-primary">
+                <span className="m-0 font-weight-bold text-primary">
                   {t('electionData.votersList')}
-                </h6>
+                </span>
+                {election.state !== 'STARTED' && (
+                  <Popup
+                    trigger={
+                      <button className="btn btn-primary btn-circle btn-sm ml-2">
+                        <i className="fa fa-plus"></i>
+                      </button>
+                    }
+                    modal
+                  >
+                    {close => (
+                      <div className="hi">
+                        <AddCandidateOrUserPopupComponent
+                          onClick={() => close()}
+                          listUserExist={voters}
+                          t={t}
+                          action={values => addVoters(values)}
+                          electionId={election.id}
+                          title={t('addCandidateAndVoter.addVoters')}
+                        />
+                      </div>
+                    )}
+                  </Popup>
+                )}
               </div>
 
               <div className="card-body overflow-auto">
-                {' '}
                 <DisplayUsersListComponent users={voters} t={t} />
               </div>
             </div>

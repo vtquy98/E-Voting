@@ -83,5 +83,12 @@
     "title": "Votes History",
     "total": "Total",
     "textHelper": "Elections that you participated."
+  },
+  "addCandidateAndVoter": {
+    "addCandidates": "Add candidates",
+    "addVoters": "Add voters",
+    "chooseUsers": "Choose users",
+    "btnAdd": "Add",
+    "btnCancel": "Close"
   }
 }

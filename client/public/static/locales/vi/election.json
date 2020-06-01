@@ -83,5 +83,12 @@
     "title": "Lịch sử bỏ phiếu",
     "total": "Tổng cộng có ",
     "textHelper": "cuộc bỏ phiếu mà bạn đã tham gia."
+  },
+  "addCandidateAndVoter": {
+    "addCandidates": "Thêm các ứng cử viên",
+    "addVoters": "Thêm các cử tri",
+    "chooseUsers": "Chọn người dùng",
+    "btnAdd": "Thêm",
+    "btnCancel": "Đóng"
   }
 }

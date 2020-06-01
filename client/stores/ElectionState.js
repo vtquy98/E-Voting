@@ -26,6 +26,90 @@ export const GET_VOTE_DATA_API = 'GetVoteDataAPI';
 export const GET_VOTE_HISTORY_API = 'GetVoteHistoryAPI';
 export const GET_SYSTEM_STATS_API = 'GetSystemStatsAPI';
 export const GET_BLOCKCHAIN_DATA_API = 'GetBlockchainDataAPI';
+export const ADD_CANDIATES_API = 'AddCandiatesAPI';
+export const ADD_VOTERS_API = 'AddVotersAPI';
+
+const AddVotersAPI = makeFetchAction(
+  ADD_VOTERS_API,
+  gql`
+    mutation($voters: [String!]!, $electionId: String!) {
+      add_voters(electionId: $electionId, voters: $voters) {
+        id
+      }
+    }
+  `
+);
+
+export const addVoters = ({ voters, electionId }) => {
+  return respondToSuccess(
+    AddVotersAPI.actionCreator({ voters, electionId }),
+    (resp, headers, store) => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      store.dispatch(getElection(electionId));
+      store.dispatch(getAllCandidates(electionId));
+      store.dispatch(getAllVoters(electionId));
+      EmitToastSuccess('Add voters successfully!');
+      return;
+    }
+  );
+};
+
+export const addVotersDataSelector = flow(
+  AddVotersAPI.dataSelector,
+  path('data.add_voters')
+);
+
+export const addVotersErrorSelector = flow(
+  AddVotersAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
+
+const AddCandiatesAPI = makeFetchAction(
+  ADD_CANDIATES_API,
+  gql`
+    mutation($candidates: [String!]!, $electionId: String!) {
+      add_candidates(electionId: $electionId, candidates: $candidates) {
+        id
+      }
+    }
+  `
+);
+
+export const addCandidates = ({ candidates, electionId }) => {
+  return respondToSuccess(
+    AddCandiatesAPI.actionCreator({ candidates, electionId }),
+    (resp, headers, store) => {
+      if (resp.errors) {
+        console.error('Err:', resp.errors);
+        return;
+      }
+
+      store.dispatch(getElection(electionId));
+      store.dispatch(getAllCandidates(electionId));
+      store.dispatch(getAllVoters(electionId));
+      EmitToastSuccess('Add candidates successfully!');
+      return;
+    }
+  );
+};
+
+export const addCandidatesDataSelector = flow(
+  AddCandiatesAPI.dataSelector,
+  path('data.add_candidates')
+);
+
+export const addCandidatesErrorSelector = flow(
+  AddCandiatesAPI.dataSelector,
+  path('errors'),
+  map('message'),
+  join(' | ')
+);
 
 const GetBlockchainDataAPI = makeFetchAction(
   GET_BLOCKCHAIN_DATA_API,
