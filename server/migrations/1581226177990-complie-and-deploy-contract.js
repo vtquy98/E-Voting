@@ -18,6 +18,7 @@ const {
   ADMIN_WALLET_ADDRESS
 } = process.env;
 
+const GAS_LIMIT = process.env.GAS_LIMIT || '4712388';
 const builPath = resolve('contract-build');
 
 const createBuildFolder = () => {
@@ -85,7 +86,7 @@ const deployContract = async () => {
   const ElectionCreation = require('../contract-build/ElectionCreation.json');
   const result = await new web3.eth.Contract(ElectionCreation.abi)
     .deploy({ data: '0x' + ElectionCreation.evm.bytecode.object })
-    .send({ from: adminWalletAddress, gas: '6721975' });
+    .send({ from: adminWalletAddress, gas: parseInt(GAS_LIMIT) });
   return result;
 };
 
