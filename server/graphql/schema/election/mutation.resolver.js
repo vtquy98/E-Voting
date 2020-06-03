@@ -28,7 +28,7 @@ module.exports = {
         .send({
           from: ADMIN_WALLET,
           gas: parseInt(GAS_LIMIT),
-          gasPrice: web3.toWei(2, 'gwei')
+          gasPrice: web3.utils.toWei(2, 'gwei')
         });
 
       const election = new Elections({
