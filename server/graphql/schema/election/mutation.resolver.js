@@ -6,7 +6,7 @@ import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
 import { PubSub } from '../../../pubsub';
-import { USER_VOTED } from '../../../pubsub/events';
+import { USER_VOTED, ADD_CANDIDATES, ADD_VOTERS } from '../../../pubsub/events';
 import {
   sendInviteVotingMail,
   sendElectionResultMail
@@ -76,54 +76,22 @@ module.exports = {
           date_take_place: dateTakePlace
         });
 
-        const election = Election(electionStored.election_address);
-
         //add candidate process
-        await Promise.all(
-          candidates.map(async candidate => {
-            const userData = await Users.findOne({ id: candidate }); //got user
-            await election.methods
-              .registerCandidate(
-                userData.wallet_address,
-                userData.full_name,
-                'this is a candidate description' //refactor later!
-              )
-              .send({
-                from: ADMIN_WALLET,
-                gas: parseInt(GAS_LIMIT),
-                gasPrice: GAS_PRICE
-              });
-          })
-        );
+        PubSub.emit(ADD_CANDIDATES, {
+          candidates,
+          electionAddress: electionStored.election_address
+        });
 
         //add voter process
-        await Promise.all(
-          voters.map(async voter => {
-            const userData = await Users.findOne({ id: voter }); //got user
-
-            await ElectionNotify.addElectionForUser({
-              voterId: voter,
-              electionId
-            });
-
-            await election.methods
-              .registerVoter(userData.wallet_address, userData.full_name)
-              .send({
-                from: ADMIN_WALLET,
-                gas: parseInt(GAS_LIMIT),
-                gasPrice: GAS_PRICE
-              });
-
-            sendInviteVotingMail(userData.email, {
-              name: userData.full_name,
-              department: electionOwner,
-              electionName: electionStored.name,
-              date: dateTakePlace,
-              linkToVote: `${DOMAIN_NAME}/voting?id=${electionId}`,
-              description
-            });
-          })
-        );
+        PubSub.emit(ADD_VOTERS, {
+          voters,
+          electionAddress: electionStored.election_address,
+          electionId,
+          electionOwner,
+          electionName: electionStored.name,
+          dateTakePlace,
+          description
+        });
 
         electionStored.updateDoc(electionData);
         await electionStored.save();

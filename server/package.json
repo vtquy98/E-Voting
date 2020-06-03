@@ -48,7 +48,8 @@
     "redis": "^2.8.0",
     "solc": "^0.6.1",
     "truffle-contract": "^4.0.31",
-    "truffle-hdwallet-provider": "^1.0.17"
+    "truffle-hdwallet-provider": "^1.0.17",
+    "web3": "^1.2.8"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
