@@ -460,7 +460,7 @@ const UserLoginAPI = makeFetchAction(
 
 export const userLogin = (username, password) => {
   return respondToSuccess(
-    UserLoginAPI.actionCreator({ username, password }),
+    UserLoginAPI.actionCreator({ username: username.toLowerCase(), password }),
     resp => {
       if (resp.errors) {
         console.error('Err:', resp.errors);

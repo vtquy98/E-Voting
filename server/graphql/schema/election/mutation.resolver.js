@@ -278,22 +278,31 @@ module.exports = {
           (await Promise.all(
             listUserId.map(async user => {
               const userData = await Users.findOne({ id: user });
-              await election.methods
+              const voteAction = await election.methods
                 .manualPollVote(userData.wallet_address)
                 .send({
                   from: ADMIN_WALLET,
                   gas: parseInt(GAS_LIMIT),
                   gasPrice: GAS_PRICE
                 });
+
+              const voteData = new Votes({
+                election_id: electionId,
+                voter_id: currentUser.id,
+                candidate_id: user,
+                is_voted: true,
+                transaction_hash: voteAction.transactionHash
+              });
+
+              await voteData.save();
             })
           ));
+
+        PubSub.emit(USER_VOTED, electionStored.id);
 
         pubsub.publish('voteAdded', {
           voteAdded: { election: electionStored, userId: currentUser.id }
         });
-
-        //handle remove user from upcoming list !!!!!
-        electionStored.voted_count += 1;
 
         await electionStored.save();
         return electionStored;
@@ -335,7 +344,7 @@ module.exports = {
           electionId
         });
 
-        electionStored.voted_count += 1;
+        PubSub.emit(USER_VOTED, electionStored.id);
 
         pubsub.publish('voteAdded', {
           voteAdded: { election: electionStored, userId: currentUser.id }
