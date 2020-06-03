@@ -4,8 +4,10 @@ import auth from './authentication';
 import './db/mongodb';
 import schema from './graphql';
 import app from './server';
-//using pubsub later in there: import listeners from './pubsub';
 import { Users } from './services';
+import listeners from './pubsub';
+listeners();
+
 const pubsub = new PubSub();
 
 const server = new ApolloServer({

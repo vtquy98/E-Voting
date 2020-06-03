@@ -5,7 +5,8 @@ import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
 import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
-
+import { PubSub } from '../../../pubsub';
+import { USER_VOTED } from '../../../pubsub/events';
 import {
   sendInviteVotingMail,
   sendElectionResultMail
@@ -250,8 +251,7 @@ module.exports = {
             })
           ));
 
-        electionStored.voted_count += 1;
-        await electionStored.save();
+        PubSub.emit(USER_VOTED, electionStored.id);
 
         // auto remove them on list voter, TODO: handle it on manual voting type
         await ElectionNotify.removeElection({
