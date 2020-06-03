@@ -5,6 +5,8 @@ import { STARTED, ENDED, CREATED, DRAFT } from '../../../enums/electionState';
 import { SELECT_TO_VOTE, SELECT_TO_REMOVE } from '../../../enums/votingType';
 import ElectionCreation from '../../libs/electionCreation';
 import Election from '../../libs/election';
+import web3 from '../../libs/web3';
+
 import {
   sendInviteVotingMail,
   sendElectionResultMail
@@ -25,7 +27,8 @@ module.exports = {
         .createElection(name, description)
         .send({
           from: ADMIN_WALLET,
-          gas: parseInt(GAS_LIMIT)
+          gas: parseInt(GAS_LIMIT),
+          gasPrice: web3.toWei(2, 'gwei')
         });
 
       const election = new Elections({
