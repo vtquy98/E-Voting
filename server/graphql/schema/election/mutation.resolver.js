@@ -248,14 +248,14 @@ module.exports = {
             })
           ));
 
+        electionStored.voted_count += 1;
+        await electionStored.save();
+
         // auto remove them on list voter, TODO: handle it on manual voting type
         await ElectionNotify.removeElection({
           voterId: currentUser.id,
           electionId
         });
-
-        electionStored.voted_count += 1;
-        await electionStored.save();
 
         pubsub.publish('voteAdded', {
           voteAdded: { election: electionStored, userId: currentUser.id }
@@ -286,12 +286,12 @@ module.exports = {
             })
           ));
 
-        //handle remove user from upcoming list !!!!!
-        electionStored.voted_count += 1;
-
         pubsub.publish('voteAdded', {
           voteAdded: { election: electionStored, userId: currentUser.id }
         });
+
+        //handle remove user from upcoming list !!!!!
+        electionStored.voted_count += 1;
 
         await electionStored.save();
         return electionStored;
