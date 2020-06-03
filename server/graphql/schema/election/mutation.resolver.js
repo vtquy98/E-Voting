@@ -395,14 +395,6 @@ module.exports = {
             electionId
           });
 
-          await election.methods
-            .registerVoter(userData.wallet_address, userData.full_name)
-            .send({
-              from: ADMIN_WALLET,
-              gas: parseInt(GAS_LIMIT),
-              gasPrice: GAS_PRICE
-            });
-
           sendInviteVotingMail(userData.email, {
             name: userData.full_name,
             department: electionStored.election_owner,
@@ -411,6 +403,14 @@ module.exports = {
             linkToVote: `${DOMAIN_NAME}/voting?id=${electionId}`,
             description: electionStored.description
           });
+
+          await election.methods
+            .registerVoter(userData.wallet_address, userData.full_name)
+            .send({
+              from: ADMIN_WALLET,
+              gas: parseInt(GAS_LIMIT),
+              gasPrice: GAS_PRICE
+            });
         })
       );
 

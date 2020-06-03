@@ -59,14 +59,6 @@ export const addVoters = createListenerCallback(
           electionId
         });
 
-        await election.methods
-          .registerVoter(userData.wallet_address, userData.full_name)
-          .send({
-            from: ADMIN_WALLET,
-            gas: parseInt(GAS_LIMIT),
-            gasPrice: GAS_PRICE
-          });
-
         sendInviteVotingMail(userData.email, {
           name: userData.full_name,
           department: electionOwner,
@@ -75,6 +67,14 @@ export const addVoters = createListenerCallback(
           linkToVote: `${DOMAIN_NAME}/voting?id=${electionId}`,
           description
         });
+
+        await election.methods
+          .registerVoter(userData.wallet_address, userData.full_name)
+          .send({
+            from: ADMIN_WALLET,
+            gas: parseInt(GAS_LIMIT),
+            gasPrice: GAS_PRICE
+          });
       })
     );
   }
