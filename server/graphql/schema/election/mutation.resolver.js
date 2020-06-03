@@ -18,7 +18,6 @@ const ADMIN_WALLET =
 
 const DOMAIN_NAME = process.env.DOMAIN_NAME || 'https://e-voting.tech';
 const GAS_LIMIT = process.env.GAS_LIMIT || '4712388';
-const GAS_PRICE = process.env.GAS_PRICE || '20000000000';
 
 module.exports = {
   Mutation: {
@@ -28,8 +27,7 @@ module.exports = {
         .createElection(name, description)
         .send({
           from: ADMIN_WALLET,
-          gas: parseInt(GAS_LIMIT),
-          gasPrice: GAS_PRICE
+          gas: parseInt(GAS_LIMIT)
         });
 
       const election = new Elections({
@@ -90,8 +88,7 @@ module.exports = {
               )
               .send({
                 from: ADMIN_WALLET,
-                gas: parseInt(GAS_LIMIT),
-                gasPrice: GAS_PRICE
+                gas: parseInt(GAS_LIMIT)
               });
           })
         );
@@ -110,8 +107,7 @@ module.exports = {
               .registerVoter(userData.wallet_address, userData.full_name)
               .send({
                 from: ADMIN_WALLET,
-                gas: parseInt(GAS_LIMIT),
-                gasPrice: GAS_PRICE
+                gas: parseInt(GAS_LIMIT)
               });
 
             sendInviteVotingMail(userData.email, {
@@ -139,8 +135,7 @@ module.exports = {
 
       await election.methods.startVote().send({
         from: ADMIN_WALLET,
-        gas: parseInt(GAS_LIMIT),
-        gasPrice: GAS_PRICE
+        gas: parseInt(GAS_LIMIT)
       });
 
       // if (!startVoting.events.voteStarted) {
@@ -162,8 +157,7 @@ module.exports = {
 
       await election.methods.endVote().send({
         from: ADMIN_WALLET,
-        gas: parseInt(GAS_LIMIT),
-        gasPrice: GAS_PRICE
+        gas: parseInt(GAS_LIMIT)
       });
 
       electionStored.state = ENDED;
@@ -235,8 +229,7 @@ module.exports = {
                 )
                 .send({
                   from: ADMIN_WALLET,
-                  gas: parseInt(GAS_LIMIT),
-                  gasPrice: GAS_PRICE
+                  gas: parseInt(GAS_LIMIT)
                 });
 
               const voteData = new Votes({
@@ -282,8 +275,7 @@ module.exports = {
                 .manualPollVote(userData.wallet_address)
                 .send({
                   from: ADMIN_WALLET,
-                  gas: parseInt(GAS_LIMIT),
-                  gasPrice: GAS_PRICE
+                  gas: parseInt(GAS_LIMIT)
                 });
 
               const voteData = new Votes({
@@ -324,8 +316,7 @@ module.exports = {
           .pollVote(userData.wallet_address, currentUser.wallet_address, choice)
           .send({
             from: ADMIN_WALLET,
-            gas: parseInt(GAS_LIMIT),
-            gasPrice: GAS_PRICE
+            gas: parseInt(GAS_LIMIT)
           });
 
         const voteData = new Votes({
@@ -398,8 +389,7 @@ module.exports = {
               )
               .send({
                 from: ADMIN_WALLET,
-                gas: parseInt(GAS_LIMIT),
-                gasPrice: GAS_PRICE
+                gas: parseInt(GAS_LIMIT)
               });
           })
         );
@@ -431,8 +421,7 @@ module.exports = {
             .registerVoter(userData.wallet_address, userData.full_name)
             .send({
               from: ADMIN_WALLET,
-              gas: parseInt(GAS_LIMIT),
-              gasPrice: GAS_PRICE
+              gas: parseInt(GAS_LIMIT)
             });
 
           sendInviteVotingMail(userData.email, {
