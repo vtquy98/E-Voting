@@ -190,34 +190,36 @@ module.exports = {
         const electionStored = await Elections.findOne({
           id: electionId
         });
+
         const election = Election(electionStored.election_address);
         const candidateList = await election.methods.allCandidates().call();
 
-        const hasVoted = Votes.find({
+        const hasVoted = await Votes.find({
           $and: [{ voter_id: currentUser.id }, { election_id: electionId }]
         });
 
         if (hasVoted && hasVoted.length) throw new Error('You already voted!');
 
-        if (
-          (electionStored.voting_type === SELECT_TO_VOTE &&
-            listUserId.length < electionStored.at_least_vote) ||
-          listUserId.length > electionStored.most_vote
-        ) {
-          throw new Error(
-            `You must vote at least ${electionStored.at_least_vote} candidates and max ${electionStored.most_vote} candiadtes!`
-          );
+        if (electionStored.voting_type === SELECT_TO_VOTE) {
+          if (
+            listUserId.length < electionStored.at_least_vote ||
+            listUserId.length > electionStored.most_vote
+          )
+            throw new Error(
+              `You must vote at least ${electionStored.at_least_vote} candidates and max ${electionStored.most_vote} candidates!`
+            );
         }
 
-        if (
-          (electionStored.voting_type === SELECT_TO_REMOVE &&
+        if (electionStored.voting_type === SELECT_TO_REMOVE) {
+          if (
             candidateList.length - listUserId.length <
-              electionStored.at_least_vote) ||
-          candidateList.length - listUserId.length > electionStored.most_vote
-        ) {
-          throw new Error(
-            `You must remove at least ${electionStored.at_least_vote} candidates and max remove ${electionStored.most_vote} candiadtes!`
-          );
+              electionStored.at_least_vote ||
+            candidateList.length - listUserId.length > electionStored.most_vote
+          ) {
+            throw new Error(
+              `You must remove at least ${electionStored.at_least_vote} candidates and max remove ${electionStored.most_vote} candiadtes!`
+            );
+          }
         }
 
         listUserId.length &&
