@@ -32,7 +32,7 @@ import {
 import QRCodeComponent from './QRCodeComponent';
 import { createVotingUrl } from '../libs';
 
-import { FaQrcode, FaUsers, FaRegClock } from 'react-icons/fa';
+import { FaQrcode, FaRegClock } from 'react-icons/fa';
 import { TiWarning } from 'react-icons/ti';
 
 const API_SERVER_URL =
@@ -104,13 +104,7 @@ class PresentationElectionComponent extends React.Component {
   }
 
   render() {
-    const {
-      election = [],
-      candidates = [],
-      electionId,
-      voters = [],
-      t
-    } = this.props;
+    const { election = [], candidates = [], electionId, t } = this.props;
 
     const VOTED_SUBSCRIPTION = gql`
       subscription onVoteAdded($electionId: String!) {
@@ -240,52 +234,34 @@ class PresentationElectionComponent extends React.Component {
             <div className="row">
               <div className="col-xl-12 col-lg-6 col-md-12">
                 <div className="row">
-                  <div className="col-lg-6">
+                  <div className="col-sm">
                     <Countdown
                       date={Date.now() + election.votingTime * 60 * 1000}
                       renderer={renderer}
                     />
-                  </div>
-                  <div className="col-lg-6 text-center">
-                    <div className="card bg-primary h-100 text-white shadow">
-                      <div className="card-body">
-                        <FaUsers fontSize="48" />
-
-                        <ApolloProvider client={client}>
-                          <Subscription
-                            subscription={VOTED_SUBSCRIPTION}
-                            variables={{ electionId: electionId.id }}
-                          >
-                            {({ data }) => {
-                              data &&
-                                toast.info(
-                                  `👌 ${data.voteAdded.user.fullName} ${t(
-                                    'presentation.voted'
-                                  )} 
+                    <ApolloProvider client={client}>
+                      <Subscription
+                        subscription={VOTED_SUBSCRIPTION}
+                        variables={{ electionId: electionId.id }}
+                      >
+                        {({ data }) => {
+                          data &&
+                            toast.info(
+                              `👌 ${data.voteAdded.user.fullName} ${t(
+                                'presentation.voted'
+                              )} 
                                 `,
-                                  {
-                                    position: 'bottom-center',
-                                    autoClose: 5000,
-                                    hideProgressBar: false,
-                                    pauseOnHover: true
-                                  }
-                                );
-                              return (
-                                <div>
-                                  <p>{t('presentation.voting')}</p>
-                                  <h1>
-                                    {data
-                                      ? data.voteAdded.election.votedCount
-                                      : election.votedCount}
-                                    /{voters.length}
-                                  </h1>
-                                </div>
-                              );
-                            }}
-                          </Subscription>
-                        </ApolloProvider>
-                      </div>
-                    </div>
+                              {
+                                position: 'bottom-center',
+                                autoClose: 10000,
+                                hideProgressBar: false,
+                                pauseOnHover: true
+                              }
+                            );
+                          return null;
+                        }}
+                      </Subscription>
+                    </ApolloProvider>
                   </div>
                 </div>
               </div>
