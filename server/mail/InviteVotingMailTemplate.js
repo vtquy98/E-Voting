@@ -9,7 +9,7 @@ const content = `<div class="text" style="padding: 0 3em; text-align: left;">
   <li>Tên cuộc bỏ phiếu: {{electionName}}</li>
   <li>Mô tả: {{description}} </li>
   <li>Thời gian bỏ phiếu: {{date}}</li>
-  <li>Đường dẫn bỏ phiếuphiếu: {{linkToVote}} </li>  
+  <li>Đường dẫn bỏ phiếu: {{linkToVote}} </li>  
 </ul>
 
 <p>Bạn có thể tìm thấy cuộc bỏ phiếu này khi bạn truy cập vào bảng điều khiển của mình <a href="e-voting.tech/user/dashboard"> tại đây </a></p>
