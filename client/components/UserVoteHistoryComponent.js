@@ -52,8 +52,7 @@ class UserVoteHistoryComponent extends React.Component {
               <div className="card-body">
                 <div className="row">
                   <div className="col-lg-12">
-                    {voteHistory &&
-                      voteHistory.length &&
+                    {voteHistory && voteHistory.length ? (
                       voteHistory.map((vote, index) => {
                         return (
                           <div key={index}>
@@ -66,7 +65,17 @@ class UserVoteHistoryComponent extends React.Component {
                             />
                           </div>
                         );
-                      })}
+                      })
+                    ) : (
+                      <div className="d-flex justify-content-center">
+                        <img
+                          src="/static/assets/images/empty.svg"
+                          alt="success"
+                          className="mt-2"
+                          width="50%"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
 
