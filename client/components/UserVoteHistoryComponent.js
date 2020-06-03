@@ -53,6 +53,7 @@ class UserVoteHistoryComponent extends React.Component {
                 <div className="row">
                   <div className="col-lg-12">
                     {voteHistory &&
+                      voteHistory.length &&
                       voteHistory.map((vote, index) => {
                         return (
                           <div key={index}>
