@@ -45,7 +45,7 @@
     "nodemon": "^2.0.2",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "solc": "^0.6.1",
     "truffle-contract": "^4.0.31",
     "truffle-hdwallet-provider": "^1.0.17"
